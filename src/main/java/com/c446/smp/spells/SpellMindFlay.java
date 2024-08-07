@@ -1,6 +1,6 @@
 package com.c446.smp.spells;
 
-import com.c446.smp.ISSAddon;
+import com.c446.smp.IssSmpAddon;
 import com.c446.smp.capability.StatusAttacher;
 import com.c446.smp.registry.ModRegistry;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
@@ -25,7 +25,7 @@ import java.util.Optional;
 
 @AutoSpellConfig
 public class SpellMindFlay extends AbstractSpell {
-    private final ResourceLocation spellId = new ResourceLocation(ISSAddon.MOD_ID, "soul_cry");
+    private final ResourceLocation spellId = new ResourceLocation(IssSmpAddon.MOD_ID, "soul_cry");
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
@@ -79,9 +79,9 @@ public class SpellMindFlay extends AbstractSpell {
         HitResult targetResult = Utils.raycastForEntity(world, entity, 15.0F, true);
         if (targetResult.getType().equals(HitResult.Type.ENTITY)){
             LivingEntity living = (LivingEntity)((EntityHitResult) (targetResult)).getEntity();
-            living.addEffect(new MobEffectInstance(ModRegistry.WEAK_MIND.get(), 1, 1));
+            living.addEffect(new MobEffectInstance(ModRegistry.PotionRegistry.WEAK_MIND.get(), 1, 1));
 
-        entity.getCapability(StatusAttacher.StatusProvider.INSTANCE).ifPresent(c->{
+        entity.getCapability(StatusAttacher.StatusProvider.STATUS_RESISTANCE_CAP).ifPresent(c->{
 
         });}
 

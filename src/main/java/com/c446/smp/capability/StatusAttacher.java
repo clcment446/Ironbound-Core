@@ -1,9 +1,10 @@
 package com.c446.smp.capability;
 
-import com.c446.smp.ISSAddon;
+import com.c446.smp.IssSmpAddon;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.CapabilityToken;
@@ -14,12 +15,10 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.swing.text.html.parser.Entity;
-
 public class StatusAttacher {
     public static class StatusProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-        public static final ResourceLocation IDENTIFIER = new ResourceLocation(ISSAddon.MOD_ID, "resistance");
-        public static final Capability<StatusResistanceCap> INSTANCE = CapabilityManager.get(new CapabilityToken<StatusResistanceCap>() {
+        public static final ResourceLocation IDENTIFIER = new ResourceLocation(IssSmpAddon.MOD_ID, "resistance");
+        public static final Capability<StatusResistanceCap> STATUS_RESISTANCE_CAP = CapabilityManager.get(new CapabilityToken<StatusResistanceCap>() {
         });
         private StatusResistanceCap cap = null;
         private final LazyOptional<StatusResistanceCap> optional = LazyOptional.of(this::createStatusResistanceCap);
@@ -34,7 +33,7 @@ public class StatusAttacher {
 
         @Override
         public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-            if (cap == INSTANCE) {
+            if (cap == STATUS_RESISTANCE_CAP) {
                 return optional.cast();
             }
             return LazyOptional.empty();

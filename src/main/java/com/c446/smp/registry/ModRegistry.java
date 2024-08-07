@@ -1,6 +1,7 @@
 package com.c446.smp.registry;
 
-import com.c446.smp.ISSAddon;
+import com.c446.smp.IssSmpAddon;
+import com.c446.smp.capability.StatusResistanceCap;
 import com.c446.smp.effects.PublicEffect;
 import com.c446.smp.spells.SpellMindFlay;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
@@ -13,6 +14,7 @@ import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
+import net.minecraftforge.eventbus.EventBus;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,6 +22,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+import se.mickelus.tetra.effect.ChargedAbilityEffect;
 
 import static com.c446.smp.registry.ModRegistry.AttributeRegistry.*;
 import static com.c446.smp.registry.ModRegistry.PotionRegistry.EFFECTS;
@@ -27,17 +30,23 @@ import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.*;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 import static com.c446.smp.Util.ParticleUtil.rgbToInt;
 import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.MULTIPLY_BASE;
 
 public class ModRegistry {
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ISSAddon.MOD_ID);
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, ISSAddon.MOD_ID);
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, ISSAddon.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, IssSmpAddon.MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, IssSmpAddon.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, IssSmpAddon.MOD_ID);
 
-    public static final DeferredRegister<AbstractSpell> SPELLS = DeferredRegister.create(SpellRegistry.SPELL_REGISTRY_KEY, ISSAddon.MOD_ID);
+    public static final DeferredRegister<AbstractSpell> SPELLS = DeferredRegister.create(SpellRegistry.SPELL_REGISTRY_KEY, IssSmpAddon.MOD_ID);
+    private se.mickelus.tetra.effect.ChargedAbilityEffect[] testvar;
+
+    static{
+
+    }
 
     public static class PotionRegistry {
 
@@ -53,7 +62,6 @@ public class ModRegistry {
         public static final RegistryObject<MobEffect> HOLLOW;
         public static final RegistryObject<MobEffect> RADIANT;
         public static final RegistryObject<MobEffect> OVERCHARGED;
-        public static final RegistryObject<MobEffect> BLEED;
 
         public static float getResBoost(int pAmpLevel) {
             return (0.2F + ((float) (pAmpLevel / 10)));
@@ -69,14 +77,10 @@ public class ModRegistry {
         }
 
         static {
-            EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, ISSAddon.MOD_ID);
+            EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, IssSmpAddon.MOD_ID);
 
             UUID uuid = UUID.fromString("bb72a21d-3e49-4e8e-b81c-3bfa9cf746b0");
 
-            BLEED = EFFECTS.register("bleed_mob_effect", () -> {
-                return new PublicEffect();
-            });
-            
 
             OVERCHARGED = EFFECTS.register("overcharged_mob_effect", () -> {
                 return new PublicEffect(MobEffectCategory.HARMFUL, rgbToInt(30, 100, 255)) {
@@ -169,7 +173,7 @@ public class ModRegistry {
         }
 
     }
-    @Mod.EventBusSubscriber(modid = ISSAddon.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+    @Mod.EventBusSubscriber(modid = IssSmpAddon.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
     public class AttributeRegistry {
         public static final HashMap<RegistryObject<Attribute>, UUID> UUIDS = new HashMap();
         public static final DeferredRegister<Attribute> ATTRIBUTES;
@@ -179,8 +183,9 @@ public class ModRegistry {
         public static RegistryObject<Attribute> UNDEAD_DAMAGE;
 
 
+
         static {
-            ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, ISSAddon.MOD_ID);
+            ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, IssSmpAddon.MOD_ID);
 
             VITALITY_ATTRIBUTE = registerAttribute("constitution", (id) ->
                     {

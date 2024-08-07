@@ -13,13 +13,13 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-@Mod(ISSAddon.MOD_ID)
-public class ISSAddon {
+@Mod(IssSmpAddon.MOD_ID)
+public class IssSmpAddon {
     public static final String MOD_ID = "iss_smp_addon";
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public ISSAddon() {
+    public IssSmpAddon() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         modEventBus.addListener(this::commonSetup);
