@@ -12,6 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.eventbus.EventBus;
@@ -28,7 +29,9 @@ import static com.c446.smp.registry.ModRegistry.AttributeRegistry.*;
 import static com.c446.smp.registry.ModRegistry.PotionRegistry.EFFECTS;
 import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -53,6 +56,7 @@ public class ModRegistry {
         public static final DeferredRegister<MobEffect> EFFECTS;
         // BUFFS
         // ATTRIBUTES
+        public static final RegistryObject<MobEffect> MOONLIGHT_BLESSING;
         public static final RegistryObject<MobEffect> STRONG_MIND;
         public static final RegistryObject<MobEffect> STRONG_VITALITY;
         public static final RegistryObject<MobEffect> WEAK_MIND;
@@ -91,6 +95,16 @@ public class ModRegistry {
                     }
                 };
             });
+
+            MOONLIGHT_BLESSING = EFFECTS.register("moonlight_blessing_mob_effect", () -> {
+                return new PublicEffect(MobEffectCategory.BENEFICIAL, rgbToInt(30, 100, 255)) {
+                    public void addAttributeModifier(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
+                        this.getAttributeModifiers().put(ICE_SPELL_POWER.get(), new AttributeModifier(uuid, this::getDescriptionId, getDamageBoost(pAmplifier), AttributeModifier.Operation.MULTIPLY_BASE));
+                        super.addAttributeModifiers(pLivingEntity, pAttributeMap, pAmplifier);
+                    }
+                };
+            });
+
             HOLLOW = EFFECTS.register("hollow_mob_effect", () -> {
                 return new PublicEffect(MobEffectCategory.BENEFICIAL, rgbToInt(255, 90, 255)) {
                     public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
