@@ -13,11 +13,15 @@ import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
 import io.redspace.ironsspellbooks.capabilities.magic.PlayerMagicProvider;
 import io.redspace.ironsspellbooks.spells.holy.HasteSpell;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
+import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -52,42 +56,47 @@ public class CommonEventListener {
         return (int) (event.getSpellLevel() * SpellRegistry.getSpell(event.getSpellId()).getSpellPower(event.getSpellLevel(), event.getEntity()));
     }
 
+//    @SubscribeEvent
+//        public static void playerUseSchoolSpell(SpellOnCastEvent event) {
+//        AtomicInteger pureBuildUp = new AtomicInteger(getRawStatusBuildupFrom(event));
+//        SchoolType type = event.getSchoolType();
+//        Player p = event.getEntity();
+//        AbstractSpell spell = SpellRegistry.getSpell(event.getSpellId());
+//
+//        if (type.equals(SchoolRegistry.ELDRITCH.get())) {
+//            p.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
+//                if (spell instanceof SpellMindFlay) {
+//                    pureBuildUp.updateAndGet(v -> v * 2);
+//                }
+//                c.setMadnessCurrent(c.getMadness_current() + ((int) (pureBuildUp.get())));
+//            });
+//        }
+//        if (type.equals(SchoolRegistry.ENDER.get())) {
+//            p.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
+//                if (spell instanceof io.redspace.ironsspellbooks.spells.ender.BlackHoleSpell) {
+//                    c.setTaint_current(((int) (c.getTaint_current() * pureBuildUp.get() * 2.5F)));
+//                }
+//                c.setTaint_current((c.getTaint_current() * pureBuildUp.get()));
+//            });
+//        }
+//
+//        if (type.equals(SchoolRegistry.HOLY.get())) {
+//            p.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
+//                if (spell instanceof HasteSpell) {
+//                    c.setFervor_current((((int) (c.getTaint_current() * pureBuildUp.get() * 1.5F))));
+//                }
+//                c.setFervor_current((c.getTaint_current() * pureBuildUp.get()));
+//            });
+//        }
+//    }
+
     @SubscribeEvent
-    public static void playerUseSchoolSpell(SpellOnCastEvent event) {
-        AtomicInteger pureBuildUp = new AtomicInteger(getRawStatusBuildupFrom(event));
-        SchoolType type = event.getSchoolType();
-        Player p = event.getEntity();
-        AbstractSpell spell = SpellRegistry.getSpell(event.getSpellId());
-
-        if (type.equals(SchoolRegistry.ELDRITCH.get())) {
-            p.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
-                if (spell instanceof SpellMindFlay) {
-                    pureBuildUp.updateAndGet(v -> v * 2);
-                }
-                c.setMadnessCurrent(c.getMadness_current() + ((int) (pureBuildUp.get())));
-            });
-        }
-        if (type.equals(SchoolRegistry.ENDER.get())) {
-            p.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
-                if (spell instanceof io.redspace.ironsspellbooks.spells.ender.BlackHoleSpell) {
-                    c.setTaint_current(((int) (c.getTaint_current() * pureBuildUp.get() * 2.5F)));
-                }
-                c.setTaint_current((c.getTaint_current() * pureBuildUp.get()));
-            });
-        }
-
-        if (type.equals(SchoolRegistry.HOLY.get())) {
-            p.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
-                if (spell instanceof HasteSpell) {
-                    c.setFervor_current((((int) (c.getTaint_current() * pureBuildUp.get() * 1.5F))));
-                }
-                c.setFervor_current((c.getTaint_current() * pureBuildUp.get()));
-            });
+    public static void testPlayerRain(LivingEvent.LivingTickEvent event) {
+        if (Objects.requireNonNull(event.getEntity().level().getServer()).getTickCount() % 20 !=0){return;}
+        if (event.getEntity().isEyeInFluid(FluidTags.WATER) || event.getEntity().level().isRaining()) {
+            event.getEntity().addEffect(new MobEffectInstance(ModRegistry.PotionRegistry.WET.get(), 40, 0, false, true));
         }
     }
-
-    @SubscribeEvent
-    public static void onPlayerUpdate(){}
 
     @SubscribeEvent
     public static void playerUseItems(LivingEntityUseItemEvent event) {
@@ -102,32 +111,31 @@ public class CommonEventListener {
     }
 
 
-
-    @SubscribeEvent
-    public static void attachCapabilities(final AttachCapabilitiesEvent<Entity> event) {
-//        System.out.println("attach Cap Entity triggered");
-        if (event.getObject() instanceof Player player) {
-            StatusAttacher.StatusProvider.Attach(event);
-//            System.out.println("Arcane Level Capability Created");
-        }
-    }
-
-    @SubscribeEvent
-    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.register(StatusResistanceCap.class);
-
-//        System.out.println("Arcane Cap registered");
-    }
-
-    @SubscribeEvent
-    public static void playerCloned(PlayerEvent.Clone event) {
-        Player oldPlayer = event.getOriginal();
-        Player newPlayer = event.getEntity();
-
-        oldPlayer.getCapability(STATUS_RESISTANCE_CAP).ifPresent(a->{
-
-        });
-    }
+//    @SubscribeEvent
+//    public static void attachCapabilities(final AttachCapabilitiesEvent<Entity> event) {
+////        System.out.println("attach Cap Entity triggered");
+//        if (event.getObject() instanceof Player player) {
+//            StatusAttacher.StatusProvider.Attach(event);
+////            System.out.println("Arcane Level Capability Created");
+//        }
+//    }
+//
+//    @SubscribeEvent
+//    public static void registerCapabilities(RegisterCapabilitiesEvent event) {
+//        event.register(StatusResistanceCap.class);
+//
+////        System.out.println("Arcane Cap registered");
+//    }
+//
+//    @SubscribeEvent
+//    public static void playerCloned(PlayerEvent.Clone event) {
+//        Player oldPlayer = event.getOriginal();
+//        Player newPlayer = event.getEntity();
+//
+//        oldPlayer.getCapability(STATUS_RESISTANCE_CAP).ifPresent(a->{
+//
+//        });
+//    }
 
 
 }

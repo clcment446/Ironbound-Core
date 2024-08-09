@@ -3,13 +3,19 @@ package com.c446.smp.registry;
 import com.c446.smp.IssSmpAddon;
 import com.c446.smp.capability.StatusResistanceCap;
 import com.c446.smp.effects.PublicEffect;
+import com.c446.smp.entity.spells.MoonlightRayEntity;
 import com.c446.smp.spells.SpellMindFlay;
+import com.c446.smp.spells.SpellMoonlight;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
+import io.redspace.ironsspellbooks.entity.spells.blood_slash.BloodSlashProjectile;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.*;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -38,19 +44,37 @@ import java.util.function.Function;
 
 import static com.c446.smp.Util.ParticleUtil.rgbToInt;
 import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.MULTIPLY_BASE;
+@Mod.EventBusSubscriber(modid = IssSmpAddon.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 
 public class ModRegistry {
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, IssSmpAddon.MOD_ID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, IssSmpAddon.MOD_ID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, IssSmpAddon.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, IssSmpAddon.MOD_ID);
+    public static final DeferredRegister<AbstractSpell> SPELLS = DeferredRegister.create(io.redspace.ironsspellbooks.api.registry.SpellRegistry.SPELL_REGISTRY_KEY, IssSmpAddon.MOD_ID);
 
-    public static final DeferredRegister<AbstractSpell> SPELLS = DeferredRegister.create(SpellRegistry.SPELL_REGISTRY_KEY, IssSmpAddon.MOD_ID);
-    private se.mickelus.tetra.effect.ChargedAbilityEffect[] testvar;
-
-    static{
-
+    public static void registerRegistries(IEventBus bus) {
+        BLOCKS.register(bus);
+        ITEMS.register(bus);
+        ENTITIES.register(bus);
+        EFFECTS.register(bus);
+        SPELLS.register(bus);
+        ATTRIBUTES.register(bus);
     }
 
+    
+    public static class EntityRegistry {
+//        public static final RegistryObject<EntityType<MoonlightRayEntity>> MOONLIGHT_RAY_ENTITY;
+
+
+//        static {
+//            MOONLIGHT_RAY_ENTITY = ENTITIES.register("moonlight_ray", () -> {
+//                return EntityType.Builder.of(MoonlightRayEntity::new, MobCategory.MISC)
+//                        .sized(2.0F, 0.5F)
+//                        .clientTrackingRange(64)
+//                        .build((new ResourceLocation("irons_spellbooks", "moonlight_ray")).toString());});
+//        }
+//    }
+    }
     public static class PotionRegistry {
 
         public static final DeferredRegister<MobEffect> EFFECTS;
@@ -66,6 +90,7 @@ public class ModRegistry {
         public static final RegistryObject<MobEffect> HOLLOW;
         public static final RegistryObject<MobEffect> RADIANT;
         public static final RegistryObject<MobEffect> OVERCHARGED;
+        public static final RegistryObject<MobEffect> WET;
 
         public static float getResBoost(int pAmpLevel) {
             return (0.2F + ((float) (pAmpLevel / 10)));
@@ -78,13 +103,23 @@ public class ModRegistry {
         }
         public static float getDamageReduction(int pAmpLevel) {
             return (1 - getDamageBoost(pAmpLevel));
+
         }
 
-        static {
+
+
+
+         static{
+
+
             EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, IssSmpAddon.MOD_ID);
 
             UUID uuid = UUID.fromString("bb72a21d-3e49-4e8e-b81c-3bfa9cf746b0");
 
+            WET = EFFECTS.register("wet_mob_effect", ()->{
+                return new PublicEffect(MobEffectCategory.NEUTRAL, rgbToInt(0,0,125)) {
+                };
+            });
 
             OVERCHARGED = EFFECTS.register("overcharged_mob_effect", () -> {
                 return new PublicEffect(MobEffectCategory.HARMFUL, rgbToInt(30, 100, 255)) {
@@ -187,8 +222,7 @@ public class ModRegistry {
         }
 
     }
-    @Mod.EventBusSubscriber(modid = IssSmpAddon.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-    public class AttributeRegistry {
+    public static class AttributeRegistry {
         public static final HashMap<RegistryObject<Attribute>, UUID> UUIDS = new HashMap();
         public static final DeferredRegister<Attribute> ATTRIBUTES;
 
@@ -243,20 +277,16 @@ public class ModRegistry {
         }
 
     }
-
-    public static void registerRegistries(IEventBus bus) {
-        BLOCKS.register(bus);
-        ITEMS.register(bus);
-        ENTITIES.register(bus);
-        EFFECTS.register(bus);
-        SPELLS.register(bus);
-        ATTRIBUTES.register(bus);
+    public static class SpellRegistry{
+        public static RegistryObject<AbstractSpell> SOUL_CRY;
+        public static RegistryObject<AbstractSpell> SPELL_MOONLIGHT;
+        public static RegistryObject<AbstractSpell> registerSpell(@NotNull AbstractSpell spell) {
+            return SPELLS.register(spell.getSpellName(), () -> spell);
+        }
+        static {
+            registerSpell(new SpellMindFlay());
+//            registerSpell(new SpellMoonlight());
+        }
     }
-
-    public static RegistryObject<AbstractSpell> registerSpell(@NotNull AbstractSpell spell) {
-        return SPELLS.register(spell.getSpellName(), () -> spell);
-    }
-
-    public static final RegistryObject<AbstractSpell> SOUL_CRY = registerSpell(new SpellMindFlay());
 
 }

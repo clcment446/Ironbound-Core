@@ -5,6 +5,7 @@ import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import org.joml.Matrix3f;
@@ -49,7 +50,7 @@ public class MoonlightRayRender extends EntityRenderer<MoonlightRayEntity> {
     private void drawRay(PoseStack.Pose pose, MoonlightRayEntity entity, MultiBufferSource bufferSource, int light, float width, int offset) {
         Matrix4f poseMatrix = pose.pose();
         Matrix3f normalMatrix = pose.normal();
-        VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutoutNoCull(this.getTextureLocation(entity, offset)));
+        VertexConsumer consumer = bufferSource.getBuffer(RenderType.entityCutoutNoCull(this.getTextureLocation(entity)));
         float halfWidth = width * 0.5F;
         consumer.vertex(poseMatrix, -halfWidth, -0.1F, -halfWidth).color(90, 0, 10, 255).uv(0.0F, 1.0F).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(normalMatrix, 0.0F, 1.0F, 0.0F).endVertex();
         consumer.vertex(poseMatrix, halfWidth, -0.1F, -halfWidth).color(90, 0, 10, 255).uv(1.0F, 1.0F).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(normalMatrix, 0.0F, 1.0F, 0.0F).endVertex();

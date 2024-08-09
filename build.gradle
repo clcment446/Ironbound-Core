@@ -127,8 +127,8 @@ dependencies {
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
 
     // BETTER COMBAT **********************************************************************************************
-    //runtimeOnly fg.deobf("curse.maven:better-combat-by-daedelus-${better_combat_version}")
-    //runtimeOnly fg.deobf("curse.maven:cloth-config-348521:4633416")
+    runtimeOnly fg.deobf("curse.maven:better-combat-by-daedelus-${better_combat_version}")
+    runtimeOnly fg.deobf("curse.maven:cloth-config-348521:4633416")
 
     // PATCHOULI **************************************************************************************************
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
