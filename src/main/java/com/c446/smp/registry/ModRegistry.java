@@ -21,7 +21,6 @@ import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
 import static com.c446.smp.registry.ModRegistry.AttributeRegistry.*;
-import static com.c446.smp.registry.ModRegistry.PotionRegistry.EFFECTS;
 import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.*;
 
 import java.util.HashMap;

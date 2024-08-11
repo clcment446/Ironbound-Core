@@ -12,11 +12,13 @@ import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.spells.SchoolType;
 import io.redspace.ironsspellbooks.capabilities.magic.PlayerMagicProvider;
+import io.redspace.ironsspellbooks.spells.ender.CounterspellSpell;
 import io.redspace.ironsspellbooks.spells.holy.HasteSpell;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.TickEvent;
@@ -24,6 +26,7 @@ import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import se.mickelus.tetra.items.modular.ItemModularHandheld;
@@ -40,6 +43,13 @@ import static com.c446.smp.capability.StatusAttacher.StatusProvider.STATUS_RESIS
 @Mod.EventBusSubscriber(modid = IssSmpAddon.MOD_ID)
 public class CommonEventListener {
 
+
+
+
+//    @SubscribeEvent
+//    public static void test(CounterspellSpell event){
+//
+//    }
 
     @SubscribeEvent
     public static void playerEffectAdded(MobEffectEvent event) {
