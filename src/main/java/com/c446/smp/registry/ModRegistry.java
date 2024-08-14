@@ -3,12 +3,16 @@ package com.c446.smp.registry;
 import com.c446.smp.IssSmpAddon;
 import com.c446.smp.effects.PublicEffect;
 import com.c446.smp.spells.SpellMindFlay;
+import dev.shadowsoffire.attributeslib.api.ALObjects;
+import dev.shadowsoffire.attributeslib.util.AttributesUtil;
+import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.*;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
@@ -204,6 +208,17 @@ public class ModRegistry {
     }
 
     public static class AttributeRegistry {
+        public static double calcCounterSpellEvasionChance(Player caster, Player target, float coefficient) {
+            /**
+             * @Param caster : the caster
+             * @Param target : the target
+             * @Param coefficent : how steep the insight difference will be. Use something around 0.3 for best results.
+             * @f
+             */
+            float insightDiff = (float) (target.getAttributeValue(INSIGHT_ATTRIBUTE.get()) - caster.getAttributeValue(INSIGHT_ATTRIBUTE.get()));
+            return Math.max(1, Math.exp(coefficient * insightDiff));
+        }
+
         public static final HashMap<RegistryObject<Attribute>, UUID> UUIDS = new HashMap();
         public static final DeferredRegister<Attribute> ATTRIBUTES;
 
@@ -212,6 +227,12 @@ public class ModRegistry {
         public static RegistryObject<Attribute> UNDEAD_DAMAGE;
 
         public static RegistryObject<Attribute> INSIGHT_ATTRIBUTE;
+        public static RegistryObject<Attribute> LAPIS_FORTUNE;
+        public static RegistryObject<Attribute> DIAMOND_FORTUNE;
+        public static RegistryObject<Attribute> COAL_FORTUNE;
+        public static RegistryObject<Attribute> REDSTONE_FORTUNE;
+        public static RegistryObject<Attribute> IRON_FORTUNE;
+        public static RegistryObject<Attribute> GOLD_FORTUNE;
 
         static {
             ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, IssSmpAddon.MOD_ID);
@@ -227,7 +248,7 @@ public class ModRegistry {
                     }
                     , "6b41f245-8d8d-4ba6-9128-8b3aa7ceef98");
             INSIGHT_ATTRIBUTE = registerAttribute("insight", (id) -> {
-                        return (new RangedAttribute(id, 1, 1, 20)).setSyncable(true);
+                        return (new RangedAttribute(id, 1, 0, 15)).setSyncable(true);
                     }
                     , "17f85bfd-47e3-40f5-bc4b-931056de2390");
         }
