@@ -20,14 +20,13 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
 
-import static com.c446.smp.registry.ModRegistry.AttributeRegistry.*;
-import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.*;
-
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.Function;
 
 import static com.c446.smp.Util.ParticleUtil.rgbToInt;
+import static com.c446.smp.registry.ModRegistry.AttributeRegistry.*;
+import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.*;
 import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.MULTIPLY_BASE;
 
 @Mod.EventBusSubscriber(modid = IssSmpAddon.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)

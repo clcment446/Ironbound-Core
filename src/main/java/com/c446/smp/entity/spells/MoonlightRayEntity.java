@@ -1,6 +1,5 @@
 package com.c446.smp.entity.spells;
 
-import com.c446.smp.registry.ModRegistry;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
@@ -10,8 +9,6 @@ import io.redspace.ironsspellbooks.damage.DamageSources;
 import io.redspace.ironsspellbooks.entity.mobs.AntiMagicSusceptible;
 import io.redspace.ironsspellbooks.entity.spells.AbstractShieldEntity;
 import io.redspace.ironsspellbooks.entity.spells.ShieldPart;
-import io.redspace.ironsspellbooks.entity.spells.blood_slash.BloodSlashProjectile;
-import io.redspace.ironsspellbooks.registries.EntityRegistry;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -99,9 +96,10 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
         super.refreshDimensions();
         this.setPos(d0, d1, d2);
     }
-
+    
     public void tick() {
         super.tick();
+
         if (++this.age > EXPIRE_TIME) {
             this.discard();
         } else {
