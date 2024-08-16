@@ -6,12 +6,13 @@ import net.minecraftforge.eventbus.api.Event;
 public class StatusBuildUpEvent extends Event {
     Player player;
     StatusList status;
-    public StatusBuildUpEvent(Player player, StatusList status){
+
+    public StatusBuildUpEvent(Player player, StatusList status) {
         this.player = player;
         this.status = status;
     }
 
-    public enum StatusList{
+    public enum StatusList {
         MADNESS,
         BLEED,
         FROST,

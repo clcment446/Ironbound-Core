@@ -6,7 +6,6 @@ import com.c446.smp.capability.StatusResistanceCap;
 import com.c446.smp.registry.ModRegistry;
 import com.c446.smp.spells.SpellMindFlay;
 import com.c446.smp.util.DamageUtil;
-import dev.shadowsoffire.attributeslib.api.ALObjects;
 import io.redspace.ironsspellbooks.api.events.SpellDamageEvent;
 import io.redspace.ironsspellbooks.api.events.SpellOnCastEvent;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -33,7 +32,6 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -133,17 +131,17 @@ public class CommonEventListener {
         if (type.equals(SchoolRegistry.ENDER.get())) {
             p.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
                 if (spell instanceof io.redspace.ironsspellbooks.spells.ender.BlackHoleSpell) {
-                    c.setTaint_current(((int) (c.getHollow_current() * pureBuildUp.get() * 2.5F)), event.getEntity());
+                    c.setHollow_current(((int) (c.getHollowCurrent() * pureBuildUp.get() * 2.5F)), event.getEntity());
                 }
-                c.setTaint_current((c.getHollow_current() * pureBuildUp.get()), event.getEntity());
+                c.setHollow_current((c.getHollowCurrent() + pureBuildUp.get()), event.getEntity());
             });
         }
         if (type.equals(SchoolRegistry.HOLY.get())) {
             p.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
                 if (spell instanceof HasteSpell) {
-                    c.setFervor_current((((int) (c.getHollow_current() * pureBuildUp.get() * 1.5F))), event.getEntity());
+                    c.setFervor_current((((int) (c.getHollowCurrent() * pureBuildUp.get() * 1.5F))), event.getEntity());
                 }
-                c.setFervor_current((c.getHollow_current() * pureBuildUp.get()), event.getEntity());
+                c.setFervor_current((c.getFervor_current() + pureBuildUp.get()), event.getEntity());
             });
         }
         if (spell instanceof ChargeSpell) {
@@ -182,7 +180,7 @@ public class CommonEventListener {
         if (event.getObject() instanceof Player player) {
             StatusAttacher.StatusProvider.Attach(event);
             player.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
-                c.CalcAndApplyResistances(player);
+                c.createResStuff(player);
             });
         }
     }
@@ -200,7 +198,7 @@ public class CommonEventListener {
         Player newPlayer = event.getEntity();
 
         newPlayer.getCapability(STATUS_RESISTANCE_CAP).ifPresent(cap -> {
-            cap.CalcAndApplyResistances(newPlayer);
+            cap.createResStuff(newPlayer);
         });
     }
 }
