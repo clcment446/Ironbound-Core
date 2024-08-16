@@ -3,9 +3,6 @@ package com.c446.smp.registry;
 import com.c446.smp.IssSmpAddon;
 import com.c446.smp.effects.PublicEffect;
 import com.c446.smp.spells.SpellMindFlay;
-import dev.shadowsoffire.attributeslib.api.ALObjects;
-import dev.shadowsoffire.attributeslib.util.AttributesUtil;
-import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -74,9 +71,10 @@ public class ModRegistry {
         public static final RegistryObject<MobEffect> FROSTED_EFFECT;
         public static final RegistryObject<MobEffect> MADNESS;
         public static final RegistryObject<MobEffect> HOLLOW;
-        public static final RegistryObject<MobEffect> RADIANT;
+        public static final RegistryObject<MobEffect> FERVOR;
         public static final RegistryObject<MobEffect> OVERCHARGED;
         public static final RegistryObject<MobEffect> WET;
+        //public static final RegistryObject<MobEffect> BLEED;
 
         public static float getResBoost(int pAmpLevel) {
             return (0.2F + ((float) (pAmpLevel / 10)));
@@ -99,6 +97,8 @@ public class ModRegistry {
 
 
             UUID uuid = UUID.fromString("bb72a21d-3e49-4e8e-b81c-3bfa9cf746b0");
+
+//            BLEED = EFFECTS.register("bleed_mob_effect" )
 
             WET = EFFECTS.register("wet_mob_effect", () -> {
                 return new PublicEffect(MobEffectCategory.NEUTRAL, rgbToInt(0, 0, 125)) {
@@ -133,7 +133,7 @@ public class ModRegistry {
                     }
                 };
             });
-            RADIANT = EFFECTS.register("radiant_mob_effect", () -> {
+            FERVOR = EFFECTS.register("radiant_mob_effect", () -> {
                 return new PublicEffect(MobEffectCategory.BENEFICIAL, rgbToInt(255, 90, 255)) {
                     public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
                         this.getAttributeModifiers().put((Attribute) HOLY_SPELL_POWER.get(), new AttributeModifier(uuid, this::getDescriptionId, getDamageBoost(pAmplifier), AttributeModifier.Operation.MULTIPLY_BASE));

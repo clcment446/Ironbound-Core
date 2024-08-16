@@ -3,9 +3,11 @@ package com.c446.smp.events.hookers;
 import com.c446.smp.IssSmpAddon;
 import com.c446.smp.capability.StatusAttacher;
 import com.c446.smp.capability.StatusResistanceCap;
+import com.c446.smp.events.mod_events.MobStatusTriggered;
 import com.c446.smp.registry.ModRegistry;
 import com.c446.smp.spells.SpellMindFlay;
 import com.c446.smp.util.DamageUtil;
+import com.c446.smp.events.mod_events.StatusBuildUpEvent.StatusTypes;
 import io.redspace.ironsspellbooks.api.events.SpellDamageEvent;
 import io.redspace.ironsspellbooks.api.events.SpellOnCastEvent;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -38,6 +40,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -201,4 +204,14 @@ public class CommonEventListener {
             cap.createResStuff(newPlayer);
         });
     }
+
+    @SubscribeEvent
+    public static void onCalculatePlayerStatuses(MobStatusTriggered.Post postEvent){
+        Player player = postEvent.player;
+        ArrayList<StatusTypes> list = postEvent.statusList;
+        for (StatusTypes status : list){
+
+        }
+    }
+
 }

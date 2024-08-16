@@ -1,9 +1,12 @@
 package com.c446.smp.capability;
 
+import com.c446.smp.events.mod_events.MobStatusTriggered.Post;
+import com.c446.smp.events.mod_events.MobStatusTriggered.Pre;
 import com.c446.smp.events.mod_events.StatusBuildUpEvent;
 import com.c446.smp.registry.ModRegistry;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -170,32 +173,33 @@ public class StatusResistanceCap implements IStatusResistanceCap {
         this.fervor_current = fervor_current;
     }
 
-    public ArrayList<StatusBuildUpEvent.StatusList> checkStatus() {
-        ArrayList<StatusBuildUpEvent.StatusList> list = new ArrayList<StatusBuildUpEvent.StatusList>() {
+    public ArrayList<StatusBuildUpEvent.StatusTypes> checkStatus(Player player) {
+        ArrayList<StatusBuildUpEvent.StatusTypes> list = new ArrayList<StatusBuildUpEvent.StatusTypes>() {
         };
         if (hollow_current > hollow_max) {
-            list.add(StatusBuildUpEvent.StatusList.HOLLOW);
+            list.add(StatusBuildUpEvent.StatusTypes.HOLLOW);
         }
         if (fervor_current > fervor_max) {
-            list.add(StatusBuildUpEvent.StatusList.FERVOR);
+            list.add(StatusBuildUpEvent.StatusTypes.FERVOR);
         }
         if (madness_current > madness_max) {
-            list.add(StatusBuildUpEvent.StatusList.MADNESS);
+            list.add(StatusBuildUpEvent.StatusTypes.MADNESS);
         }
         if (bleed_current > bleed_max) {
-            list.add(StatusBuildUpEvent.StatusList.BLEED);
+            list.add(StatusBuildUpEvent.StatusTypes.BLEED);
         }
         if (frost_current > frost_max) {
-            list.add(StatusBuildUpEvent.StatusList.FROST);
+            list.add(StatusBuildUpEvent.StatusTypes.FROST);
         }
         if (soul_shattered_current > soul_shattered_max) {
-            list.add(StatusBuildUpEvent.StatusList.SHATTERED);
+            list.add(StatusBuildUpEvent.StatusTypes.WEAK_MIND);
         }
         if (over_charged_current > over_charged_max) {
-            list.add(StatusBuildUpEvent.StatusList.OVERCHARGED);
+            list.add(StatusBuildUpEvent.StatusTypes.OVERCHARGED);
         }
-
-
-        return null;
+        Pre preEvent = new Pre(player, list);
+        MinecraftForge.EVENT_BUS.post(preEvent);
+        Post postEvent = new Post(preEvent.player, preEvent.statusList);
+        return list;
     }
 }
