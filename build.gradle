@@ -110,8 +110,8 @@ dependencies {
     implementation fg.deobf("dev.kosmx.player-anim:player-animation-lib-forge:${player_animator_version}")
 
     // TETRA ******************************************************************************************************
-    compileOnly fg.deobf("se.mickelus.mutil:mutil:${mutil_version}")
-    compileOnly fg.deobf("curse.maven:tetra-${tetra_version}")
+    implementation fg.deobf("curse.maven:tetra-${tetra_version}")
+    implementation fg.deobf("curse.maven:mutil-351914:4824501")
     // If you want to run with tetra in dev comment the above line and uncomment the following 2 lines
     //runtimeOnly fg.deobf("curse.maven:tetra-${tetra_version}")
     //implementation fg.deobf("se.mickelus.mutil:mutil:${mutil_version}")
@@ -127,8 +127,8 @@ dependencies {
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}")
 
     // BETTER COMBAT **********************************************************************************************
-    runtimeOnly fg.deobf("curse.maven:better-combat-by-daedelus-${better_combat_version}")
-    runtimeOnly fg.deobf("curse.maven:cloth-config-348521:4633416")
+    //runtimeOnly fg.deobf("curse.maven:better-combat-by-daedelus-${better_combat_version}")
+    //runtimeOnly fg.deobf("curse.maven:cloth-config-348521:4633416")
 
     // PATCHOULI **************************************************************************************************
     compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")

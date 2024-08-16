@@ -1,6 +1,5 @@
 package com.c446.smp.events.hookers;
 
-
 import com.c446.smp.IssSmpAddon;
 import com.c446.smp.capability.StatusAttacher;
 import com.c446.smp.capability.StatusResistanceCap;
@@ -45,7 +44,6 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.c446.smp.capability.StatusAttacher.StatusProvider.STATUS_RESISTANCE_CAP;
-
 
 @Mod.EventBusSubscriber(modid = IssSmpAddon.MOD_ID)
 public class CommonEventListener {
