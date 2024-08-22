@@ -4,9 +4,11 @@ import com.c446.smp.events.mod_events.MobStatusTriggered.Post;
 import com.c446.smp.events.mod_events.MobStatusTriggered.Pre;
 import com.c446.smp.events.mod_events.StatusBuildUpEvent;
 import com.c446.smp.registry.ModRegistry;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
+import com.c446.smp.util.StatusTypes;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -36,18 +38,15 @@ public class StatusResistanceCap implements IStatusResistanceCap {
     public static final UUID focus_attribute_uuid = UUID.fromString("3d3349b1-02db-4f41-9a98-482f686047be");
 
 
-    public void createResStuff(Player player) {
-        this.madness_max = ((int) (20 * player.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get())));
-        this.hollow_max = ((int) (15 * player.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get())));
-        this.fervor_max = ((int) (10 * player.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get())));
-        this.soul_shattered_max = ((int) (10 * player.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get())));
-        this.bleed_max = ((int) (5 * (player.getAttributeValue(ModRegistry.AttributeRegistry.VITALITY_ATTRIBUTE.get()) + player.getHealth() / 2)));
-        this.frost_max = ((int) (3 * (player.getAttributeValue(ModRegistry.AttributeRegistry.VITALITY_ATTRIBUTE.get()) + player.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get()))));
-        this.over_charged_max = ((int) (3 * (player.getAttributeValue(ModRegistry.AttributeRegistry.VITALITY_ATTRIBUTE.get()) + player.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get()))));
-
-
+    public void createResStuff(LivingEntity entity) {
+        this.madness_max = ((int) (20 * entity.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get())));
+        this.hollow_max = ((int) (15 * entity.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get())));
+        this.fervor_max = ((int) (10 * entity.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get())));
+        this.soul_shattered_max = ((int) (10 * entity.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get())));
+        this.bleed_max = ((int) (5 * (entity.getAttributeValue(ModRegistry.AttributeRegistry.VITALITY_ATTRIBUTE.get()) + entity.getHealth() / 2)));
+        this.frost_max = ((int) (3 * (entity.getAttributeValue(ModRegistry.AttributeRegistry.VITALITY_ATTRIBUTE.get()) + entity.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get()))));
+        this.over_charged_max = ((int) (3 * (entity.getAttributeValue(ModRegistry.AttributeRegistry.VITALITY_ATTRIBUTE.get()) + entity.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get()))));
     }
-
 
     public int getMadness_max() {
         return madness_max;
@@ -173,29 +172,28 @@ public class StatusResistanceCap implements IStatusResistanceCap {
         this.fervor_current = fervor_current;
     }
 
-    public ArrayList<StatusBuildUpEvent.StatusTypes> checkStatus(Player player) {
-        ArrayList<StatusBuildUpEvent.StatusTypes> list = new ArrayList<StatusBuildUpEvent.StatusTypes>() {
-        };
+    public ArrayList<StatusTypes> checkStatus(Player player) {
+        ArrayList<StatusTypes> list = new ArrayList<StatusTypes>() {};
         if (hollow_current > hollow_max) {
-            list.add(StatusBuildUpEvent.StatusTypes.HOLLOW);
+            list.add(StatusTypes.HOLLOW);
         }
         if (fervor_current > fervor_max) {
-            list.add(StatusBuildUpEvent.StatusTypes.FERVOR);
+            list.add(StatusTypes.FERVOR);
         }
         if (madness_current > madness_max) {
-            list.add(StatusBuildUpEvent.StatusTypes.MADNESS);
+            list.add(StatusTypes.MADNESS);
         }
         if (bleed_current > bleed_max) {
-            list.add(StatusBuildUpEvent.StatusTypes.BLEED);
+            list.add(StatusTypes.BLEED);
         }
         if (frost_current > frost_max) {
-            list.add(StatusBuildUpEvent.StatusTypes.FROST);
+            list.add(StatusTypes.FROST);
         }
         if (soul_shattered_current > soul_shattered_max) {
-            list.add(StatusBuildUpEvent.StatusTypes.WEAK_MIND);
+            list.add(StatusTypes.WEAK_MIND);
         }
         if (over_charged_current > over_charged_max) {
-            list.add(StatusBuildUpEvent.StatusTypes.OVERCHARGED);
+            list.add(StatusTypes.OVERCHARGED);
         }
         Pre preEvent = new Pre(player, list);
         MinecraftForge.EVENT_BUS.post(preEvent);

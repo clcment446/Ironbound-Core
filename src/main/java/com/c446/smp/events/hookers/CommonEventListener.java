@@ -7,7 +7,8 @@ import com.c446.smp.events.mod_events.MobStatusTriggered;
 import com.c446.smp.registry.ModRegistry;
 import com.c446.smp.spells.SpellMindFlay;
 import com.c446.smp.util.DamageUtil;
-import com.c446.smp.events.mod_events.StatusBuildUpEvent.StatusTypes;
+import com.c446.smp.util.StatusTypeHandler;
+import com.c446.smp.util.StatusTypes;
 import io.redspace.ironsspellbooks.api.events.SpellDamageEvent;
 import io.redspace.ironsspellbooks.api.events.SpellOnCastEvent;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -17,6 +18,8 @@ import io.redspace.ironsspellbooks.api.spells.SchoolType;
 import io.redspace.ironsspellbooks.capabilities.magic.PlayerMagicProvider;
 import io.redspace.ironsspellbooks.damage.DamageSources;
 import io.redspace.ironsspellbooks.damage.ISSDamageTypes;
+import io.redspace.ironsspellbooks.spells.ender.BlackHoleSpell;
+import io.redspace.ironsspellbooks.spells.evocation.GustSpell;
 import io.redspace.ironsspellbooks.spells.holy.HasteSpell;
 import io.redspace.ironsspellbooks.spells.lightning.ChargeSpell;
 import net.minecraft.core.particles.ParticleTypes;
@@ -25,10 +28,13 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
+import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobType;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent;
@@ -39,8 +45,10 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
+import org.lwjgl.system.linux.Stat;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -63,14 +71,21 @@ public class CommonEventListener {
 
     @SubscribeEvent
     public static void SpellDamageReactions(SpellDamageEvent event) {
+        /**
+         * @Param event : the event that the hook will catch
+         * This is what will handle the "main" reaction system, IE
+         *
+         * crimes against java were committed...
+         */
         LivingEntity entity = event.getEntity();
         LivingEntity source_entity = ((LivingEntity) event.getSpellDamageSource().getEntity());
+        assert source_entity != null;
         DamageSource damage_src = event.getSpellDamageSource().get();
         ServerLevel target_level = Objects.requireNonNull(Objects.requireNonNull(entity.level().getServer()).getLevel(entity.level().dimension()));
         if (damage_src.is(ISSDamageTypes.ICE_MAGIC)) {
             if (entity.hasEffect(ModRegistry.PotionRegistry.WET.get())) {
                 entity.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
-                    c.setFrost_current(((int) event.getAmount() + c.getFrost_max()), ((Player) entity));
+                    c.setFrost_current(((int) event.getAmount() + c.getFrost_current()), ((Player) entity));
                 });
             }
         }
@@ -102,6 +117,10 @@ public class CommonEventListener {
                 c.setMadnessCurrent(((int) (event.getAmount() + c.getMadness_current())), ((Player) entity));
             });
         }
+        if (damage_src.is(ISSDamageTypes.HOLY_MAGIC) && event.getEntity().getMobType() == (MobType.UNDEAD) && source_entity.getActiveEffects().contains(ModRegistry.PotionRegistry.FERVOR.get())) {
+            MobEffectInstance instance = source_entity.getEffect(ModRegistry.PotionRegistry.FERVOR.get());
+            event.setAmount(((float) (event.getAmount() * (1 + source_entity.getAttributeValue(ModRegistry.AttributeRegistry.UNDEAD_DAMAGE.get())) * (1 + 0.5 * (instance != null ? instance.getAmplifier() : 0)))));
+        }
 
         // TO BE DONE
         if (damage_src.is(ISSDamageTypes.NATURE_MAGIC)) {
@@ -111,8 +130,40 @@ public class CommonEventListener {
         if (damage_src.is(ISSDamageTypes.EVOCATION_MAGIC)) {
         }
         if (damage_src.is(ISSDamageTypes.ENDER_MAGIC)) {
+            entity.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
+                event.getSpellDamageSource().spell();
+                c.setHollow_current(((int) (event.getAmount() + c.getHollowCurrent())), ((Player) entity));
+            });
         }
-        if (damage_src.is(ISSDamageTypes.HOLY_MAGIC)) {
+    }
+
+    @SubscribeEvent
+    public static void gustHitEntities(SpellDamageEvent event) {
+        if (!(event.getSpellDamageSource().spell() instanceof GustSpell)) {
+            return;
+        } else {
+            LivingEntity target = event.getEntity();
+            ServerLevel serverLevel = event.getEntity().level().getServer().getLevel(event.getEntity().level().dimension());
+            assert serverLevel != null;
+            List<LivingEntity> list = serverLevel.getEntitiesOfClass(LivingEntity.class, new AABB(target.position().subtract(3, 3, 3), target.position().add(3, 3, 3)));
+            List<StatusTypes> statuses = new ArrayList<>();
+            if (target.hasEffect(ModRegistry.PotionRegistry.WET.get())) {
+                statuses.add(StatusTypes.WET);
+            }
+            if (target.hasEffect(ModRegistry.PotionRegistry.FROSTED_EFFECT.get())) {
+                statuses.add(StatusTypes.FROST);
+            }
+            if (target.isOnFire()) {
+                statuses.add(StatusTypes.FLAMABLE);
+            }
+            for (LivingEntity living : list) {
+                for (StatusTypes t : statuses){
+                    MobEffect mobeffect = StatusTypeHandler.TYPE_TO_EFFECT.get(t);
+                    if (!(living.hasEffect(mobeffect))){
+                        living.addEffect(new MobEffectInstance(mobeffect, 15,0,false,false));
+                    }
+                }
+            }
         }
     }
 
@@ -133,7 +184,7 @@ public class CommonEventListener {
         }
         if (type.equals(SchoolRegistry.ENDER.get())) {
             p.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
-                if (spell instanceof io.redspace.ironsspellbooks.spells.ender.BlackHoleSpell) {
+                if (spell instanceof BlackHoleSpell) {
                     c.setHollow_current(((int) (c.getHollowCurrent() * pureBuildUp.get() * 2.5F)), event.getEntity());
                 }
                 c.setHollow_current((c.getHollowCurrent() + pureBuildUp.get()), event.getEntity());
@@ -180,10 +231,10 @@ public class CommonEventListener {
 
     @SubscribeEvent
     public static void attachCapabilities(final AttachCapabilitiesEvent<Entity> event) {
-        if (event.getObject() instanceof Player player) {
+        if (event.getObject() instanceof LivingEntity entity) {
             StatusAttacher.StatusProvider.Attach(event);
-            player.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
-                c.createResStuff(player);
+            entity.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
+                c.createResStuff(entity);
             });
         }
     }
@@ -191,9 +242,8 @@ public class CommonEventListener {
     @SubscribeEvent
     public static void registerCapabilities(RegisterCapabilitiesEvent event) {
         event.register(StatusResistanceCap.class);
-
-//        System.out.println("Arcane Cap registered");
     }
+
 
     @SubscribeEvent
     public static void playerCloned(PlayerEvent.Clone event) {
@@ -206,10 +256,10 @@ public class CommonEventListener {
     }
 
     @SubscribeEvent
-    public static void onCalculatePlayerStatuses(MobStatusTriggered.Post postEvent){
+    public static void onCalculatePlayerStatuses(MobStatusTriggered.Post postEvent) {
         Player player = postEvent.player;
         ArrayList<StatusTypes> list = postEvent.statusList;
-        for (StatusTypes status : list){
+        for (StatusTypes status : list) {
 
         }
     }

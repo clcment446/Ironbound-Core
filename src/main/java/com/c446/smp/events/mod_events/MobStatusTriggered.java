@@ -1,5 +1,6 @@
 package com.c446.smp.events.mod_events;
 
+import com.c446.smp.util.StatusTypes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.Event;
 
@@ -7,15 +8,15 @@ import java.util.ArrayList;
 
 public class MobStatusTriggered extends Event {
     public  Player player;
-    public  ArrayList<StatusBuildUpEvent.StatusTypes> statusList;
+    public  ArrayList<StatusTypes> statusList;
 
-    public MobStatusTriggered(Player player, ArrayList<StatusBuildUpEvent.StatusTypes> statuses) {
+    public MobStatusTriggered(Player player, ArrayList<StatusTypes> statuses) {
         this.statusList = statuses;
         this.player = player;
     }
 
     public static class Pre extends MobStatusTriggered {
-        public Pre(Player p, ArrayList<StatusBuildUpEvent.StatusTypes> statuses) {
+        public Pre(Player p, ArrayList<StatusTypes> statuses) {
             super(p, statuses);
         }
 
@@ -26,7 +27,7 @@ public class MobStatusTriggered extends Event {
     }
 
     public static class Post extends MobStatusTriggered {
-        public Post(Player p, ArrayList<StatusBuildUpEvent.StatusTypes> statuses) {
+        public Post(Player p, ArrayList<StatusTypes> statuses) {
             super(p, statuses);
         }
     }
