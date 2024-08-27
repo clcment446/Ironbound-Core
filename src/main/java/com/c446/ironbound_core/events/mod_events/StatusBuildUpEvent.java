@@ -12,6 +12,4 @@ public class StatusBuildUpEvent extends Event {
         this.player = player;
         this.status = status;
     }
-
-
 }

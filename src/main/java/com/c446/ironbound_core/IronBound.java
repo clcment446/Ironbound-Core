@@ -18,8 +18,7 @@ import org.slf4j.Logger;
 @Mod(IronBound.MOD_ID)
 public class IronBound {
     public static final String MOD_ID = "ironbound_core";
-
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogUtils.getLogger();
 
     public IronBound() {
 
@@ -42,8 +41,7 @@ public class IronBound {
     public static class ClientModEvents {
 
         @SubscribeEvent
-        public static void onClientSetup(FMLClientSetupEvent event)
-        {
+        public static void onClientSetup(FMLClientSetupEvent event){
         }
     }
 }

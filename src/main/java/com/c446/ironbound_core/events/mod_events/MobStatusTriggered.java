@@ -7,8 +7,8 @@ import net.minecraftforge.eventbus.api.Event;
 import java.util.ArrayList;
 
 public class MobStatusTriggered extends Event {
-    public  Player player;
-    public  ArrayList<StatusTypes> statusList;
+    public Player player;
+    public ArrayList<StatusTypes> statusList;
 
     public MobStatusTriggered(Player player, ArrayList<StatusTypes> statuses) {
         this.statusList = statuses;

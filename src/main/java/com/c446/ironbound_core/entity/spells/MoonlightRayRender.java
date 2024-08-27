@@ -33,7 +33,6 @@ public class MoonlightRayRender extends EntityRenderer<MoonlightRayEntity> {
         float width = entity.getBbWidth();
         width = oldWith + (width - oldWith) * Math.min(partialTick, 1.0F);
 
-
         this.drawRay(pose, entity, buffer, light, width, 4);
 
         this.drawRay(pose, entity, buffer, light, width, 0);
@@ -51,9 +50,4 @@ public class MoonlightRayRender extends EntityRenderer<MoonlightRayEntity> {
         consumer.vertex(poseMatrix, halfWidth, -0.1F, halfWidth).color(90, 0, 10, 255).uv(1.0F, 0.0F).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(normalMatrix, 0.0F, 1.0F, 0.0F).endVertex();
         consumer.vertex(poseMatrix, -halfWidth, -0.1F, halfWidth).color(90, 0, 10, 255).uv(0.0F, 0.0F).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(light).normal(normalMatrix, 0.0F, 1.0F, 0.0F).endVertex();
     }
-
-
-
-
-
 }

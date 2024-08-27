@@ -1,11 +1,18 @@
 package com.c446.ironbound_core.registry;
 
+import java.util.HashMap;
+import java.util.UUID;
+import java.util.function.Function;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.c446.ironbound_core.IronBound;
 import com.c446.ironbound_core.ModConfig;
 import com.c446.ironbound_core.effects.PublicEffect;
 import com.c446.ironbound_core.items.GenericAttributeItem;
 import com.c446.ironbound_core.items.SimpleCuriosItem;
 import com.c446.ironbound_core.spells.SpellMindFlay;
+
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -25,12 +32,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.function.Function;
-
 import static com.c446.ironbound_core.Util.ParticleUtil.rgbToInt;
 import static com.c446.ironbound_core.registry.ModRegistry.AttributeRegistry.*;
 import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.*;
@@ -39,7 +40,6 @@ import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operati
 import static net.minecraft.world.entity.ai.attributes.Attributes.*;
 
 @Mod.EventBusSubscriber(modid = IronBound.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
-
 public class ModRegistry {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, IronBound.MOD_ID);
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, IronBound.MOD_ID);
@@ -98,7 +98,6 @@ public class ModRegistry {
 
         public static float getDamageReduction(int pAmpLevel) {
             return (1 - getDamageBoost(pAmpLevel));
-
         }
 
         static {
@@ -218,7 +217,6 @@ public class ModRegistry {
                 };
             });
         }
-
     }
 
     public static class AttributeRegistry {
@@ -233,7 +231,7 @@ public class ModRegistry {
             return Math.max(1, Math.exp(coefficient * insightDiff));
         }
 
-        public static final HashMap<RegistryObject<Attribute>, UUID> UUIDS = new HashMap();
+        public static final HashMap<RegistryObject<Attribute>, UUID> UUIDS = new HashMap<>();
         public static final DeferredRegister<Attribute> ATTRIBUTES;
 
         public static RegistryObject<Attribute> VITALITY_ATTRIBUTE;
@@ -332,8 +330,6 @@ public class ModRegistry {
         public static HashMap<Attribute, ForgeConfigSpec.DoubleValue> HOLY_SWORD_MAP = new HashMap<>();
         public static HashMap<Attribute, Double> HOLY_SWORD_DEFAULT_MAP = new HashMap<>();
 
-
-
         static {
             FOCUS_CHARM_MAP1.put(FOCUS_ATTRIBUTE.get(), new AttributeModifier("focus_curio", 2, ADDITION));
             FOCUS_CHARM_MAP1.put(MAX_MANA.get(), new AttributeModifier("focus_curio", 15, ADDITION));
@@ -375,8 +371,6 @@ public class ModRegistry {
             VITALITY_CHARM_1 = ITEMS.register("vitality_charm_1", ()-> new SimpleCuriosItem(new Item.Properties().rarity(Rarity.COMMON), VITALITY_CHARM_MAP1));
             VITALITY_CHARM_2 = ITEMS.register("vitality_charm_2", ()-> new SimpleCuriosItem(new Item.Properties().rarity(Rarity.UNCOMMON), VITALITY_CHARM_MAP2));
             VITALITY_CHARM_3 = ITEMS.register("vitality_charm_3", ()-> new SimpleCuriosItem(new Item.Properties().rarity(Rarity.RARE), VITALITY_CHARM_MAP3));
-
         }
-
     }
 }

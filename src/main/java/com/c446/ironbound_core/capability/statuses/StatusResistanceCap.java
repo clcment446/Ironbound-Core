@@ -33,9 +33,8 @@ public class StatusResistanceCap implements IStatusResistanceCap {
 
     private int fervor_max;
     private int fervor_current;
-    //public static
-    public static final UUID focus_attribute_uuid = UUID.fromString("3d3349b1-02db-4f41-9a98-482f686047be");
-
+    
+    public static final UUID FOCUS_ATTRIBUTE_UUID = UUID.fromString("3d3349b1-02db-4f41-9a98-482f686047be");
 
     public void createResStuff(LivingEntity entity) {
         this.madness_max = ((int) (20 * entity.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get())));
@@ -172,7 +171,7 @@ public class StatusResistanceCap implements IStatusResistanceCap {
     }
 
     public ArrayList<StatusTypes> checkStatus(Player player) {
-        ArrayList<StatusTypes> list = new ArrayList<StatusTypes>() {};
+        ArrayList<StatusTypes> list = new ArrayList<StatusTypes>();
         if (hollow_current > hollow_max) {
             list.add(StatusTypes.HOLLOW);
         }

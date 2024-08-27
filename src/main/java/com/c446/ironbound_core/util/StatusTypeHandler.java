@@ -8,7 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-abstract public class StatusTypeHandler {
+public abstract class StatusTypeHandler {
     public static HashMap<StatusTypes, MobEffect> TYPE_TO_EFFECT = new HashMap<>();
 
     static {
@@ -22,14 +22,13 @@ abstract public class StatusTypeHandler {
         TYPE_TO_EFFECT.put(StatusTypes.WEAK_BODY, ModRegistry.PotionRegistry.WEAK_VITALITY.get());
         TYPE_TO_EFFECT.put(StatusTypes.WET, ModRegistry.PotionRegistry.WET.get());
         TYPE_TO_EFFECT.put(StatusTypes.FLAMABLE, ModRegistry.PotionRegistry.FLAMMABLE.get());
-
     }
 
     public static ArrayList<MobEffect> handleEntity(ArrayList<StatusTypes> list, LivingEntity player){
         ArrayList<MobEffect> effectList= new ArrayList<>();
         for (StatusTypes e:list) {
-            effectList.add(TYPE_TO_EFFECT.get(e));
+        	effectList.add(TYPE_TO_EFFECT.get(e));
         }
-    return effectList;
+        return effectList;
     }
 }

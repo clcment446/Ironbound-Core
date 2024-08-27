@@ -11,8 +11,6 @@ public class InsightCapability implements IInsightInterface{
     public boolean heart = false;
     public int umbilical_cords = 0;
 
-
-
     public CompoundTag saveNBTData(CompoundTag nbt){
         nbt.putInt("insight", this.bonus_insight);
         nbt.putBoolean("wither", this.wither);
@@ -33,5 +31,4 @@ public class InsightCapability implements IInsightInterface{
         this.heart = nbt.getBoolean("heart");
         //this.umbilical_cords = nbt.getInt("cords");
     }
-
 }

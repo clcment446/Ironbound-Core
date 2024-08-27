@@ -1,5 +1,15 @@
 package com.c446.ironbound_core.events.hookers;
 
+import static com.c446.ironbound_core.capability.insight.InsightAttacher.InsightProvider.INSIGHT_CAPABILITY_IDENTIFIER;
+import static com.c446.ironbound_core.capability.statuses.StatusAttacher.StatusProvider.STATUS_RESISTANCE_CAP;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.c446.ironbound_core.IronBound;
 import com.c446.ironbound_core.Util;
 import com.c446.ironbound_core.capability.statuses.StatusAttacher;
@@ -10,6 +20,7 @@ import com.c446.ironbound_core.spells.SpellMindFlay;
 import com.c446.ironbound_core.util.DamageUtil;
 import com.c446.ironbound_core.util.StatusTypeHandler;
 import com.c446.ironbound_core.util.StatusTypes;
+
 import io.redspace.ironsspellbooks.api.events.SpellDamageEvent;
 import io.redspace.ironsspellbooks.api.events.SpellOnCastEvent;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -52,15 +63,6 @@ import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import static com.c446.ironbound_core.capability.insight.InsightAttacher.InsightProvider.INSIGHT_CAPABILITY_IDENTIFIER;
-import static com.c446.ironbound_core.capability.statuses.StatusAttacher.StatusProvider.STATUS_RESISTANCE_CAP;
 
 @Mod.EventBusSubscriber(modid = IronBound.MOD_ID)
 public class CommonEventListener {
@@ -125,7 +127,7 @@ public class CommonEventListener {
                 c.setMadnessCurrent(((int) (event.getAmount() + c.getMadness_current())), ((Player) entity));
             });
         }
-        if (damage_src.is(ISSDamageTypes.HOLY_MAGIC) && event.getEntity().getMobType() == (MobType.UNDEAD) && source_entity.getActiveEffects().contains(ModRegistry.PotionRegistry.FERVOR.get())) {
+        if (damage_src.is(ISSDamageTypes.HOLY_MAGIC) && event.getEntity().getMobType() == (MobType.UNDEAD) && source_entity.hasEffect(ModRegistry.PotionRegistry.FERVOR.get())) {
             MobEffectInstance instance = source_entity.getEffect(ModRegistry.PotionRegistry.FERVOR.get());
             event.setAmount(((float) (event.getAmount() * (1 + source_entity.getAttributeValue(ModRegistry.AttributeRegistry.UNDEAD_DAMAGE.get())) * (1 + 0.5 * (instance != null ? instance.getAmplifier() : 0)))));
         }
@@ -252,7 +254,6 @@ public class CommonEventListener {
         event.register(StatusResistanceCap.class);
     }
 
-
     @SubscribeEvent
     public static void playerDefeatBoss(net.minecraftforge.event.entity.living.LivingDeathEvent event){
         if(event.getEntity() instanceof Monster && event.getEntity().getLastAttacker() instanceof Player player){
@@ -273,14 +274,8 @@ public class CommonEventListener {
             player.getCapability(INSIGHT_CAPABILITY_IDENTIFIER).ifPresent(i->{
 
             });
-
-
-
-
         }
-
     }
-
 
     @SubscribeEvent
     public static void playerCloned(PlayerEvent.Clone event) {
@@ -305,5 +300,4 @@ public class CommonEventListener {
 
         }
     }
-
 }

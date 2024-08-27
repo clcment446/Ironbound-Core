@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptible {
-    private static final EntityDataAccessor<Float> DATA_RADIUS;
+    private static final EntityDataAccessor<Float> DATA_RADIUS = SynchedEntityData.defineId(MoonlightRayEntity.class, EntityDataSerializers.FLOAT);
     private static final double SPEED = 1.0;
     public static final int EXPIRE_TIME = 100;
     public final int animationSeed;
@@ -48,7 +48,7 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
         this.setRadius(0.6F);
         this.maxRadius = 3.0F;
         this.oldBB = this.getBoundingBox();
-        this.victims = new ArrayList<>(){};
+        this.victims = new ArrayList<>();
         this.setNoGravity(true);
     }
 
@@ -59,12 +59,9 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
         this.setXRot(shooter.getXRot());
     }
 
-//    public MoonlightRayEntity(Level levelIn, LivingEntity shooter) {
-////        this(ModRegistry.EntityRegistry.MOONLIGHT_RAY_ENTITY.get(), levelIn, shooter);
-//    }
-
-
-
+    /*public MoonlightRayEntity(Level levelIn, LivingEntity shooter) {
+        this(ModRegistry.EntityRegistry.MOONLIGHT_RAY_ENTITY.get(), levelIn, shooter);
+   	}*/
 
     public void shoot(Vec3 rotation) {
         this.setDeltaMovement(rotation.scale(1.0));
@@ -82,7 +79,6 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
         if (newRadius <= this.maxRadius && !this.level().isClientSide) {
             this.getEntityData().set(DATA_RADIUS, Mth.clamp(newRadius, 0.0F, this.maxRadius));
         }
-
     }
 
     public float getRadius() {
@@ -149,7 +145,6 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
             DamageSources.applyDamage(entity, this.damage, ((AbstractSpell) SpellRegistry.BLOOD_SLASH_SPELL.get()).getDamageSource(this, this.getOwner()));
             this.victims.add(entity);
         }
-
     }
 
     public void spawnParticles() {
@@ -172,7 +167,6 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
                 this.level().addParticle(ParticleTypes.SNOWFLAKE, false, x + rotX + dx, y + dy, z + rotZ + dz, dx, dy, dz);
             }
         }
-
     }
 
     protected boolean canHitEntity(Entity entity) {
@@ -191,9 +185,5 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
     protected void readAdditionalSaveData(CompoundTag pCompound) {
         super.readAdditionalSaveData(pCompound);
         this.damage = pCompound.getFloat("Damage");
-    }
-
-    static {
-        DATA_RADIUS = SynchedEntityData.defineId(MoonlightRayEntity.class, EntityDataSerializers.FLOAT);
     }
 }

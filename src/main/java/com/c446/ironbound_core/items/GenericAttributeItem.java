@@ -28,8 +28,7 @@ public class GenericAttributeItem extends Item {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> values = super.getAttributeModifiers(slot, stack);
         ItemAttributeHelper.handleConfig(map, defaultMap);
-
-
+        
         return values;
     }
 }

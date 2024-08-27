@@ -22,9 +22,15 @@ public abstract class RegularItems extends Item {
         super(p);
         this.showEnch = showEnch;
     }
+    
     @Override
     public boolean isFoil(ItemStack s){
-        if(showEnch){return true;}else{return super.isFoil(s);}
+        if(showEnch) {
+        	return true;
+        }
+        else {
+        	return super.isFoil(s);
+        }
     }
 
     public void appendHoverText(ItemStack pStack, @Nullable Level pLevel, List<Component> pTooltipComponents, TooltipFlag pIsAdvanced) {

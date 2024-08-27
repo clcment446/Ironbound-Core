@@ -41,7 +41,7 @@ public class StatusAttacher {
 
         @Override
         public CompoundTag serializeNBT() {
-            return null;
+            return new CompoundTag();
         }
 
         @Override

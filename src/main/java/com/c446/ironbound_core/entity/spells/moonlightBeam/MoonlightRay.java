@@ -1,5 +1,8 @@
 package com.c446.ironbound_core.entity.spells.moonlightBeam;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
@@ -11,17 +14,18 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.*;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MoonlightRay extends Projectile implements AntiMagicSusceptible {
-    private static EntityDataAccessor<Float> DATA_RADIUS = null;
+    private static final EntityDataAccessor<Float> DATA_RADIUS = SynchedEntityData.defineId(MoonlightRay.class, EntityDataSerializers.FLOAT);
     private static final double SPEED = 1.0;
     private static final int EXPIRE_TIME = 80;
     public final int animationSeed;
@@ -52,7 +56,6 @@ public class MoonlightRay extends Projectile implements AntiMagicSusceptible {
     @Override
     public void onAntiMagic(MagicData magicData) {
         this.discard();
-
     }
 
     public void setRadius(float newRadius) {
@@ -101,7 +104,6 @@ public class MoonlightRay extends Projectile implements AntiMagicSusceptible {
             DamageSources.applyDamage(entity, this.damage, ((AbstractSpell) SpellRegistry.BLOOD_SLASH_SPELL.get()).getDamageSource(this, this.getOwner()));
             this.victims.add(entity);
         }
-
     }
 
     public void spawnParticles() {
@@ -124,10 +126,5 @@ public class MoonlightRay extends Projectile implements AntiMagicSusceptible {
                 this.level().addParticle(ParticleTypes.SNOWFLAKE, false, x + rotX + dx, y + dy, z + rotZ + dz, dx, dy, dz);
             }
         }
-
-
-    }
-    static {
-        DATA_RADIUS = SynchedEntityData.defineId(MoonlightRay.class, EntityDataSerializers.FLOAT);
     }
 }
