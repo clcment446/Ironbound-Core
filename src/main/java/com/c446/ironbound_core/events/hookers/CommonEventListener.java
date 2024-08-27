@@ -80,12 +80,6 @@ public class CommonEventListener {
 
     @SubscribeEvent
     public static void SpellDamageReactions(SpellDamageEvent event) {
-        /**
-         * @Param event : the event that the hook will catch
-         * This is what will handle the "main" reaction system, IE
-         *
-         * crimes against java were committed...
-         */
         LivingEntity entity = event.getEntity();
         LivingEntity source_entity = ((LivingEntity) event.getSpellDamageSource().getEntity());
         assert source_entity != null;

@@ -19,16 +19,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class IronboundCoreAttributes {
-    /**
-     * @Param caster : the caster
-     * @Param target : the target
-     * @Param coefficent : how steep the insight difference will be. Use something around 0.3 for best results.
-     * @f
-     */
-    public static double calcCounterSpellEvasionChance(Player caster, Player target, float coefficient) {
-        float insightDiff = (float) (target.getAttributeValue(INSIGHT_ATTRIBUTE.get()) - caster.getAttributeValue(INSIGHT_ATTRIBUTE.get()));
-        return Math.max(1, Math.exp(coefficient * insightDiff));
-    }
 
     public static final HashMap<RegistryObject<Attribute>, UUID> UUIDS = new HashMap<>();
     public static final DeferredRegister<Attribute> ATTRIBUTES;
@@ -86,11 +76,21 @@ public class IronboundCoreAttributes {
             });
         });
     }
+    
+    /**
+     * @Param caster : the caster
+     * @Param target : the target
+     * @Param coefficent : how steep the insight difference will be. Use something around 0.3 for best results.
+     * @f
+     */
+    public static double calcCounterSpellEvasionChance(Player caster, Player target, float coefficient) {
+        float insightDiff = (float) (target.getAttributeValue(INSIGHT_ATTRIBUTE.get()) - caster.getAttributeValue(INSIGHT_ATTRIBUTE.get()));
+        return Math.max(1, Math.exp(coefficient * insightDiff));
+    }
 
     public static double getAttributeValue(LivingEntity entity, Attribute attribute) {
         AttributeInstance inst = entity.getAttribute(attribute);
         if (inst == null) return -Integer.MAX_VALUE;
         else return inst.getValue();
     }
-
 }

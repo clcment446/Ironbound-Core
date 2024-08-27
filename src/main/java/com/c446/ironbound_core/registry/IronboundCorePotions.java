@@ -76,13 +76,13 @@ public class IronboundCorePotions {
         UUID uuid9 = UUID.fromString("872a21d-3e49-4e8e-b81c-3bfa9cf746b0");
         UUID uuid10 = UUID.fromString("972a21d-3e49-4e8e-b81c-3bfa9cf746b0");
 
-//        BLEED = EFFECTS.register("bleed_mob_effect" )
+        //BLEED = EFFECTS.register("bleed" )
 
-        WET = EFFECTS.register("wet_mob_effect", () -> {return new IronboundCoreEffect(MobEffectCategory.NEUTRAL, rgbToInt(0, 0, 125)) {};});
+        WET = EFFECTS.register("wet", () -> {return new IronboundCoreEffect(MobEffectCategory.NEUTRAL, rgbToInt(0, 0, 125)) {};});
 
-        FLAMMABLE = EFFECTS.register("flammable_mob_effect", () -> {return new IronboundCoreEffect(MobEffectCategory.HARMFUL, rgbToInt(0, 125, 0)) {};});
+        FLAMMABLE = EFFECTS.register("flammable", () -> {return new IronboundCoreEffect(MobEffectCategory.HARMFUL, rgbToInt(0, 125, 0)) {};});
 
-        OVERCHARGED = EFFECTS.register("overcharged_mob_effect", () -> {
+        OVERCHARGED = EFFECTS.register("overcharged", () -> {
             return new IronboundCoreEffect(MobEffectCategory.HARMFUL, rgbToInt(30, 100, 255)) {
                 public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
                     this.getAttributeModifiers().put(LIGHTNING_SPELL_POWER.get(), new AttributeModifier(uuid1, this::getDescriptionId, getDamageBoost(pAmplifier), AttributeModifier.Operation.MULTIPLY_BASE));
@@ -92,7 +92,7 @@ public class IronboundCorePotions {
             };
         });
 
-        MOONLIGHT_BLESSING = EFFECTS.register("moonlight_blessing_mob_effect", () -> {
+        MOONLIGHT_BLESSING = EFFECTS.register("moonlight_blessing", () -> {
             return new IronboundCoreEffect(MobEffectCategory.BENEFICIAL, rgbToInt(30, 100, 255)) {
                 public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
                     this.getAttributeModifiers().put(ICE_SPELL_POWER.get(), new AttributeModifier(uuid2, this::getDescriptionId, getDamageBoost(pAmplifier), AttributeModifier.Operation.MULTIPLY_BASE));
@@ -101,7 +101,7 @@ public class IronboundCorePotions {
             };
         });
 
-        HOLLOW = EFFECTS.register("hollow_mob_effect", () -> {
+        HOLLOW = EFFECTS.register("hollow", () -> {
             return new IronboundCoreEffect(MobEffectCategory.BENEFICIAL, rgbToInt(255, 90, 255)) {
                 public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
                     this.getAttributeModifiers().put((Attribute) ENDER_SPELL_POWER.get(), new AttributeModifier(uuid3, this::getDescriptionId, getDamageBoost(pAmplifier), AttributeModifier.Operation.MULTIPLY_BASE));
@@ -110,7 +110,7 @@ public class IronboundCorePotions {
                 }
             };
         });
-        FERVOR = EFFECTS.register("radiant_mob_effect", () -> {
+        FERVOR = EFFECTS.register("radiant", () -> {
             return new IronboundCoreEffect(MobEffectCategory.BENEFICIAL, rgbToInt(255, 90, 255)) {
                 public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
                     this.getAttributeModifiers().put((Attribute) HOLY_SPELL_POWER.get(), new AttributeModifier(uuid4, this::getDescriptionId, getDamageBoost(pAmplifier), AttributeModifier.Operation.MULTIPLY_BASE));
@@ -119,7 +119,7 @@ public class IronboundCorePotions {
                 }
             };
         });
-        FROSTED_EFFECT = EFFECTS.register("frosted_mob_effect", () -> {
+        FROSTED_EFFECT = EFFECTS.register("frosted", () -> {
             return new IronboundCoreEffect(MobEffectCategory.HARMFUL, rgbToInt(0, 90, 255)) {
                 public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
                     this.getAttributeModifiers().put((Attribute) SPELL_RESIST.get(), new AttributeModifier(uuid5, this::getDescriptionId, getResReduction(pAmplifier), AttributeModifier.Operation.MULTIPLY_BASE));
@@ -128,7 +128,7 @@ public class IronboundCorePotions {
                 }
             };
         });
-        WEAK_MIND = EFFECTS.register("weak_mind_mob_effect", () -> {
+        WEAK_MIND = EFFECTS.register("weak_mind", () -> {
             return new IronboundCoreEffect(MobEffectCategory.HARMFUL, rgbToInt(0, 70, 40)) {
                 public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
                     AttributeModifier modifier = new AttributeModifier(uuid6, this::getDescriptionId, getResReduction(pAmplifier), AttributeModifier.Operation.MULTIPLY_BASE);
@@ -137,7 +137,7 @@ public class IronboundCorePotions {
                 }
             };
         });
-        WEAK_VITALITY = EFFECTS.register("weak_vita_mob_effect", () -> {
+        WEAK_VITALITY = EFFECTS.register("weak_vita", () -> {
             return new IronboundCoreEffect(MobEffectCategory.HARMFUL, 8080895) {
                 public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
                     AttributeModifier modifier = new AttributeModifier(uuid7, this::getDescriptionId, getResReduction(pAmplifier), AttributeModifier.Operation.MULTIPLY_BASE);
@@ -146,7 +146,7 @@ public class IronboundCorePotions {
                 }
             };
         });
-        STRONG_MIND = EFFECTS.register("strong_mind_mob_effect", () -> {
+        STRONG_MIND = EFFECTS.register("strong_mind", () -> {
             return new IronboundCoreEffect(MobEffectCategory.BENEFICIAL, 8080895) {
                 public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
                     AttributeModifier modifier = new AttributeModifier(uuid8, this::getDescriptionId, (double) (0.1 + pAmplifier / 3), AttributeModifier.Operation.MULTIPLY_BASE);
@@ -156,7 +156,7 @@ public class IronboundCorePotions {
                 }
             };
         });
-        STRONG_VITALITY = EFFECTS.register("strong_vita_mob_effect", () -> {
+        STRONG_VITALITY = EFFECTS.register("strong_vita", () -> {
             return new IronboundCoreEffect(MobEffectCategory.BENEFICIAL, rgbToInt(50, 0, 0)) {
                 public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
                     AttributeModifier modifier = new AttributeModifier(uuid9, this::getDescriptionId, (double) (0.1 + pAmplifier / 3), MULTIPLY_BASE);
@@ -167,7 +167,7 @@ public class IronboundCorePotions {
 
             };
         });
-        MADNESS = EFFECTS.register("madness_mob_effect", () -> {
+        MADNESS = EFFECTS.register("madness", () -> {
             return new IronboundCoreEffect(MobEffectCategory.HARMFUL, rgbToInt(120, 90, 0)) {
                 public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
                     AttributeModifier eldritchPowerMod = new AttributeModifier(uuid10, this::getDescriptionId, (double) (0.5 + pAmplifier / 2), MULTIPLY_BASE);

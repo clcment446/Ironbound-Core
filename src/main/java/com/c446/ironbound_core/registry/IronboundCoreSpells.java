@@ -11,7 +11,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class IronboundCoreSpells {
     public static final DeferredRegister<AbstractSpell> SPELLS = DeferredRegister.create(io.redspace.ironsspellbooks.api.registry.SpellRegistry.SPELL_REGISTRY_KEY, Ironbound.MOD_ID);
-    public static final RegistryObject<AbstractSpell> MIND_FLAY = registerSpell(new SpellMindFlay());;
+    public static final RegistryObject<AbstractSpell> MIND_FLAY = registerSpell(new SpellMindFlay());
 
     public static RegistryObject<AbstractSpell> registerSpell(@NotNull AbstractSpell spell) {
         return SPELLS.register(spell.getSpellName(), () -> spell);
