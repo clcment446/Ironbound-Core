@@ -22,8 +22,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 
 @AutoSpellConfig
-public class SpellTimeFreeze extends AbstractSpell
-{
+public class SpellTimeFreeze extends AbstractSpell {
     private final ResourceLocation spellId = new ResourceLocation(Ironbound.MOD_ID, "time_freeze");
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.LEGENDARY)
