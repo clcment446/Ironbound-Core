@@ -21,38 +21,19 @@ import net.minecraftforge.registries.RegistryObject;
 public class IronboundCoreAttributes {
 
     public static final HashMap<RegistryObject<Attribute>, UUID> UUIDS = new HashMap<>();
-    public static final DeferredRegister<Attribute> ATTRIBUTES;
+    public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, Ironbound.MOD_ID);
 
-    public static final RegistryObject<Attribute> VITALITY_ATTRIBUTE;
-    public static final RegistryObject<Attribute> FOCUS_ATTRIBUTE;
+    public static final RegistryObject<Attribute> VITALITY_ATTRIBUTE = registerAttribute("vitality", (id) -> new RangedAttribute(id, 1.0, 0.0, 1024.0).setSyncable(true), "a80e87d0-e18c-4d90-9c06-12e6cafa6844");
+    public static final RegistryObject<Attribute> FOCUS_ATTRIBUTE = registerAttribute("focus", (id) -> new RangedAttribute(id, 5.0, 0.0, 1024.0).setSyncable(true), "6b41f245-8d8d-4ba6-9128-8b3aa7ceef98");
     public static RegistryObject<Attribute> UNDEAD_DAMAGE;
 
-    public static final RegistryObject<Attribute> INSIGHT_ATTRIBUTE;
+    public static final RegistryObject<Attribute> INSIGHT_ATTRIBUTE = registerAttribute("insight", (id) -> new RangedAttribute(id, 1, 0, 20).setSyncable(true) , "17f85bfd-47e3-40f5-bc4b-931056de2390");
     public static RegistryObject<Attribute> LAPIS_FORTUNE;
     public static RegistryObject<Attribute> DIAMOND_FORTUNE;
     public static RegistryObject<Attribute> COAL_FORTUNE;
     public static RegistryObject<Attribute> REDSTONE_FORTUNE;
     public static RegistryObject<Attribute> IRON_FORTUNE;
     public static RegistryObject<Attribute> GOLD_FORTUNE;
-
-    static {
-        ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, Ironbound.MOD_ID);
-
-        VITALITY_ATTRIBUTE = registerAttribute("constitution", (id) ->
-                {
-                    return (new RangedAttribute(id, 1.0, 0.0, 1024.0)).setSyncable(true);
-                }
-                , "a80e87d0-e18c-4d90-9c06-12e6cafa6844");
-        FOCUS_ATTRIBUTE = registerAttribute("focus", (id) ->
-                {
-                    return (new RangedAttribute(id, 5.0, 0.0, 1024.0)).setSyncable(true);
-                }
-                , "6b41f245-8d8d-4ba6-9128-8b3aa7ceef98");
-        INSIGHT_ATTRIBUTE = registerAttribute("insight", (id) -> {
-                    return (new RangedAttribute(id, 1, 0, 20)).setSyncable(true);
-                }
-                , "17f85bfd-47e3-40f5-bc4b-931056de2390");
-    }
 
     public static RegistryObject<Attribute> registerAttribute(String name, Function<String, Attribute> attribute, String uuid) {
         return registerAttribute(name, attribute, UUID.fromString(uuid));
