@@ -140,6 +140,9 @@ dependencies {
     runtimeOnly fg.deobf("curse.maven:apotheosis-${apotheosis_version}")
     implementation fg.deobf("curse.maven:placebo-${placebo_version}")
     implementation fg.deobf("curse.maven:attributeslib-${attributeslib_version}")
+    
+    // ENTITY TICKRATE API
+    implementation fg.deobf("curse.maven:entity-tickrate-api-969702:5457312")
 
     // JSON ******************************************************************************************************
     implementation "com.google.code.gson:gson:${gson_version}"

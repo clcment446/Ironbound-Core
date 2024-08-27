@@ -83,7 +83,6 @@ public class CommonEventListener {
         LivingEntity source_entity = ((LivingEntity) event.getSpellDamageSource().getEntity());
         assert source_entity != null;
         DamageSource damage_src = event.getSpellDamageSource().get();
-        ServerLevel target_level = Objects.requireNonNull(Objects.requireNonNull(entity.level().getServer()).getLevel(entity.level().dimension()));
         if (damage_src.is(ISSDamageTypes.ICE_MAGIC)) {
             if (entity.hasEffect(IronboundCorePotions.WET.get())) {
                 entity.getCapability(DATA_CAP_CAPABILITY).ifPresent(c -> {
@@ -106,7 +105,9 @@ public class CommonEventListener {
                     entity.removeEffect(IronboundCorePotions.WET.get());
                 }
                 if (entity.hasEffect(IronboundCorePotions.OVERCHARGED.get())) {
-                    target_level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, entity.getX(), entity.getY(), entity.getZ(), 3, 0, 0, 0, 1);
+                	if(entity.level() instanceof ServerLevel serverLevel) {
+                		serverLevel.sendParticles(ParticleTypes.EXPLOSION_EMITTER, entity.getX(), entity.getY(), entity.getZ(), 3, 0, 0, 0, 1);
+                	}
                     entity.invulnerableTime = 0;
                     DamageSources.applyDamage(entity, Objects.requireNonNull(entity.getEffect(IronboundCorePotions.OVERCHARGED.get())).getAmplifier() * 3 + 10,
                             DamageUtil.source(entity.level(), DamageTypes.EXPLOSION, entity, event.getSpellDamageSource().getEntity()));
