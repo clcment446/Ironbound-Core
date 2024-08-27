@@ -1,6 +1,6 @@
 package com.c446.ironbound_core.registry;
 
-import com.c446.ironbound_core.IronBound;
+import com.c446.ironbound_core.Ironbound;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -20,7 +20,7 @@ import java.util.function.Function;
 public class IronboundCoreAttributes {
 
     public static final HashMap<RegistryObject<Attribute>, UUID> UUIDS = new HashMap<>();
-    public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, IronBound.MOD_ID);
+    public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, Ironbound.MOD_ID);
 
     public static final RegistryObject<Attribute> VITALITY_ATTRIBUTE = registerAttribute("vitality", (id) -> new RangedAttribute(id, 1.0, 0.0, 1024.0).setSyncable(true), "a80e87d0-e18c-4d90-9c06-12e6cafa6844");
     public static final RegistryObject<Attribute> FOCUS_ATTRIBUTE = registerAttribute("focus", (id) -> new RangedAttribute(id, 5.0, 0.0, 1024.0).setSyncable(true), "6b41f245-8d8d-4ba6-9128-8b3aa7ceef98");

@@ -1,6 +1,6 @@
 package com.c446.ironbound_core.spells;
 
-import com.c446.ironbound_core.IronBound;
+import com.c446.ironbound_core.Ironbound;
 import com.c446.ironbound_core.capability.temp_data_cap.DataAttacher;
 import com.c446.ironbound_core.registry.IronboundCorePotions;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
@@ -25,7 +25,7 @@ import java.util.Optional;
 
 @AutoSpellConfig
 public class SpellMindFlay extends AbstractSpell {
-    private final ResourceLocation spellId = new ResourceLocation(IronBound.MOD_ID, "soul_cry");
+    private final ResourceLocation spellId = new ResourceLocation(Ironbound.MOD_ID, "soul_cry");
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.EPIC)
             .setSchoolResource(SchoolRegistry.ELDRITCH_RESOURCE)

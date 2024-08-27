@@ -11,12 +11,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-@Mod(IronBound.MOD_ID)
-public class IronBound {
+@Mod(Ironbound.MOD_ID)
+public class Ironbound {
     public static final String MOD_ID = "ironbound_core";
     public static final Logger LOGGER = LogUtils.getLogger();
 
-    public IronBound() {
+    public Ironbound() {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, com.c446.ironbound_core.config.IronboundCoreConfig.SERVER_CONFIG);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, com.c446.ironbound_core.config.IronboundCoreConfig.COMMON_CONFIG);
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();

@@ -1,6 +1,6 @@
 package com.c446.ironbound_core.registry;
 
-import com.c446.ironbound_core.IronBound;
+import com.c446.ironbound_core.Ironbound;
 import com.c446.ironbound_core.effects.IronboundCoreEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -23,7 +23,7 @@ import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operati
 import static net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH;
 
 public class IronboundCorePotions {
-    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, IronBound.MOD_ID);
+    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Ironbound.MOD_ID);
 
     public static final RegistryObject<MobEffect> MOONLIGHT_BLESSING;
     public static final RegistryObject<MobEffect> TIME_TWISTED;

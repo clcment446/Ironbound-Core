@@ -1,6 +1,6 @@
 package com.c446.ironbound_core.events.hookers;
 
-import com.c446.ironbound_core.IronBound;
+import com.c446.ironbound_core.Ironbound;
 import com.c446.ironbound_core.capability.insight.InsightAttacher;
 import com.c446.ironbound_core.capability.insight.InsightCapability;
 import com.c446.ironbound_core.capability.temp_data_cap.DataAttacher;
@@ -64,7 +64,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static com.c446.ironbound_core.capability.insight.InsightAttacher.InsightProvider.INSIGHT_CAPABILITY_IDENTIFIER;
 import static com.c446.ironbound_core.capability.temp_data_cap.DataAttacher.DataProvider.DATA_CAP_CAPABILITY;
 
-@Mod.EventBusSubscriber(modid = IronBound.MOD_ID)
+@Mod.EventBusSubscriber(modid = Ironbound.MOD_ID)
 public class CommonEventListener {
 
     @SubscribeEvent

@@ -1,6 +1,6 @@
 package com.c446.ironbound_core.spells;
 
-import com.c446.ironbound_core.IronBound;
+import com.c446.ironbound_core.Ironbound;
 import com.c446.ironbound_core.registry.IronboundCorePotions;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @AutoSpellConfig
 public class SpellMoonlight extends AbstractSpell {
-    private final ResourceLocation spellId = new ResourceLocation(IronBound.MOD_ID, "moonlight_wave");
+    private final ResourceLocation spellId = new ResourceLocation(Ironbound.MOD_ID, "moonlight_wave");
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.LEGENDARY)
             .setSchoolResource(SchoolRegistry.ELDRITCH_RESOURCE)

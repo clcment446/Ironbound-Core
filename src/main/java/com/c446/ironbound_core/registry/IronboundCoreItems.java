@@ -7,7 +7,7 @@ import static net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
 import static net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_SPEED;
 import static net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH;*/
 
-import com.c446.ironbound_core.IronBound;
+import com.c446.ironbound_core.Ironbound;
 import com.c446.ironbound_core.items.GenericAttributeItem;
 import com.c446.ironbound_core.items.SimpleCuriosItem;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -24,7 +24,7 @@ import java.util.UUID;
 import java.util.function.Supplier;
 
 public class IronboundCoreItems {
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, IronBound.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Ironbound.MOD_ID);
     public static final RegistryObject<Item> FOCUS_CHARM_1;
     public static final RegistryObject<Item> FOCUS_CHARM_2;
     public static final RegistryObject<Item> FOCUS_CHARM_3;

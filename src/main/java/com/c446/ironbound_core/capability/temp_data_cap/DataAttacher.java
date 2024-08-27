@@ -1,6 +1,6 @@
 package com.c446.ironbound_core.capability.temp_data_cap;
 
-import com.c446.ironbound_core.IronBound;
+import com.c446.ironbound_core.Ironbound;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class DataAttacher {
     public static class DataProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-        public static final ResourceLocation IDENTIFIER = new ResourceLocation(IronBound.MOD_ID, "ironbound_heart_data_cap");
+        public static final ResourceLocation IDENTIFIER = new ResourceLocation(Ironbound.MOD_ID, "ironbound_heart_data_cap");
         public static final Capability<DataCap> DATA_CAP_CAPABILITY = CapabilityManager.get(new CapabilityToken<DataCap>() {
         });
         private final DataCap cap = null;
