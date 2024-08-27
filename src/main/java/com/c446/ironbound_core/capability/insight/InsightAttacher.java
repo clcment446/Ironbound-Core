@@ -1,6 +1,6 @@
 package com.c446.ironbound_core.capability.insight;
 
-import com.c446.ironbound_core.IronBound;
+import com.c446.ironbound_core.Ironbound;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class InsightAttacher {
     public static class InsightProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-        public static final ResourceLocation IDENTIFIER = new ResourceLocation(IronBound.MOD_ID, "insight");
+        public static final ResourceLocation IDENTIFIER = new ResourceLocation(Ironbound.MOD_ID, "insight");
         public static final Capability<InsightCapability> INSIGHT_CAPABILITY_IDENTIFIER = CapabilityManager.get(new CapabilityToken<InsightCapability>() {
         });
         private InsightCapability cap = null;
@@ -41,18 +41,16 @@ public class InsightAttacher {
 
         @Override
         public CompoundTag serializeNBT() {
-            return createInsightCap().saveNBTData(new CompoundTag());
+            return createInsightCap().save(new CompoundTag());
         }
 
         @Override
         public void deserializeNBT(CompoundTag compoundTag) {
-            createInsightCap().loadNbt(compoundTag);
+            createInsightCap().load(compoundTag);
         }
 
-        public static void Attach(final AttachCapabilitiesEvent<Entity> event) {
-            final InsightProvider provider = new InsightProvider();
-            event.addCapability(InsightProvider.IDENTIFIER, provider);
-
+        public static void attach(AttachCapabilitiesEvent<Entity> event) {
+            event.addCapability(InsightProvider.IDENTIFIER, new InsightProvider());
         }
     }
 }

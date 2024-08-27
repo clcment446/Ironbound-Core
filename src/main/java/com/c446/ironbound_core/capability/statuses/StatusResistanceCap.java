@@ -1,8 +1,7 @@
 package com.c446.ironbound_core.capability.statuses;
 
-import com.c446.ironbound_core.events.mod_events.MobStatusTriggered.Post;
-import com.c446.ironbound_core.events.mod_events.MobStatusTriggered.Pre;
-import com.c446.ironbound_core.registry.ModRegistry;
+import com.c446.ironbound_core.events.mod_events.MobStatusTriggeredEvent;
+import com.c446.ironbound_core.registry.IronboundCoreAttributes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
@@ -13,189 +12,187 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class StatusResistanceCap implements IStatusResistanceCap {
-    private int madness_max;
-    private int madness_current;
+    private int madnessMax;
+    private int madnessCurrent;
 
-    private int soul_shattered_current;
-    private int soul_shattered_max;
+    private int soulShatteredMax;
+    private int soulShatteredCurrent;
 
-    private int over_charged_max;
-    private int over_charged_current;
+    private int overChargedMax;
+    private int overChargedCurrent;
 
-    private int frost_max;
-    private int frost_current;
+    private int frostMax;
+    private int frostCurrent;
 
-    private int bleed_max;
-    private int bleed_current;
+    private int bleedMax;
+    private int bleedCurrent;
 
-    private int hollow_max;
-    private int hollow_current;
+    private int hollowMax;
+    private int hollowCurrent;
 
-    private int fervor_max;
-    private int fervor_current;
+    private int fervorMax;
+    private int fervorCurrent;
     
     public static final UUID FOCUS_ATTRIBUTE_UUID = UUID.fromString("3d3349b1-02db-4f41-9a98-482f686047be");
 
-    public void createResStuff(LivingEntity entity) {
-        this.madness_max = ((int) (20 * entity.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get())));
-        this.hollow_max = ((int) (15 * entity.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get())));
-        this.fervor_max = ((int) (10 * entity.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get())));
-        this.soul_shattered_max = ((int) (10 * entity.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get())));
-        this.bleed_max = ((int) (5 * (entity.getAttributeValue(ModRegistry.AttributeRegistry.VITALITY_ATTRIBUTE.get()) + entity.getHealth() / 2)));
-        this.frost_max = ((int) (3 * (entity.getAttributeValue(ModRegistry.AttributeRegistry.VITALITY_ATTRIBUTE.get()) + entity.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get()))));
-        this.over_charged_max = ((int) (3 * (entity.getAttributeValue(ModRegistry.AttributeRegistry.VITALITY_ATTRIBUTE.get()) + entity.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get()))));
+    public void createResistances(LivingEntity entity) {
+        this.madnessMax = ((int) (20 * entity.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get())));
+        this.hollowMax = ((int) (15 * entity.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get())));
+        this.fervorMax = ((int) (10 * entity.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get())));
+        this.soulShatteredMax = ((int) (10 * entity.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get())));
+        this.bleedMax = ((int) (5 * (entity.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) + entity.getHealth() / 2)));
+        this.frostMax = ((int) (3 * (entity.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) + entity.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get()))));
+        this.overChargedMax = ((int) (3 * (entity.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) + entity.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get()))));
     }
 
-    public int getMadness_max() {
-        return madness_max;
+    public int getMadnessMax() {
+        return madnessMax;
     }
 
-    public void setMadness_max(int madness_max) {
-        this.madness_max = madness_max;
+    public void setMadnessMax(int madnessMax) {
+        this.madnessMax = madnessMax;
     }
 
-    public int getMadness_current() {
-        return madness_current;
+    public int getMadnessCurrent() {
+        return madnessCurrent;
     }
 
-    public void setMadnessCurrent(int madness_current, Player entity) {
-        this.madness_current = madness_current;
+    public void setMadnessCurrent(int madnessCurrent, Player entity) {
+        this.madnessCurrent = madnessCurrent;
     }
 
-    public int getFrost_max() {
-        return frost_max;
+    public int getFrostMax() {
+        return frostMax;
     }
 
-    public void setFrost_max(int frost_max) {
-        this.frost_max = frost_max;
+    public void setFrostMax(int frostMax) {
+        this.frostMax = frostMax;
     }
 
-    public int getFrost_current() {
-        return frost_current;
+    public int getFrostCurrent() {
+        return frostCurrent;
     }
 
-    public void setFrost_current(int frost_current, Player entity) {
-        this.frost_current = frost_current;
+    public void setFrostCurrent(int frostCurrent, Player entity) {
+        this.frostCurrent = frostCurrent;
     }
 
-    public int getBleed_max() {
-        return bleed_max;
+    public int getBleedMax() {
+        return bleedMax;
     }
 
-    public void setBleed_max(int bleed_max) {
-        this.bleed_max = bleed_max;
+    public void setBleedMax(int bleedMax) {
+        this.bleedMax = bleedMax;
     }
 
-    public int getBleed_current() {
-        return bleed_current;
+    public int getBleedCurrent() {
+        return bleedCurrent;
     }
 
-    public void setBleed_current(int bleed_current) {
-        this.bleed_current = bleed_current;
+    public void setBleedCurrent(int bleedCurrent) {
+        this.bleedCurrent = bleedCurrent;
     }
 
-    public int getSoul_shattered_current() {
-        return soul_shattered_current;
+    public int getSoulShatteredCurrent() {
+        return soulShatteredCurrent;
     }
 
-    public void setSoul_shattered_current(int soul_shattered_current) {
-        this.soul_shattered_current = soul_shattered_current;
+    public void setSoulShatteredCurrent(int soulShatteredCurrent) {
+        this.soulShatteredCurrent = soulShatteredCurrent;
     }
 
-    public int getSoul_shattered_max() {
-        return soul_shattered_max;
+    public int getSoulShatteredMax() {
+        return soulShatteredMax;
     }
 
-    public void setSoul_shattered_max(int soul_shattered_max) {
-        this.soul_shattered_max = soul_shattered_max;
+    public void setSoulShatteredMax(int soulShatteredMax) {
+        this.soulShatteredMax = soulShatteredMax;
     }
 
     public void generatePlayerResistances(Player player) {
         player.getCapability(StatusAttacher.StatusProvider.STATUS_RESISTANCE_CAP).ifPresent(a -> {
-                    a.bleed_max = (int) (player.getAttributeValue(ModRegistry.AttributeRegistry.VITALITY_ATTRIBUTE.get()) * player.getAttributeValue(Attributes.MAX_HEALTH));
-                    a.frost_max = (int) (player.getAttributeValue(ModRegistry.AttributeRegistry.VITALITY_ATTRIBUTE.get()) * player.getAttributeValue(Attributes.MAX_HEALTH));
+                    a.bleedMax = (int) (player.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) * player.getAttributeValue(Attributes.MAX_HEALTH));
+                    a.frostMax = (int) (player.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) * player.getAttributeValue(Attributes.MAX_HEALTH));
 
-                    a.madness_max = (int) (player.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get()) * player.getAttributeValue(io.redspace.ironsspellbooks.api.registry.AttributeRegistry.MAX_MANA.get()) / 100);
-                    a.soul_shattered_max = (int) (player.getAttributeValue(ModRegistry.AttributeRegistry.FOCUS_ATTRIBUTE.get()));
+                    a.madnessMax = (int) (player.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get()) * player.getAttributeValue(io.redspace.ironsspellbooks.api.registry.AttributeRegistry.MAX_MANA.get()) / 100);
+                    a.soulShatteredMax = (int) (player.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get()));
 
                 }
         );
     }
 
-    public int getHollow_max() {
-        return hollow_max;
+    public int getHollowMax() {
+        return hollowMax;
     }
 
-    public void setHollow_max(int hollow_max) {
-        this.hollow_max = hollow_max;
+    public void setHollowMax(int hollowMax) {
+        this.hollowMax = hollowMax;
     }
 
     public int getHollowCurrent() {
-        return hollow_current;
+        return hollowCurrent;
     }
 
-    public void setHollow_current(int hollow_current, Player entity) {
-        this.hollow_current = hollow_current;
+    public void setHollowCurrent(int hollowCurrent, Player entity) {
+        this.hollowCurrent = hollowCurrent;
     }
 
-    public int getOver_charged_max() {
-        return over_charged_max;
+    public int getOverChargedMax() {
+        return overChargedMax;
     }
 
-    public void setOver_charged_max(int over_charged_max) {
-        this.over_charged_max = over_charged_max;
+    public void setOverChargedMax(int overChargedMax) {
+        this.overChargedMax = overChargedMax;
     }
 
-    public int getOver_charged_current() {
-        return over_charged_current;
+    public int getOverChargedCurrent() {
+        return overChargedCurrent;
     }
 
-    public void setOver_charged_current(int over_charged_current, Player entity) {
-        this.over_charged_current = over_charged_current;
+    public void setOverChargedCurrent(int overChargedCurrent, Player entity) {
+        this.overChargedCurrent = overChargedCurrent;
     }
 
-    public int getFervor_max() {
-        return fervor_max;
+    public int getFervorMax() {
+        return fervorMax;
     }
 
-    public void setFervor_max(int fervor_max) {
-        this.fervor_max = fervor_max;
+    public void setFervorMax(int fervorMax) {
+        this.fervorMax = fervorMax;
     }
 
-    public int getFervor_current() {
-        return fervor_current;
+    public int getFervorCurrent() {
+        return fervorCurrent;
     }
 
-    public void setFervor_current(int fervor_current, Player entity) {
-        this.fervor_current = fervor_current;
+    public void setFervorCurrent(int fervorCurrent, Player entity) {
+        this.fervorCurrent = fervorCurrent;
     }
 
     public ArrayList<StatusTypes> checkStatus(Player player) {
         ArrayList<StatusTypes> list = new ArrayList<StatusTypes>();
-        if (hollow_current > hollow_max) {
+        if (hollowCurrent > hollowMax) {
             list.add(StatusTypes.HOLLOW);
         }
-        if (fervor_current > fervor_max) {
+        if (fervorCurrent > fervorMax) {
             list.add(StatusTypes.FERVOR);
         }
-        if (madness_current > madness_max) {
+        if (madnessCurrent > madnessMax) {
             list.add(StatusTypes.MADNESS);
         }
-        if (bleed_current > bleed_max) {
+        if (bleedCurrent > bleedMax) {
             list.add(StatusTypes.BLEED);
         }
-        if (frost_current > frost_max) {
+        if (frostCurrent > frostMax) {
             list.add(StatusTypes.FROST);
         }
-        if (soul_shattered_current > soul_shattered_max) {
+        if (soulShatteredCurrent > soulShatteredMax) {
             list.add(StatusTypes.WEAK_MIND);
         }
-        if (over_charged_current > over_charged_max) {
+        if (overChargedCurrent > overChargedMax) {
             list.add(StatusTypes.OVERCHARGED);
         }
-        Pre preEvent = new Pre(player, list);
-        MinecraftForge.EVENT_BUS.post(preEvent);
-        Post postEvent = new Post(preEvent.player, preEvent.statusList);
+        MinecraftForge.EVENT_BUS.post(new MobStatusTriggeredEvent.Pre(player, list));
         return list;
     }
 }

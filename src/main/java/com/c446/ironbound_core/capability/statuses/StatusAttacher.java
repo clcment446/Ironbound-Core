@@ -1,6 +1,6 @@
 package com.c446.ironbound_core.capability.statuses;
 
-import com.c446.ironbound_core.IronBound;
+import com.c446.ironbound_core.Ironbound;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class StatusAttacher {
     public static class StatusProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-        public static final ResourceLocation IDENTIFIER = new ResourceLocation(IronBound.MOD_ID, "resistance");
+        public static final ResourceLocation IDENTIFIER = new ResourceLocation(Ironbound.MOD_ID, "resistance");
         public static final Capability<StatusResistanceCap> STATUS_RESISTANCE_CAP = CapabilityManager.get(new CapabilityToken<StatusResistanceCap>() {
         });
         private StatusResistanceCap cap = null;
@@ -49,10 +49,8 @@ public class StatusAttacher {
 
         }
 
-        public static void Attach(final AttachCapabilitiesEvent<Entity> event){
-            final StatusProvider provider = new StatusProvider();
-            event.addCapability(StatusProvider.IDENTIFIER, provider);
-
+        public static void attach(AttachCapabilitiesEvent<Entity> event){
+            event.addCapability(StatusProvider.IDENTIFIER, new StatusProvider());
         }
     }
 }

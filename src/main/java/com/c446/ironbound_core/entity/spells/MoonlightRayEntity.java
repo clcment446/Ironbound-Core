@@ -59,10 +59,6 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
         this.setXRot(shooter.getXRot());
     }
 
-    /*public MoonlightRayEntity(Level levelIn, LivingEntity shooter) {
-        this(ModRegistry.EntityRegistry.MOONLIGHT_RAY_ENTITY.get(), levelIn, shooter);
-   	}*/
-
     public void shoot(Vec3 rotation) {
         this.setDeltaMovement(rotation.scale(1.0));
     }
@@ -82,7 +78,7 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
     }
 
     public float getRadius() {
-        return (Float) this.getEntityData().get(DATA_RADIUS);
+        return this.getEntityData().get(DATA_RADIUS);
     }
 
     public void refreshDimensions() {
@@ -95,7 +91,6 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
     
     public void tick() {
         super.tick();
-
         if (++this.age > EXPIRE_TIME) {
             this.discard();
         } else {
@@ -113,7 +108,6 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
                     MagicManager.spawnParticles(this.level(), ParticleHelper.BLOOD, currentTarget.getX(), currentTarget.getY(), currentTarget.getZ(), 50, 0.0, 0.0, 0.0, 0.5, true);
                     if (currentTarget instanceof ShieldPart || currentTarget instanceof AbstractShieldEntity) {
                         this.discard();
-                        return;
                     }
                 }
             }

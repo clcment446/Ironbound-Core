@@ -1,7 +1,10 @@
 package com.c446.ironbound_core.spells;
 
-import com.c446.ironbound_core.IronBound;
-import com.c446.ironbound_core.registry.ModRegistry;
+import java.util.Optional;
+
+import com.c446.ironbound_core.Ironbound;
+import com.c446.ironbound_core.registry.IronboundCorePotions;
+
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -14,11 +17,9 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 
-import java.util.Optional;
-
 @AutoSpellConfig
 public class SpellMoonlight extends AbstractSpell {
-    private final ResourceLocation spellId = new ResourceLocation(IronBound.MOD_ID, "moonlight_wave");
+    private final ResourceLocation spellId = new ResourceLocation(Ironbound.MOD_ID, "moonlight_wave");
     public SpellMoonlight() {
         this.manaCostPerLevel = 150;
         this.baseSpellPower = 1;
@@ -62,7 +63,7 @@ public class SpellMoonlight extends AbstractSpell {
 
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         if (entity.isCrouching()){
-            entity.addEffect(new MobEffectInstance(ModRegistry.PotionRegistry.MOONLIGHT_BLESSING.get(), (int)this.getSpellPower(spellLevel, entity) * 30,0,false,true));
+            entity.addEffect(new MobEffectInstance(IronboundCorePotions.MOONLIGHT_BLESSING.get(), (int)this.getSpellPower(spellLevel, entity) * 30,0,false,true));
         } else{
             //summon moonlight beam logic
         }

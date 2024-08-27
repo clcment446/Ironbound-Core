@@ -1,9 +1,8 @@
-    package com.c446.ironbound_core;
+package com.c446.ironbound_core.config;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 
-    public class ModConfig {
-
+public class IronboundCoreConfig {
     public static final ForgeConfigSpec.DoubleValue FROST_EFFECT_SPELL_DEFENSE_SHRED;
     public static final ForgeConfigSpec.DoubleValue FROST_EFFECT_PHYS_DEFENSE_SHRED;
     public static final ForgeConfigSpec.DoubleValue FROST_EFFECT_HP_PCT_DAMAGE;
@@ -43,7 +42,6 @@ import net.minecraftforge.common.ForgeConfigSpec;
         HOLY_SWORD_BONUS_REACH = SERVER_BUILDER.defineInRange("holy_sword_reach", 2.0, 0,100);
         HOLY_SWORD_HOLY_BOOST = SERVER_BUILDER.defineInRange("holy_sword_holy_boost", 0.7, -10, 10);
         HOLY_SWORD_FOCUS_BOOST = SERVER_BUILDER.defineInRange("holy_sword_focus_boost", 1.5, 20, 20);
-
 
         SERVER_CONFIG = SERVER_BUILDER.build();
         COMMON_CONFIG = COMMON_BUILDER.build();

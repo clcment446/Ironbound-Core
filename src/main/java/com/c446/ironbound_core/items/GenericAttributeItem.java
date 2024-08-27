@@ -1,5 +1,6 @@
 package com.c446.ironbound_core.items;
 
+import com.c446.ironbound_core.util.ItemAttributeHelper;
 import com.google.common.collect.Multimap;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -28,7 +29,6 @@ public class GenericAttributeItem extends Item {
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(EquipmentSlot slot, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> values = super.getAttributeModifiers(slot, stack);
         ItemAttributeHelper.handleConfig(map, defaultMap);
-        
         return values;
     }
 }

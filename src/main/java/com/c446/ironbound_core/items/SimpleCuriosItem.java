@@ -28,7 +28,6 @@ public class SimpleCuriosItem extends RegularItems implements ICurioItem {
         for (Attribute attr : attributeAttributeModifierMap.keySet()){
             attributes.put(attr, attributeAttributeModifierMap.get(attr));
         }
-
         return attributes;
     }
 }

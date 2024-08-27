@@ -65,7 +65,7 @@ public class MoonlightRay extends Projectile implements AntiMagicSusceptible {
     }
 
     public float getRadius() {
-        return (Float) this.getEntityData().get(DATA_RADIUS);
+        return this.getEntityData().get(DATA_RADIUS);
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.c446.ironbound_core.datagen;
 
 import javax.annotation.Nullable;
 
-public class Datagen {
+public class IronboundCoreDatagen {
     public static void main(String[] args) {
         // YOUR TASK HERE
         // EXAMPLE TASK :
@@ -104,7 +104,6 @@ public class Datagen {
                 .append("//END");
         return builder.toString();
     }
-
 
     public static String createConfigurableItemAttribute(String itemName, String attrName, float base, float min, float max) {
         /**

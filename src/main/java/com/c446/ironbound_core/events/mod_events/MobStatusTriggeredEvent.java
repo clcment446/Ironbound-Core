@@ -6,16 +6,16 @@ import net.minecraftforge.eventbus.api.Event;
 
 import java.util.ArrayList;
 
-public class MobStatusTriggered extends Event {
+public class MobStatusTriggeredEvent extends Event {
     public Player player;
     public ArrayList<StatusTypes> statusList;
 
-    public MobStatusTriggered(Player player, ArrayList<StatusTypes> statuses) {
+    public MobStatusTriggeredEvent(Player player, ArrayList<StatusTypes> statuses) {
         this.statusList = statuses;
         this.player = player;
     }
 
-    public static class Pre extends MobStatusTriggered {
+    public static class Pre extends MobStatusTriggeredEvent {
         public Pre(Player p, ArrayList<StatusTypes> statuses) {
             super(p, statuses);
         }
@@ -26,7 +26,7 @@ public class MobStatusTriggered extends Event {
         }
     }
 
-    public static class Post extends MobStatusTriggered {
+    public static class Post extends MobStatusTriggeredEvent {
         public Post(Player p, ArrayList<StatusTypes> statuses) {
             super(p, statuses);
         }

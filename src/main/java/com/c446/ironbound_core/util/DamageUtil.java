@@ -11,8 +11,6 @@ import net.minecraft.world.level.LevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
 public class DamageUtil {
-    public DamageUtil() {
-    }
 
     public static DamageSource source(LevelAccessor level, ResourceKey<DamageType> key) {
         Registry<DamageType> registry = level.registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);

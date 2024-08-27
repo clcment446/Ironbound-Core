@@ -10,16 +10,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.c446.ironbound_core.IronBound;
-import com.c446.ironbound_core.Util;
+import com.c446.ironbound_core.Ironbound;
 import com.c446.ironbound_core.capability.statuses.StatusAttacher;
 import com.c446.ironbound_core.capability.statuses.StatusResistanceCap;
-import com.c446.ironbound_core.events.mod_events.MobStatusTriggered;
-import com.c446.ironbound_core.registry.ModRegistry;
+import com.c446.ironbound_core.events.mod_events.MobStatusTriggeredEvent;
+import com.c446.ironbound_core.registry.IronboundCoreAttributes;
+import com.c446.ironbound_core.registry.IronboundCorePotions;
 import com.c446.ironbound_core.spells.SpellMindFlay;
 import com.c446.ironbound_core.util.DamageUtil;
 import com.c446.ironbound_core.util.StatusTypeHandler;
 import com.c446.ironbound_core.util.StatusTypes;
+import com.c446.ironbound_core.util.Util;
 
 import io.redspace.ironsspellbooks.api.events.SpellDamageEvent;
 import io.redspace.ironsspellbooks.api.events.SpellOnCastEvent;
@@ -64,11 +65,9 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = IronBound.MOD_ID)
+@Mod.EventBusSubscriber(modid = Ironbound.MOD_ID)
 public class CommonEventListener {
-//    @SubscribeEvent
-//    public static void counterspellFired();
-
+	
     @SubscribeEvent
     public static void onServerStartup(ServerStartingEvent event) {
         event.getServer().sendSystemMessage(Component.literal("crimes against java were committed :^) "));
@@ -93,30 +92,30 @@ public class CommonEventListener {
         DamageSource damage_src = event.getSpellDamageSource().get();
         ServerLevel target_level = Objects.requireNonNull(Objects.requireNonNull(entity.level().getServer()).getLevel(entity.level().dimension()));
         if (damage_src.is(ISSDamageTypes.ICE_MAGIC)) {
-            if (entity.hasEffect(ModRegistry.PotionRegistry.WET.get())) {
+            if (entity.hasEffect(IronboundCorePotions.WET.get())) {
                 entity.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
-                    c.setFrost_current(((int) event.getAmount() + c.getFrost_current()), ((Player) entity));
+                    c.setFrostCurrent(((int) event.getAmount() + c.getFrostCurrent()), ((Player) entity));
                 });
             }
         }
         if (damage_src.is(ISSDamageTypes.LIGHTNING_MAGIC)) {
             entity.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
-                c.setOver_charged_current(((int) (c.getOver_charged_current() + event.getAmount())), ((Player) entity));
+                c.setOverChargedCurrent(((int) (c.getOverChargedCurrent() + event.getAmount())), ((Player) entity));
             });
-            if (entity.hasEffect(ModRegistry.PotionRegistry.WET.get())) {
+            if (entity.hasEffect(IronboundCorePotions.WET.get())) {
                 event.setAmount(((int) (event.getAmount() * (1.5))));
             }
         }
         if (damage_src.is(ISSDamageTypes.FIRE_MAGIC)) {
             entity.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
-                if (entity.hasEffect(ModRegistry.PotionRegistry.WET.get())) {
+                if (entity.hasEffect(IronboundCorePotions.WET.get())) {
                     event.setAmount((int) (event.getAmount() * 1.5));
-                    entity.removeEffect(ModRegistry.PotionRegistry.WET.get());
+                    entity.removeEffect(IronboundCorePotions.WET.get());
                 }
-                if (entity.hasEffect(ModRegistry.PotionRegistry.OVERCHARGED.get())) {
+                if (entity.hasEffect(IronboundCorePotions.OVERCHARGED.get())) {
                     target_level.sendParticles(ParticleTypes.EXPLOSION_EMITTER, entity.getX(), entity.getY(), entity.getZ(), 3, 0, 0, 0, 1);
                     entity.invulnerableTime = 0;
-                    DamageSources.applyDamage(entity, Objects.requireNonNull(entity.getEffect(ModRegistry.PotionRegistry.OVERCHARGED.get())).getAmplifier() * 3 + 10,
+                    DamageSources.applyDamage(entity, Objects.requireNonNull(entity.getEffect(IronboundCorePotions.OVERCHARGED.get())).getAmplifier() * 3 + 10,
                             DamageUtil.source(entity.level(), DamageTypes.EXPLOSION, entity, event.getSpellDamageSource().getEntity()));
                 }
             });
@@ -124,12 +123,12 @@ public class CommonEventListener {
         if (damage_src.is(ISSDamageTypes.ELDRITCH_MAGIC)) {
             entity.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
                 event.getSpellDamageSource().spell();
-                c.setMadnessCurrent(((int) (event.getAmount() + c.getMadness_current())), ((Player) entity));
+                c.setMadnessCurrent(((int) (event.getAmount() + c.getMadnessCurrent())), ((Player) entity));
             });
         }
-        if (damage_src.is(ISSDamageTypes.HOLY_MAGIC) && event.getEntity().getMobType() == (MobType.UNDEAD) && source_entity.hasEffect(ModRegistry.PotionRegistry.FERVOR.get())) {
-            MobEffectInstance instance = source_entity.getEffect(ModRegistry.PotionRegistry.FERVOR.get());
-            event.setAmount(((float) (event.getAmount() * (1 + source_entity.getAttributeValue(ModRegistry.AttributeRegistry.UNDEAD_DAMAGE.get())) * (1 + 0.5 * (instance != null ? instance.getAmplifier() : 0)))));
+        if (damage_src.is(ISSDamageTypes.HOLY_MAGIC) && event.getEntity().getMobType() == (MobType.UNDEAD) && source_entity.hasEffect(IronboundCorePotions.FERVOR.get())) {
+            MobEffectInstance instance = source_entity.getEffect(IronboundCorePotions.FERVOR.get());
+            event.setAmount(((float) (event.getAmount() * (1 + source_entity.getAttributeValue(IronboundCoreAttributes.UNDEAD_DAMAGE.get())) * (1 + 0.5 * (instance != null ? instance.getAmplifier() : 0)))));
         }
 
         // TO BE DONE
@@ -142,7 +141,7 @@ public class CommonEventListener {
         if (damage_src.is(ISSDamageTypes.ENDER_MAGIC)) {
             entity.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
                 event.getSpellDamageSource().spell();
-                c.setHollow_current(((int) (event.getAmount() + c.getHollowCurrent())), ((Player) entity));
+                c.setHollowCurrent(((int) (event.getAmount() + c.getHollowCurrent())), ((Player) entity));
             });
         }
     }
@@ -157,10 +156,10 @@ public class CommonEventListener {
             assert serverLevel != null;
             List<LivingEntity> list = serverLevel.getEntitiesOfClass(LivingEntity.class, new AABB(target.position().subtract(3, 3, 3), target.position().add(3, 3, 3)));
             List<StatusTypes> statuses = new ArrayList<>();
-            if (target.hasEffect(ModRegistry.PotionRegistry.WET.get())) {
+            if (target.hasEffect(IronboundCorePotions.WET.get())) {
                 statuses.add(StatusTypes.WET);
             }
-            if (target.hasEffect(ModRegistry.PotionRegistry.FROSTED_EFFECT.get())) {
+            if (target.hasEffect(IronboundCorePotions.FROSTED_EFFECT.get())) {
                 statuses.add(StatusTypes.FROST);
             }
             if (target.isOnFire()) {
@@ -189,28 +188,28 @@ public class CommonEventListener {
                 if (spell instanceof SpellMindFlay) {
                     pureBuildUp.updateAndGet(v -> v * 2);
                 }
-                c.setMadnessCurrent(c.getMadness_current() + ((int) (pureBuildUp.get())), event.getEntity());
+                c.setMadnessCurrent(c.getMadnessCurrent() + ((int) (pureBuildUp.get())), event.getEntity());
             });
         }
         if (type.equals(SchoolRegistry.ENDER.get())) {
             p.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
                 if (spell instanceof BlackHoleSpell) {
-                    c.setHollow_current(((int) (c.getHollowCurrent() * pureBuildUp.get() * 2.5F)), event.getEntity());
+                    c.setHollowCurrent(((int) (c.getHollowCurrent() * pureBuildUp.get() * 2.5F)), event.getEntity());
                 }
-                c.setHollow_current((c.getHollowCurrent() + pureBuildUp.get()), event.getEntity());
+                c.setHollowCurrent((c.getHollowCurrent() + pureBuildUp.get()), event.getEntity());
             });
         }
         if (type.equals(SchoolRegistry.HOLY.get())) {
             p.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
                 if (spell instanceof HasteSpell) {
-                    c.setFervor_current((((int) (c.getHollowCurrent() * pureBuildUp.get() * 1.5F))), event.getEntity());
+                    c.setFervorCurrent((((int) (c.getHollowCurrent() * pureBuildUp.get() * 1.5F))), event.getEntity());
                 }
-                c.setFervor_current((c.getFervor_current() + pureBuildUp.get()), event.getEntity());
+                c.setFervorCurrent((c.getFervorCurrent() + pureBuildUp.get()), event.getEntity());
             });
         }
         if (spell instanceof ChargeSpell) {
             p.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
-                c.setOver_charged_current(((int) (c.getOver_charged_max() * 0.5 + 50)), event.getEntity());
+                c.setOverChargedCurrent(((int) (c.getOverChargedMax() * 0.5 + 50)), event.getEntity());
             });
         }
     }
@@ -221,7 +220,7 @@ public class CommonEventListener {
 
     @SubscribeEvent
     public static void playerEffectAdded(MobEffectEvent event) {
-        if (Objects.requireNonNull(event.getEffectInstance()).getEffect().equals(ModRegistry.PotionRegistry.MADNESS.get())) {
+        if (Objects.requireNonNull(event.getEffectInstance()).getEffect().equals(IronboundCorePotions.MADNESS.get())) {
             event.getEntity().setHealth((float) (event.getEntity().getMaxHealth() - 0.2 * event.getEntity().getMaxHealth()));
             event.getEntity().getCapability(PlayerMagicProvider.PLAYER_MAGIC).ifPresent(m -> {
                 m.addMana(m.getMana() - m.getMana() * 0.3F);
@@ -231,20 +230,20 @@ public class CommonEventListener {
 
     @SubscribeEvent
     public static void addWetEffect(LivingEvent.LivingTickEvent event) {
-        if (Objects.requireNonNull(event.getEntity().level().getServer()).getTickCount() % 20 != 0) {
+        if (event.getEntity().tickCount % 20 != 0) {
             return;
         }
         if (event.getEntity().isEyeInFluid(FluidTags.WATER) || event.getEntity().level().isRaining()) {
-            event.getEntity().addEffect(new MobEffectInstance(ModRegistry.PotionRegistry.WET.get(), 40, 0, false, true));
+            event.getEntity().addEffect(new MobEffectInstance(IronboundCorePotions.WET.get(), 40, 0, false, true));
         }
     }
 
     @SubscribeEvent
     public static void attachCapabilities(final AttachCapabilitiesEvent<Entity> event) {
         if (event.getObject() instanceof LivingEntity entity) {
-            StatusAttacher.StatusProvider.Attach(event);
+            StatusAttacher.StatusProvider.attach(event);
             entity.getCapability(STATUS_RESISTANCE_CAP).ifPresent(c -> {
-                c.createResStuff(entity);
+                c.createResistances(entity);
             });
         }
     }
@@ -283,17 +282,17 @@ public class CommonEventListener {
         Player newPlayer = event.getEntity();
 
         newPlayer.getCapability(STATUS_RESISTANCE_CAP).ifPresent(cap -> {
-            cap.createResStuff(newPlayer);
+            cap.createResistances(newPlayer);
         });
         final CompoundTag[] oldCapNBT = new CompoundTag[1];
-                oldPlayer.getCapability(INSIGHT_CAPABILITY_IDENTIFIER).ifPresent(a-> oldCapNBT[0] = a.saveNBTData(new CompoundTag()));
+                oldPlayer.getCapability(INSIGHT_CAPABILITY_IDENTIFIER).ifPresent(a-> oldCapNBT[0] = a.save(new CompoundTag()));
         newPlayer.getCapability(INSIGHT_CAPABILITY_IDENTIFIER).ifPresent(n->{
-            n.loadNbt(oldCapNBT[0]);
+            n.load(oldCapNBT[0]);
         });
     }
 
     @SubscribeEvent
-    public static void onCalculatePlayerStatuses(MobStatusTriggered.Post postEvent) {
+    public static void onCalculatePlayerStatuses(MobStatusTriggeredEvent.Post postEvent) {
         Player player = postEvent.player;
         ArrayList<StatusTypes> list = postEvent.statusList;
         for (StatusTypes status : list) {
