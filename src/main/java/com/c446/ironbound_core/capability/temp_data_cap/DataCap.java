@@ -1,5 +1,6 @@
-package com.c446.ironbound_core.capability.statuses;
+package com.c446.ironbound_core.capability.temp_data_cap;
 
+import com.c446.ironbound_core.capability.statuses.IStatusResistanceCap;
 import com.c446.ironbound_core.events.mod_events.MobStatusTriggeredEvent;
 import com.c446.ironbound_core.registry.IronboundCoreAttributes;
 import net.minecraft.world.entity.LivingEntity;
@@ -11,7 +12,7 @@ import com.c446.ironbound_core.util.StatusTypes;
 import java.util.ArrayList;
 import java.util.UUID;
 
-public class StatusResistanceCap implements IStatusResistanceCap {
+public class DataCap implements IStatusResistanceCap {
     private int madnessMax;
     private int madnessCurrent;
 
@@ -110,7 +111,7 @@ public class StatusResistanceCap implements IStatusResistanceCap {
     }
 
     public void generatePlayerResistances(Player player) {
-        player.getCapability(StatusAttacher.StatusProvider.STATUS_RESISTANCE_CAP).ifPresent(a -> {
+        player.getCapability(StatusAttacher.StatusProvider.DATA_CAP_CAPABILITY).ifPresent(a -> {
                     a.bleedMax = (int) (player.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) * player.getAttributeValue(Attributes.MAX_HEALTH));
                     a.frostMax = (int) (player.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) * player.getAttributeValue(Attributes.MAX_HEALTH));
 

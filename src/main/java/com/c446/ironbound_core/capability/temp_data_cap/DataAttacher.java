@@ -1,4 +1,4 @@
-package com.c446.ironbound_core.capability.statuses;
+package com.c446.ironbound_core.capability.temp_data_cap;
 
 import com.c446.ironbound_core.Ironbound;
 import net.minecraft.core.Direction;
@@ -15,17 +15,17 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class StatusAttacher {
-    public static class StatusProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-        public static final ResourceLocation IDENTIFIER = new ResourceLocation(Ironbound.MOD_ID, "resistance");
-        public static final Capability<StatusResistanceCap> STATUS_RESISTANCE_CAP = CapabilityManager.get(new CapabilityToken<StatusResistanceCap>() {
+public class DataAttacher {
+    public static class DataProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
+        public static final ResourceLocation IDENTIFIER = new ResourceLocation(Ironbound.MOD_ID, "ironbound_heart_data_cap");
+        public static final Capability<DataCap> DATA_CAP_CAPABILITY = CapabilityManager.get(new CapabilityToken<DataCap>() {
         });
-        private StatusResistanceCap cap = null;
-        private final LazyOptional<StatusResistanceCap> optional = LazyOptional.of(this::createStatusResistanceCap);
+        private DataCap cap = null;
+        private final LazyOptional<DataCap> optional = LazyOptional.of(this::createStatusResistanceCap);
 
-        private StatusResistanceCap createStatusResistanceCap() {
+        private DataCap createStatusResistanceCap() {
             if (this.cap == null) {
-                return new StatusResistanceCap();
+                return new DataCap();
             } else {
                 return this.cap;
             }
@@ -33,7 +33,7 @@ public class StatusAttacher {
 
         @Override
         public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-            if (cap == STATUS_RESISTANCE_CAP) {
+            if (cap == DATA_CAP_CAPABILITY) {
                 return optional.cast();
             }
             return LazyOptional.empty();
@@ -50,7 +50,7 @@ public class StatusAttacher {
         }
 
         public static void attach(AttachCapabilitiesEvent<Entity> event){
-            event.addCapability(StatusProvider.IDENTIFIER, new StatusProvider());
+            event.addCapability(DataProvider.IDENTIFIER, new DataProvider());
         }
     }
 }

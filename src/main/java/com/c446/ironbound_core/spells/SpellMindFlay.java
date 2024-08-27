@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.c446.ironbound_core.Ironbound;
-import com.c446.ironbound_core.capability.statuses.StatusAttacher;
+import com.c446.ironbound_core.capability.temp_data_cap.*;
 import com.c446.ironbound_core.registry.IronboundCorePotions;
 
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
@@ -31,7 +31,7 @@ public class SpellMindFlay extends AbstractSpell {
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
         return List.of(
-                Component.translatable("ui.codinglitchs_sorcery.radius", Utils.stringTruncation(getSpellPower(spellLevel, caster), 1))
+                Component.translatable("ui.irons_spellbooks.instant_cast", Utils.stringTruncation(getSpellPower(spellLevel, caster), 1))
         );
     }
 
@@ -78,14 +78,15 @@ public class SpellMindFlay extends AbstractSpell {
     public void onCast(Level world, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         float spellPower = getSpellPower(spellLevel, entity);
         HitResult targetResult = Utils.raycastForEntity(world, entity, 15.0F, true);
-        if (targetResult.getType().equals(HitResult.Type.ENTITY)){
-            LivingEntity living = (LivingEntity)((EntityHitResult) (targetResult)).getEntity();
+        if (targetResult.getType().equals(HitResult.Type.ENTITY)) {
+            LivingEntity living = (LivingEntity) ((EntityHitResult) (targetResult)).getEntity();
             living.addEffect(new MobEffectInstance(IronboundCorePotions.WEAK_MIND.get(), 1, 1));
 
-        entity.getCapability(StatusAttacher.StatusProvider.STATUS_RESISTANCE_CAP).ifPresent(c -> {
 
-        });}
+            entity.getCapability(DataAttacher.DataProvider.DATA_CAP_CAPABILITY).ifPresent(c -> {
 
+            });
+        }
         super.onCast(world, spellLevel, entity, castSource, playerMagicData);
     }
 
