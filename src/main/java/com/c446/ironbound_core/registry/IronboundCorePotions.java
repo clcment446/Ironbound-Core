@@ -128,7 +128,7 @@ public class IronboundCorePotions {
                 }
             };
         });
-        WEAK_VITALITY = EFFECTS.register("weak_vita", () -> {
+        WEAK_VITALITY = EFFECTS.register("weak_vitality", () -> {
             return new IronboundCoreEffect(MobEffectCategory.HARMFUL, 8080895) {
                 public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
                     AttributeModifier modifier = new AttributeModifier(uuid7, this::getDescriptionId, getResReduction(pAmplifier), AttributeModifier.Operation.MULTIPLY_BASE);
@@ -147,7 +147,7 @@ public class IronboundCorePotions {
                 }
             };
         });
-        STRONG_VITALITY = EFFECTS.register("strong_vita", () -> {
+        STRONG_VITALITY = EFFECTS.register("strong_vitality", () -> {
             return new IronboundCoreEffect(MobEffectCategory.BENEFICIAL, rgbToInt(50, 0, 0)) {
                 public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier) {
                     AttributeModifier modifier = new AttributeModifier(uuid9, this::getDescriptionId, 0.1 + pAmplifier / 3, MULTIPLY_BASE);

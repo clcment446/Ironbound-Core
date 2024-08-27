@@ -31,6 +31,6 @@ public class Ironbound {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-
+    	IronboundCoreItems.setupAttributeMap();
     }
 }
