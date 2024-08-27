@@ -18,7 +18,7 @@ public class DamageUtil {
     }
 
     public static DamageSource source(LevelAccessor level, ResourceKey<DamageType> key, @Nullable Entity entity) {
-        return source(level, key, entity, (Entity)null);
+        return source(level, key, entity, null);
     }
 
     public static DamageSource source(LevelAccessor level, ResourceKey<DamageType> key, @Nullable Entity entity, @Nullable Entity direct) {

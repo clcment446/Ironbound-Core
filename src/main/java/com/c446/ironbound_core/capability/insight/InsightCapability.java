@@ -2,7 +2,7 @@ package com.c446.ironbound_core.capability.insight;
 
 import net.minecraft.nbt.CompoundTag;
 
-public class InsightCapability implements IInsightInterface{
+public class InsightCapability implements IInsightInterface {
     public int bonus_insight = 0;
     public boolean wither = false;
     public boolean dragon = false;
@@ -11,7 +11,7 @@ public class InsightCapability implements IInsightInterface{
     public boolean heart = false;
     public int umbilical_cords = 0;
 
-    public CompoundTag save(CompoundTag nbt){
+    public CompoundTag save(CompoundTag nbt) {
         nbt.putInt("insight", this.bonus_insight);
         nbt.putBoolean("wither", this.wither);
         nbt.putBoolean("dragon", this.dragon);
@@ -22,7 +22,7 @@ public class InsightCapability implements IInsightInterface{
         return nbt;
     }
 
-    public void load(CompoundTag nbt){
+    public void load(CompoundTag nbt) {
         this.bonus_insight = nbt.getInt("insight_bonus");
         this.wither = nbt.getBoolean("wither");
         this.dragon = nbt.getBoolean("dragon");

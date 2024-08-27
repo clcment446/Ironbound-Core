@@ -25,7 +25,7 @@ public class SimpleCuriosItem extends RegularItems implements ICurioItem {
 
     public Multimap<Attribute, AttributeModifier> getAttributeModifiers(SlotContext slotContext, UUID uuid, ItemStack stack) {
         Multimap<Attribute, AttributeModifier> attributes = ICurioItem.super.getAttributeModifiers(slotContext, uuid, stack);
-        for (Attribute attr : attributeAttributeModifierMap.keySet()){
+        for (Attribute attr : attributeAttributeModifierMap.keySet()) {
             attributes.put(attr, attributeAttributeModifierMap.get(attr));
         }
         return attributes;

@@ -3,42 +3,32 @@ package com.c446.ironbound_core.capability.temp_data_cap;
 import com.c446.ironbound_core.capability.statuses.IStatusResistanceCap;
 import com.c446.ironbound_core.events.mod_events.MobStatusTriggeredEvent;
 import com.c446.ironbound_core.registry.IronboundCoreAttributes;
+import com.c446.ironbound_core.util.StatusTypes;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
-import com.c446.ironbound_core.util.StatusTypes;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class DataCap implements IStatusResistanceCap {
+    public static final UUID FOCUS_ATTRIBUTE_UUID = UUID.fromString("3d3349b1-02db-4f41-9a98-482f686047be");
     public int rewind_begin;
     private int madnessMax;
     private int madnessCurrent;
-
     private int soulShatteredMax;
     private int soulShatteredCurrent;
-
     private int overChargedMax;
     private int overChargedCurrent;
-
     private int frostMax;
     private int frostCurrent;
-
     private int bleedMax;
     private int bleedCurrent;
-
     private int hollowMax;
     private int hollowCurrent;
-
     private int fervorMax;
     private int fervorCurrent;
-
     private Player rewindStoredPlayer = null;
-
-    public static final UUID FOCUS_ATTRIBUTE_UUID = UUID.fromString("3d3349b1-02db-4f41-9a98-482f686047be");
-
 
     public void createResistances(LivingEntity entity) {
         this.madnessMax = ((int) (20 * entity.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get())));
@@ -189,7 +179,6 @@ public class DataCap implements IStatusResistanceCap {
     public void setFervorCurrent(int fervorCurrent, Player entity) {
         this.fervorCurrent = fervorCurrent;
     }
-
 
 
     public Player getRewindStoredPlayer() {

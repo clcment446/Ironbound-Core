@@ -18,7 +18,7 @@ public class GenericAttributeItem extends Item {
     Properties p;
     UUID uuid;
 
-    public GenericAttributeItem(Properties pProperties, HashMap<Attribute, ForgeConfigSpec.DoubleValue> attributeMap,HashMap<Attribute,Double> defaultMap, UUID attributeUUIDs) {
+    public GenericAttributeItem(Properties pProperties, HashMap<Attribute, ForgeConfigSpec.DoubleValue> attributeMap, HashMap<Attribute, Double> defaultMap, UUID attributeUUIDs) {
         super(pProperties);
         this.p = pProperties;
         this.map = attributeMap;

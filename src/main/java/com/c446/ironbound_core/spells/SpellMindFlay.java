@@ -1,12 +1,8 @@
 package com.c446.ironbound_core.spells;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.c446.ironbound_core.IronBound;
-import com.c446.ironbound_core.capability.temp_data_cap.*;
+import com.c446.ironbound_core.capability.temp_data_cap.DataAttacher;
 import com.c446.ironbound_core.registry.IronboundCorePotions;
-
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
@@ -24,16 +20,18 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
+import java.util.List;
+import java.util.Optional;
+
 @AutoSpellConfig
 public class SpellMindFlay extends AbstractSpell {
     private final ResourceLocation spellId = new ResourceLocation(IronBound.MOD_ID, "soul_cry");
-
-    @Override
-    public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
-        return List.of(
-                Component.translatable("ui.irons_spellbooks.instant_cast", Utils.stringTruncation(getSpellPower(spellLevel, caster), 1))
-        );
-    }
+    private final DefaultConfig defaultConfig = new DefaultConfig()
+            .setMinRarity(SpellRarity.EPIC)
+            .setSchoolResource(SchoolRegistry.ELDRITCH_RESOURCE)
+            .setMaxLevel(5)
+            .setCooldownSeconds(60D)
+            .build();
 
     public SpellMindFlay() {
         this.manaCostPerLevel = 100;
@@ -43,12 +41,12 @@ public class SpellMindFlay extends AbstractSpell {
         this.baseManaCost = 100;
     }
 
-    private final DefaultConfig defaultConfig = new DefaultConfig()
-            .setMinRarity(SpellRarity.EPIC)
-            .setSchoolResource(SchoolRegistry.ELDRITCH_RESOURCE)
-            .setMaxLevel(5)
-            .setCooldownSeconds(60D)
-            .build();
+    @Override
+    public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {
+        return List.of(
+                Component.translatable("ui.irons_spellbooks.instant_cast", Utils.stringTruncation(getSpellPower(spellLevel, caster), 1))
+        );
+    }
 
     @Override
     public ResourceLocation getSpellResource() {

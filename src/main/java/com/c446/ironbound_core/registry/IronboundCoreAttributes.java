@@ -1,11 +1,6 @@
 package com.c446.ironbound_core.registry;
 
-import java.util.HashMap;
-import java.util.UUID;
-import java.util.function.Function;
-
 import com.c446.ironbound_core.IronBound;
-
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -18,6 +13,10 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
+import java.util.HashMap;
+import java.util.UUID;
+import java.util.function.Function;
+
 public class IronboundCoreAttributes {
 
     public static final HashMap<RegistryObject<Attribute>, UUID> UUIDS = new HashMap<>();
@@ -25,9 +24,8 @@ public class IronboundCoreAttributes {
 
     public static final RegistryObject<Attribute> VITALITY_ATTRIBUTE = registerAttribute("vitality", (id) -> new RangedAttribute(id, 1.0, 0.0, 1024.0).setSyncable(true), "a80e87d0-e18c-4d90-9c06-12e6cafa6844");
     public static final RegistryObject<Attribute> FOCUS_ATTRIBUTE = registerAttribute("focus", (id) -> new RangedAttribute(id, 5.0, 0.0, 1024.0).setSyncable(true), "6b41f245-8d8d-4ba6-9128-8b3aa7ceef98");
+    public static final RegistryObject<Attribute> INSIGHT_ATTRIBUTE = registerAttribute("insight", (id) -> new RangedAttribute(id, 1, 0, 20).setSyncable(true), "17f85bfd-47e3-40f5-bc4b-931056de2390");
     public static RegistryObject<Attribute> UNDEAD_DAMAGE;
-
-    public static final RegistryObject<Attribute> INSIGHT_ATTRIBUTE = registerAttribute("insight", (id) -> new RangedAttribute(id, 1, 0, 20).setSyncable(true) , "17f85bfd-47e3-40f5-bc4b-931056de2390");
     public static RegistryObject<Attribute> LAPIS_FORTUNE;
     public static RegistryObject<Attribute> DIAMOND_FORTUNE;
     public static RegistryObject<Attribute> COAL_FORTUNE;
@@ -41,7 +39,7 @@ public class IronboundCoreAttributes {
 
     public static RegistryObject<Attribute> registerAttribute(String name, Function<String, Attribute> attribute, UUID uuid) {
         RegistryObject<Attribute> registryObject = ATTRIBUTES.register(name, () -> {
-            return (Attribute) attribute.apply(name);
+            return attribute.apply(name);
         });
         UUIDS.put(registryObject, uuid);
         return registryObject;
@@ -53,11 +51,11 @@ public class IronboundCoreAttributes {
             return e == EntityType.PLAYER;
         }).forEach((e) -> {
             ATTRIBUTES.getEntries().forEach((v) -> {
-                event.add(e, (Attribute) v.get());
+                event.add(e, v.get());
             });
         });
     }
-    
+
     /**
      * @Param caster : the caster
      * @Param target : the target

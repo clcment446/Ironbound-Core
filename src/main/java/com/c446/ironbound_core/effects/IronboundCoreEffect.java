@@ -1,10 +1,10 @@
 package com.c446.ironbound_core.effects;
 
-import java.util.List;
-
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.item.ItemStack;
+
+import java.util.List;
 
 public class IronboundCoreEffect extends MobEffect {
     public final List<ItemStack> curativeItems;

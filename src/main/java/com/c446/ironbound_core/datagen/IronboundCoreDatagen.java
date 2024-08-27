@@ -8,7 +8,7 @@ public class IronboundCoreDatagen {
         // EXAMPLE TASK :
         System.out.println(createAttributeConfig("insight_suppression_ratio", 3, 10, 0, "The insight suppression rate. It's value is calced by dividing it by 10 (if applicable)"));
 
-        System.out.println(createConfigurableItemAttribute("focus_charm_1", "focus", 2,-1000, 1000));
+        System.out.println(createConfigurableItemAttribute("focus_charm_1", "focus", 2, -1000, 1000));
     }
 
     public static String createAttributeConfig(String name, float base, float min, float max, @Nullable String description) {
@@ -83,26 +83,24 @@ public class IronboundCoreDatagen {
          * @Param base : the default value of the attribute.
          * @Param description : the builder description
          * */
-        StringBuilder builder = new StringBuilder();
-        builder
-                .append("public static final ForgeConfigSpec.DoubleValue ")
-                .append(name.toUpperCase())
-                .append("\n")
-                .append("// PUT FOLLOWING INTO STATIC METHOD : \n")
-                .append(name.toUpperCase())
-                .append(" = SERVER_BUILDER\n    .comment(")
-                .append("NO DESCRIPTION AVAILABLE")
-                .append(")\n    .defineInRange(")
-                .append(name.toLowerCase())
-                .append("_config_path,")
-                .append(base)
-                .append(",")
-                .append(Integer.MIN_VALUE)
-                .append(",")
-                .append(Integer.MAX_VALUE)
-                .append(");\n")
-                .append("//END");
-        return builder.toString();
+        String builder = "public static final ForgeConfigSpec.DoubleValue " +
+                name.toUpperCase() +
+                "\n" +
+                "// PUT FOLLOWING INTO STATIC METHOD : \n" +
+                name.toUpperCase() +
+                " = SERVER_BUILDER\n    .comment(" +
+                "NO DESCRIPTION AVAILABLE" +
+                ")\n    .defineInRange(" +
+                name.toLowerCase() +
+                "_config_path," +
+                base +
+                "," +
+                Integer.MIN_VALUE +
+                "," +
+                Integer.MAX_VALUE +
+                ");\n" +
+                "//END";
+        return builder;
     }
 
     public static String createConfigurableItemAttribute(String itemName, String attrName, float base, float min, float max) {
@@ -142,6 +140,6 @@ public class IronboundCoreDatagen {
                 .append(",")
                 .append(max)
                 .append(");\n");
-        return (fieldBuilder.toString() + valueBuilder.toString());
+        return (fieldBuilder.toString() + valueBuilder);
     }
 }

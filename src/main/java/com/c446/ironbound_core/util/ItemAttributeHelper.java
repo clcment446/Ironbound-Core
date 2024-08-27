@@ -1,12 +1,10 @@
 package com.c446.ironbound_core.util;
 
+import com.c446.ironbound_core.config.IronboundCoreConfig;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraftforge.common.ForgeConfigSpec;
 
-import net.minecraft.world.entity.ai.attributes.Attribute;
-
 import java.util.HashMap;
-
-import com.c446.ironbound_core.config.IronboundCoreConfig;
 
 public abstract class ItemAttributeHelper {
     public static HashMap<Attribute, Double> handleConfig(HashMap<Attribute, ForgeConfigSpec.DoubleValue> configMap, HashMap<Attribute, Double> defaultMap) {

@@ -1,8 +1,5 @@
 package com.c446.ironbound_core.entity.spells.moonlightBeam;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
@@ -14,15 +11,14 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntityDimensions;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Pose;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MoonlightRay extends Projectile implements AntiMagicSusceptible {
     private static final EntityDataAccessor<Float> DATA_RADIUS = SynchedEntityData.defineId(MoonlightRay.class, EntityDataSerializers.FLOAT);
@@ -31,10 +27,10 @@ public class MoonlightRay extends Projectile implements AntiMagicSusceptible {
     public final int animationSeed;
     private final float maxRadius;
     public AABB oldBB;
-    private int age;
-    private float damage;
     public int animationTime;
     List<Entity> victims;
+    private int age;
+    private float damage;
 
     public MoonlightRay(EntityType<? extends Projectile> entityType, Level level) {
         super(entityType, level);
@@ -58,14 +54,14 @@ public class MoonlightRay extends Projectile implements AntiMagicSusceptible {
         this.discard();
     }
 
+    public float getRadius() {
+        return this.getEntityData().get(DATA_RADIUS);
+    }
+
     public void setRadius(float newRadius) {
         if (newRadius <= this.maxRadius && !this.level().isClientSide) {
             this.getEntityData().set(DATA_RADIUS, Mth.clamp(newRadius, 0.0F, this.maxRadius));
         }
-    }
-
-    public float getRadius() {
-        return this.getEntityData().get(DATA_RADIUS);
     }
 
     @Override
@@ -101,7 +97,7 @@ public class MoonlightRay extends Projectile implements AntiMagicSusceptible {
 
     private void damageEntity(Entity entity) {
         if (!this.victims.contains(entity)) {
-            DamageSources.applyDamage(entity, this.damage, ((AbstractSpell) SpellRegistry.BLOOD_SLASH_SPELL.get()).getDamageSource(this, this.getOwner()));
+            DamageSources.applyDamage(entity, this.damage, SpellRegistry.BLOOD_SLASH_SPELL.get().getDamageSource(this, this.getOwner()));
             this.victims.add(entity);
         }
     }
@@ -117,9 +113,9 @@ public class MoonlightRay extends Projectile implements AntiMagicSusceptible {
                 double x = this.getX();
                 double y = this.getY();
                 double z = this.getZ();
-                double offset = (double) (step * ((float) i - width / step / 2.0F));
-                double rotX = offset * Math.cos((double) radians);
-                double rotZ = -offset * Math.sin((double) radians);
+                double offset = step * ((float) i - width / step / 2.0F);
+                double rotX = offset * Math.cos(radians);
+                double rotZ = -offset * Math.sin(radians);
                 double dx = Math.random() * (double) speed * 2.0 - (double) speed;
                 double dy = Math.random() * (double) speed * 2.0 - (double) speed;
                 double dz = Math.random() * (double) speed * 2.0 - (double) speed;

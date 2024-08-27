@@ -1,27 +1,19 @@
 package com.c446.ironbound_core.spells;
 
 import com.c446.ironbound_core.capability.temp_data_cap.DataAttacher;
-import com.c446.ironbound_core.effects.IronboundCoreEffect;
 import com.c446.ironbound_core.registry.IronboundCorePotions;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SchoolRegistry;
-import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.*;
 import io.redspace.ironsspellbooks.capabilities.magic.RecastInstance;
 import io.redspace.ironsspellbooks.capabilities.magic.RecastResult;
-import io.redspace.ironsspellbooks.item.Scroll;
-import io.redspace.ironsspellbooks.registries.ItemRegistry;
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.Nullable;
 
@@ -57,7 +49,7 @@ public class SpellRewind extends AbstractSpell {
     public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
         if (entity instanceof Player player && !player.hasEffect(IronboundCorePotions.TIME_TWISTED.get())) {
             if (!playerMagicData.getPlayerRecasts().hasRecastForSpell(this.getSpellId())) {
-                playerMagicData.getPlayerRecasts().addRecast(new RecastInstance(this.getSpellId(), spellLevel, this.getRecastCount(spellLevel, entity), this.getCastTime(spellLevel), castSource, (ICastDataSerializable) null), playerMagicData);
+                playerMagicData.getPlayerRecasts().addRecast(new RecastInstance(this.getSpellId(), spellLevel, this.getRecastCount(spellLevel, entity), this.getCastTime(spellLevel), castSource, null), playerMagicData);
                 player.getCapability(DataAttacher.DataProvider.DATA_CAP_CAPABILITY).ifPresent(c -> {
                     c.setRewindStoredPlayer(player);
                     c.rewind_begin = player.tickCount;

@@ -16,11 +16,10 @@ public class IronboundCoreConfig {
     public static final ForgeConfigSpec.DoubleValue HOLY_SWORD_BONUS_REACH;
     public static final ForgeConfigSpec.DoubleValue HOLY_SWORD_HOLY_BOOST;
     public static final ForgeConfigSpec.DoubleValue HOLY_SWORD_FOCUS_BOOST;
-
-    public static ForgeConfigSpec COMMON_CONFIG;
-    public static ForgeConfigSpec SERVER_CONFIG;
     public static final ForgeConfigSpec.Builder SERVER_BUILDER;
     public static final ForgeConfigSpec.Builder COMMON_BUILDER;
+    public static ForgeConfigSpec COMMON_CONFIG;
+    public static ForgeConfigSpec SERVER_CONFIG;
 
     static {
         SERVER_BUILDER = new ForgeConfigSpec.Builder();
@@ -37,9 +36,9 @@ public class IronboundCoreConfig {
         MADNESS_EFFECT_HP_LOSS_PCT = SERVER_BUILDER.comment("madness hp pct damage").defineInRange("madness_hp_damage", 0.2, 0, 0);
         MADNESS_EFFECT_MANA_LOSS_PCT = SERVER_BUILDER.comment("madness mana pct loss").defineInRange("madness_mana_loss", 0.2, 0, 0);
 
-        HOLY_SWORD_DAMAGE = SERVER_BUILDER.defineInRange("holy_sword_damage", 24.0,0.0,1024.0);
+        HOLY_SWORD_DAMAGE = SERVER_BUILDER.defineInRange("holy_sword_damage", 24.0, 0.0, 1024.0);
         HOLY_SWORD_ATTACK_SPED = SERVER_BUILDER.defineInRange("holy_sword_swing_speed", -1.5, -1000, 1000);
-        HOLY_SWORD_BONUS_REACH = SERVER_BUILDER.defineInRange("holy_sword_reach", 2.0, 0,100);
+        HOLY_SWORD_BONUS_REACH = SERVER_BUILDER.defineInRange("holy_sword_reach", 2.0, 0, 100);
         HOLY_SWORD_HOLY_BOOST = SERVER_BUILDER.defineInRange("holy_sword_holy_boost", 0.7, -10, 10);
         HOLY_SWORD_FOCUS_BOOST = SERVER_BUILDER.defineInRange("holy_sword_focus_boost", 1.5, 20, 20);
 

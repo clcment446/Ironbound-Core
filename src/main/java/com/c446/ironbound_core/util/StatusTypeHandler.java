@@ -1,13 +1,12 @@
 package com.c446.ironbound_core.util;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-
 import com.c446.ironbound_core.registry.IronboundCorePotions;
-
 import dev.shadowsoffire.attributeslib.api.ALObjects;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.LivingEntity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class StatusTypeHandler {
     public static final HashMap<StatusTypes, MobEffect> TYPE_TO_EFFECT = new HashMap<>();
@@ -25,10 +24,10 @@ public abstract class StatusTypeHandler {
         TYPE_TO_EFFECT.put(StatusTypes.FLAMABLE, IronboundCorePotions.FLAMMABLE.get());
     }
 
-    public static ArrayList<MobEffect> handleEntity(ArrayList<StatusTypes> list, LivingEntity player){
-        ArrayList<MobEffect> effectList= new ArrayList<>();
-        for (StatusTypes e:list) {
-        	effectList.add(TYPE_TO_EFFECT.get(e));
+    public static ArrayList<MobEffect> handleEntity(ArrayList<StatusTypes> list, LivingEntity player) {
+        ArrayList<MobEffect> effectList = new ArrayList<>();
+        for (StatusTypes e : list) {
+            effectList.add(TYPE_TO_EFFECT.get(e));
         }
         return effectList;
     }

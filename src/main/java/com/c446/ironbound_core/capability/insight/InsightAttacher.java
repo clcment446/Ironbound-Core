@@ -20,8 +20,12 @@ public class InsightAttacher {
         public static final ResourceLocation IDENTIFIER = new ResourceLocation(IronBound.MOD_ID, "insight");
         public static final Capability<InsightCapability> INSIGHT_CAPABILITY_IDENTIFIER = CapabilityManager.get(new CapabilityToken<InsightCapability>() {
         });
-        private InsightCapability cap = null;
+        private final InsightCapability cap = null;
         private final LazyOptional<InsightCapability> optional = LazyOptional.of(this::createInsightCap);
+
+        public static void attach(AttachCapabilitiesEvent<Entity> event) {
+            event.addCapability(InsightProvider.IDENTIFIER, new InsightProvider());
+        }
 
         private InsightCapability createInsightCap() {
             if (this.cap == null) {
@@ -47,10 +51,6 @@ public class InsightAttacher {
         @Override
         public void deserializeNBT(CompoundTag compoundTag) {
             createInsightCap().load(compoundTag);
-        }
-
-        public static void attach(AttachCapabilitiesEvent<Entity> event) {
-            event.addCapability(InsightProvider.IDENTIFIER, new InsightProvider());
         }
     }
 }

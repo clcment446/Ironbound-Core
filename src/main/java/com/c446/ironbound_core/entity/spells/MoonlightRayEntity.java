@@ -1,5 +1,7 @@
 package com.c446.ironbound_core.entity.spells;
 
+import com.c446.ironbound_core.entity.spells.moonlightBeam.MoonlightRay;
+import com.c446.ironbound_core.registry.IronboundCoreEntities;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
@@ -9,6 +11,8 @@ import io.redspace.ironsspellbooks.damage.DamageSources;
 import io.redspace.ironsspellbooks.entity.mobs.AntiMagicSusceptible;
 import io.redspace.ironsspellbooks.entity.spells.AbstractShieldEntity;
 import io.redspace.ironsspellbooks.entity.spells.ShieldPart;
+import io.redspace.ironsspellbooks.entity.spells.blood_slash.BloodSlashProjectile;
+import io.redspace.ironsspellbooks.registries.EntityRegistry;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -31,16 +35,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptible {
+    public static final int EXPIRE_TIME = 100;
     private static final EntityDataAccessor<Float> DATA_RADIUS = SynchedEntityData.defineId(MoonlightRayEntity.class, EntityDataSerializers.FLOAT);
     private static final double SPEED = 1.0;
-    public static final int EXPIRE_TIME = 100;
     public final int animationSeed;
     private final float maxRadius;
     public AABB oldBB;
+    public int animationTime;
     private int age;
     private float damage;
-    public int animationTime;
-    private List<Entity> victims;
+    private final List<Entity> victims;
 
     public MoonlightRayEntity(EntityType<? extends MoonlightRayEntity> entityType, Level level) {
         super(entityType, level);
@@ -59,6 +63,11 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
         this.setXRot(shooter.getXRot());
     }
 
+    public MoonlightRayEntity(Level levelIn, LivingEntity shooter) {
+        this((EntityType) IronboundCoreEntities.MOONLIGHT_RAY_ENTITY.get(), levelIn, shooter);
+    }
+
+
     public void shoot(Vec3 rotation) {
         this.setDeltaMovement(rotation.scale(1.0));
     }
@@ -71,14 +80,14 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
         this.getEntityData().define(DATA_RADIUS, 0.5F);
     }
 
+    public float getRadius() {
+        return this.getEntityData().get(DATA_RADIUS);
+    }
+
     public void setRadius(float newRadius) {
         if (newRadius <= this.maxRadius && !this.level().isClientSide) {
             this.getEntityData().set(DATA_RADIUS, Mth.clamp(newRadius, 0.0F, this.maxRadius));
         }
-    }
-
-    public float getRadius() {
-        return this.getEntityData().get(DATA_RADIUS);
     }
 
     public void refreshDimensions() {
@@ -88,7 +97,7 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
         super.refreshDimensions();
         this.setPos(d0, d1, d2);
     }
-    
+
     public void tick() {
         super.tick();
         if (++this.age > EXPIRE_TIME) {
@@ -136,7 +145,7 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
 
     private void damageEntity(Entity entity) {
         if (!this.victims.contains(entity)) {
-            DamageSources.applyDamage(entity, this.damage, ((AbstractSpell) SpellRegistry.BLOOD_SLASH_SPELL.get()).getDamageSource(this, this.getOwner()));
+            DamageSources.applyDamage(entity, this.damage, SpellRegistry.BLOOD_SLASH_SPELL.get().getDamageSource(this, this.getOwner()));
             this.victims.add(entity);
         }
     }
@@ -152,9 +161,9 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
                 double x = this.getX();
                 double y = this.getY();
                 double z = this.getZ();
-                double offset = (double) (step * ((float) i - width / step / 2.0F));
-                double rotX = offset * Math.cos((double) radians);
-                double rotZ = -offset * Math.sin((double) radians);
+                double offset = step * ((float) i - width / step / 2.0F);
+                double rotX = offset * Math.cos(radians);
+                double rotZ = -offset * Math.sin(radians);
                 double dx = Math.random() * (double) speed * 2.0 - (double) speed;
                 double dy = Math.random() * (double) speed * 2.0 - (double) speed;
                 double dz = Math.random() * (double) speed * 2.0 - (double) speed;

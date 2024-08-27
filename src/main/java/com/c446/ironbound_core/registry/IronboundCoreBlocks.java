@@ -1,7 +1,6 @@
 package com.c446.ironbound_core.registry;
 
 import com.c446.ironbound_core.IronBound;
-
 import net.minecraft.world.level.block.Block;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;

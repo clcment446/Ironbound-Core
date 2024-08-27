@@ -20,8 +20,12 @@ public class DataAttacher {
         public static final ResourceLocation IDENTIFIER = new ResourceLocation(IronBound.MOD_ID, "ironbound_heart_data_cap");
         public static final Capability<DataCap> DATA_CAP_CAPABILITY = CapabilityManager.get(new CapabilityToken<DataCap>() {
         });
-        private DataCap cap = null;
+        private final DataCap cap = null;
         private final LazyOptional<DataCap> optional = LazyOptional.of(this::createStatusResistanceCap);
+
+        public static void attach(AttachCapabilitiesEvent<Entity> event) {
+            event.addCapability(DataProvider.IDENTIFIER, new DataProvider());
+        }
 
         private DataCap createStatusResistanceCap() {
             if (this.cap == null) {
@@ -47,10 +51,6 @@ public class DataAttacher {
         @Override
         public void deserializeNBT(CompoundTag compoundTag) {
 
-        }
-
-        public static void attach(AttachCapabilitiesEvent<Entity> event){
-            event.addCapability(DataProvider.IDENTIFIER, new DataProvider());
         }
     }
 }

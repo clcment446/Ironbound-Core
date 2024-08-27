@@ -1,19 +1,8 @@
-
 package com.c446.ironbound_core.events.hookers;
 
-import static com.c446.ironbound_core.capability.temp_data_cap.DataAttacher.DataProvider.DATA_CAP_CAPABILITY;
-import static com.c446.ironbound_core.capability.insight.InsightAttacher.InsightProvider.INSIGHT_CAPABILITY_IDENTIFIER;
-
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.atomic.AtomicInteger;
-
+import com.c446.ironbound_core.IronBound;
 import com.c446.ironbound_core.capability.insight.InsightAttacher;
 import com.c446.ironbound_core.capability.insight.InsightCapability;
-import org.jetbrains.annotations.NotNull;
-import com.c446.ironbound_core.IronBound;
 import com.c446.ironbound_core.capability.temp_data_cap.DataAttacher;
 import com.c446.ironbound_core.capability.temp_data_cap.DataCap;
 import com.c446.ironbound_core.events.mod_events.MobStatusTriggeredEvent;
@@ -65,6 +54,15 @@ import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static com.c446.ironbound_core.capability.insight.InsightAttacher.InsightProvider.INSIGHT_CAPABILITY_IDENTIFIER;
+import static com.c446.ironbound_core.capability.temp_data_cap.DataAttacher.DataProvider.DATA_CAP_CAPABILITY;
 
 @Mod.EventBusSubscriber(modid = IronBound.MOD_ID)
 public class CommonEventListener {
@@ -144,7 +142,6 @@ public class CommonEventListener {
     @SubscribeEvent
     public static void gustHitEntities(SpellDamageEvent event) {
         if (!(event.getSpellDamageSource().spell() instanceof GustSpell)) {
-            return;
         } else {
             LivingEntity target = event.getEntity();
             ServerLevel serverLevel = event.getEntity().level().getServer().getLevel(event.getEntity().level().dimension());
@@ -183,7 +180,7 @@ public class CommonEventListener {
                 if (spell instanceof SpellMindFlay) {
                     pureBuildUp.updateAndGet(v -> v * 2);
                 }
-                c.setMadnessCurrent(c.getMadnessCurrent() + ((int) (pureBuildUp.get())), event.getEntity());
+                c.setMadnessCurrent(c.getMadnessCurrent() + pureBuildUp.get(), event.getEntity());
             });
         }
         if (type.equals(SchoolRegistry.ENDER.get())) {
