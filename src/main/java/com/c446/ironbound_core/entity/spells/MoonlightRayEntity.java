@@ -1,18 +1,14 @@
 package com.c446.ironbound_core.entity.spells;
 
-import com.c446.ironbound_core.entity.spells.moonlightBeam.MoonlightRay;
 import com.c446.ironbound_core.registry.IronboundCoreEntities;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
 import io.redspace.ironsspellbooks.api.registry.SpellRegistry;
-import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import io.redspace.ironsspellbooks.api.util.Utils;
 import io.redspace.ironsspellbooks.capabilities.magic.MagicManager;
 import io.redspace.ironsspellbooks.damage.DamageSources;
 import io.redspace.ironsspellbooks.entity.mobs.AntiMagicSusceptible;
 import io.redspace.ironsspellbooks.entity.spells.AbstractShieldEntity;
 import io.redspace.ironsspellbooks.entity.spells.ShieldPart;
-import io.redspace.ironsspellbooks.entity.spells.blood_slash.BloodSlashProjectile;
-import io.redspace.ironsspellbooks.registries.EntityRegistry;
 import io.redspace.ironsspellbooks.util.ParticleHelper;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
@@ -64,9 +60,8 @@ public class MoonlightRayEntity extends Projectile implements AntiMagicSusceptib
     }
 
     public MoonlightRayEntity(Level levelIn, LivingEntity shooter) {
-        this((EntityType) IronboundCoreEntities.MOONLIGHT_RAY_ENTITY.get(), levelIn, shooter);
+        this(IronboundCoreEntities.MOONLIGHT_RAY_ENTITY.get(), levelIn, shooter);
     }
-
 
     public void shoot(Vec3 rotation) {
         this.setDeltaMovement(rotation.scale(1.0));
