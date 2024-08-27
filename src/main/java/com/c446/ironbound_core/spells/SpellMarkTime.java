@@ -8,9 +8,10 @@ import io.redspace.ironsspellbooks.api.spells.SpellRarity;
 import net.minecraft.resources.ResourceLocation;
 
 public class SpellMarkTime extends AbstractSpell {
-    {
-        this.castTime = 14;
-    }
+	
+	public SpellMarkTime() { 
+		this.castTime = 14;
+	}
 
     @Override
     public ResourceLocation getSpellResource() {

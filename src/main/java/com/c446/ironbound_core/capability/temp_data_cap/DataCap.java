@@ -111,15 +111,13 @@ public class DataCap implements IStatusResistanceCap {
     }
 
     public void generatePlayerResistances(Player player) {
-        player.getCapability(StatusAttacher.StatusProvider.DATA_CAP_CAPABILITY).ifPresent(a -> {
-                    a.bleedMax = (int) (player.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) * player.getAttributeValue(Attributes.MAX_HEALTH));
-                    a.frostMax = (int) (player.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) * player.getAttributeValue(Attributes.MAX_HEALTH));
+    	player.getCapability(DataAttacher.DataProvider.DATA_CAP_CAPABILITY).ifPresent(a -> {
+    		a.bleedMax = (int) (player.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) * player.getAttributeValue(Attributes.MAX_HEALTH));
+    		a.frostMax = (int) (player.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) * player.getAttributeValue(Attributes.MAX_HEALTH));
 
-                    a.madnessMax = (int) (player.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get()) * player.getAttributeValue(io.redspace.ironsspellbooks.api.registry.AttributeRegistry.MAX_MANA.get()) / 100);
-                    a.soulShatteredMax = (int) (player.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get()));
-
-                }
-        );
+    		a.madnessMax = (int) (player.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get()) * player.getAttributeValue(io.redspace.ironsspellbooks.api.registry.AttributeRegistry.MAX_MANA.get()) / 100);
+    		a.soulShatteredMax = (int) (player.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get()));
+    	});
     }
 
     public int getHollowMax() {
