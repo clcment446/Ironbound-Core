@@ -15,9 +15,9 @@ import net.minecraft.world.entity.EntityType.Builder;
 
 public class IronboundCoreEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, IronBound.MOD_ID);
-    public static final RegistryObject<EntityType<Entity>> MOONLIGHT_RAY_ENTITY;
+    public static final RegistryObject<EntityType<MoonlightRayEntity>> MOONLIGHT_RAY_ENTITY;
 
-    private static final RegistryObject<EntityType<Entity>> BLOOD_SLASH_PROJECTILE;
+    private static final RegistryObject<EntityType<BloodSlashProjectile>> BLOOD_SLASH_PROJECTILE;
 
     static {
 
