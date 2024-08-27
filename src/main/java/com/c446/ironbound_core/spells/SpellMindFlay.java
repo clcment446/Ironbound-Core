@@ -3,7 +3,7 @@ package com.c446.ironbound_core.spells;
 import java.util.List;
 import java.util.Optional;
 
-import com.c446.ironbound_core.Ironbound;
+import com.c446.ironbound_core.IronBound;
 import com.c446.ironbound_core.capability.temp_data_cap.*;
 import com.c446.ironbound_core.registry.IronboundCorePotions;
 
@@ -26,7 +26,7 @@ import net.minecraft.world.phys.HitResult;
 
 @AutoSpellConfig
 public class SpellMindFlay extends AbstractSpell {
-    private final ResourceLocation spellId = new ResourceLocation(Ironbound.MOD_ID, "soul_cry");
+    private final ResourceLocation spellId = new ResourceLocation(IronBound.MOD_ID, "soul_cry");
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {

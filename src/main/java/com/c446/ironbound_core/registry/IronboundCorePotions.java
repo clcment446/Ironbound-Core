@@ -4,22 +4,16 @@ import static com.c446.ironbound_core.registry.IronboundCoreAttributes.FOCUS_ATT
 import static com.c446.ironbound_core.registry.IronboundCoreAttributes.UNDEAD_DAMAGE;
 import static com.c446.ironbound_core.registry.IronboundCoreAttributes.VITALITY_ATTRIBUTE;
 import static com.c446.ironbound_core.util.Util.ParticleUtil.rgbToInt;
-import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.ELDRITCH_SPELL_POWER;
-import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.ENDER_SPELL_POWER;
-import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.FIRE_SPELL_POWER;
-import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.HOLY_SPELL_POWER;
-import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.ICE_SPELL_POWER;
-import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.LIGHTNING_MAGIC_RESIST;
-import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.LIGHTNING_SPELL_POWER;
-import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.SPELL_RESIST;
+import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.*;
 import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.MULTIPLY_BASE;
 import static net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.jetbrains.annotations.NotNull;
 
-import com.c446.ironbound_core.Ironbound;
+import com.c446.ironbound_core.IronBound;
 import com.c446.ironbound_core.effects.IronboundCoreEffect;
 
 import net.minecraft.world.effect.MobEffect;
@@ -33,9 +27,10 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class IronboundCorePotions {
-    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Ironbound.MOD_ID);
-    
+    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, IronBound.MOD_ID);
+
     public static final RegistryObject<MobEffect> MOONLIGHT_BLESSING;
+    public static final RegistryObject<MobEffect> TIME_TWISTED;
     public static final RegistryObject<MobEffect> STRONG_MIND;
     public static final RegistryObject<MobEffect> STRONG_VITALITY;
     public static final RegistryObject<MobEffect> WEAK_MIND;
@@ -78,9 +73,15 @@ public class IronboundCorePotions {
 
         //BLEED = EFFECTS.register("bleed" )
 
-        WET = EFFECTS.register("wet", () -> {return new IronboundCoreEffect(MobEffectCategory.NEUTRAL, rgbToInt(0, 0, 125)) {};});
+        WET = EFFECTS.register("wet", () -> {
+            return new IronboundCoreEffect(MobEffectCategory.NEUTRAL, rgbToInt(0, 0, 125)) {
+            };
+        });
 
-        FLAMMABLE = EFFECTS.register("flammable", () -> {return new IronboundCoreEffect(MobEffectCategory.HARMFUL, rgbToInt(0, 125, 0)) {};});
+        FLAMMABLE = EFFECTS.register("flammable", () -> {
+            return new IronboundCoreEffect(MobEffectCategory.HARMFUL, rgbToInt(0, 125, 0)) {
+            };
+        });
 
         OVERCHARGED = EFFECTS.register("overcharged", () -> {
             return new IronboundCoreEffect(MobEffectCategory.HARMFUL, rgbToInt(30, 100, 255)) {
@@ -98,6 +99,16 @@ public class IronboundCorePotions {
                     this.getAttributeModifiers().put(ICE_SPELL_POWER.get(), new AttributeModifier(uuid2, this::getDescriptionId, getDamageBoost(pAmplifier), AttributeModifier.Operation.MULTIPLY_BASE));
                     super.addAttributeModifiers(pLivingEntity, pAttributeMap, pAmplifier);
                 }
+            };
+        });
+
+        TIME_TWISTED = EFFECTS.register("time_twist", () -> {
+            return new IronboundCoreEffect(MobEffectCategory.HARMFUL, rgbToInt(170, 30, 230), List.of()) {
+                public void addAttributeModifiers(@NotNull LivingEntity pLivingEntity, @NotNull AttributeMap pAttributeMap, int pAmplifier){
+                    this.getAttributeModifiers().put(SPELL_RESIST.get(), new AttributeModifier(uuid10, this::getDescriptionId, -0.2 * Math.min((pAmplifier+1), 5), MULTIPLY_BASE));
+                    this.getAttributeModifiers().put(COOLDOWN_REDUCTION.get(), new AttributeModifier(uuid10, this::getDescriptionId, -0.1    * Math.min((pAmplifier+1), 5), MULTIPLY_BASE));
+                    super.addAttributeModifiers(pLivingEntity, pAttributeMap, pAmplifier);
+               }
             };
         });
 

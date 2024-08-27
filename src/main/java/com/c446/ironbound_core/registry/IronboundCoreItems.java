@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-import com.c446.ironbound_core.Ironbound;
+import com.c446.ironbound_core.IronBound;
 //import com.c446.ironbound_core.config.IronboundCoreConfig;
 import com.c446.ironbound_core.items.GenericAttributeItem;
 import com.c446.ironbound_core.items.SimpleCuriosItem;
@@ -27,7 +27,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class IronboundCoreItems {
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Ironbound.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, IronBound.MOD_ID);
     public static final RegistryObject<Item> FOCUS_CHARM_1;
     public static final RegistryObject<Item> FOCUS_CHARM_2;
     public static final RegistryObject<Item> FOCUS_CHARM_3;

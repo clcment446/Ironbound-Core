@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 public class DataCap implements IStatusResistanceCap {
+    public int rewind_begin;
     private int madnessMax;
     private int madnessCurrent;
 
@@ -33,8 +34,11 @@ public class DataCap implements IStatusResistanceCap {
 
     private int fervorMax;
     private int fervorCurrent;
-    
+
+    private Player rewindStoredPlayer = null;
+
     public static final UUID FOCUS_ATTRIBUTE_UUID = UUID.fromString("3d3349b1-02db-4f41-9a98-482f686047be");
+
 
     public void createResistances(LivingEntity entity) {
         this.madnessMax = ((int) (20 * entity.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get())));
@@ -44,6 +48,33 @@ public class DataCap implements IStatusResistanceCap {
         this.bleedMax = ((int) (5 * (entity.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) + entity.getHealth() / 2)));
         this.frostMax = ((int) (3 * (entity.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) + entity.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get()))));
         this.overChargedMax = ((int) (3 * (entity.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) + entity.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get()))));
+    }
+
+    public ArrayList<StatusTypes> checkStatus(Player player) {
+        ArrayList<StatusTypes> list = new ArrayList<StatusTypes>();
+        if (hollowCurrent > hollowMax) {
+            list.add(StatusTypes.HOLLOW);
+        }
+        if (fervorCurrent > fervorMax) {
+            list.add(StatusTypes.FERVOR);
+        }
+        if (madnessCurrent > madnessMax) {
+            list.add(StatusTypes.MADNESS);
+        }
+        if (bleedCurrent > bleedMax) {
+            list.add(StatusTypes.BLEED);
+        }
+        if (frostCurrent > frostMax) {
+            list.add(StatusTypes.FROST);
+        }
+        if (soulShatteredCurrent > soulShatteredMax) {
+            list.add(StatusTypes.WEAK_MIND);
+        }
+        if (overChargedCurrent > overChargedMax) {
+            list.add(StatusTypes.OVERCHARGED);
+        }
+        MinecraftForge.EVENT_BUS.post(new MobStatusTriggeredEvent.Pre(player, list));
+        return list;
     }
 
     public int getMadnessMax() {
@@ -110,17 +141,6 @@ public class DataCap implements IStatusResistanceCap {
         this.soulShatteredMax = soulShatteredMax;
     }
 
-    public void generatePlayerResistances(Player player) {
-        player.getCapability(StatusAttacher.StatusProvider.DATA_CAP_CAPABILITY).ifPresent(a -> {
-                    a.bleedMax = (int) (player.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) * player.getAttributeValue(Attributes.MAX_HEALTH));
-                    a.frostMax = (int) (player.getAttributeValue(IronboundCoreAttributes.VITALITY_ATTRIBUTE.get()) * player.getAttributeValue(Attributes.MAX_HEALTH));
-
-                    a.madnessMax = (int) (player.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get()) * player.getAttributeValue(io.redspace.ironsspellbooks.api.registry.AttributeRegistry.MAX_MANA.get()) / 100);
-                    a.soulShatteredMax = (int) (player.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get()));
-
-                }
-        );
-    }
 
     public int getHollowMax() {
         return hollowMax;
@@ -170,30 +190,13 @@ public class DataCap implements IStatusResistanceCap {
         this.fervorCurrent = fervorCurrent;
     }
 
-    public ArrayList<StatusTypes> checkStatus(Player player) {
-        ArrayList<StatusTypes> list = new ArrayList<StatusTypes>();
-        if (hollowCurrent > hollowMax) {
-            list.add(StatusTypes.HOLLOW);
-        }
-        if (fervorCurrent > fervorMax) {
-            list.add(StatusTypes.FERVOR);
-        }
-        if (madnessCurrent > madnessMax) {
-            list.add(StatusTypes.MADNESS);
-        }
-        if (bleedCurrent > bleedMax) {
-            list.add(StatusTypes.BLEED);
-        }
-        if (frostCurrent > frostMax) {
-            list.add(StatusTypes.FROST);
-        }
-        if (soulShatteredCurrent > soulShatteredMax) {
-            list.add(StatusTypes.WEAK_MIND);
-        }
-        if (overChargedCurrent > overChargedMax) {
-            list.add(StatusTypes.OVERCHARGED);
-        }
-        MinecraftForge.EVENT_BUS.post(new MobStatusTriggeredEvent.Pre(player, list));
-        return list;
+
+
+    public Player getRewindStoredPlayer() {
+        return rewindStoredPlayer;
+    }
+
+    public void setRewindStoredPlayer(Player player) {
+        this.rewindStoredPlayer = player;
     }
 }

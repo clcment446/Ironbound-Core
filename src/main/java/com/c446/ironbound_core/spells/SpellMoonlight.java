@@ -2,7 +2,7 @@ package com.c446.ironbound_core.spells;
 
 import java.util.Optional;
 
-import com.c446.ironbound_core.Ironbound;
+import com.c446.ironbound_core.IronBound;
 import com.c446.ironbound_core.registry.IronboundCorePotions;
 
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
@@ -19,7 +19,7 @@ import net.minecraft.world.level.Level;
 
 @AutoSpellConfig
 public class SpellMoonlight extends AbstractSpell {
-    private final ResourceLocation spellId = new ResourceLocation(Ironbound.MOD_ID, "moonlight_wave");
+    private final ResourceLocation spellId = new ResourceLocation(IronBound.MOD_ID, "moonlight_wave");
     public SpellMoonlight() {
         this.manaCostPerLevel = 150;
         this.baseSpellPower = 1;

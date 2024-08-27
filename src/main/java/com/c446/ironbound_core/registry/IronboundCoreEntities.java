@@ -1,6 +1,6 @@
 package com.c446.ironbound_core.registry;
 
-import com.c446.ironbound_core.Ironbound;
+import com.c446.ironbound_core.IronBound;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -11,7 +11,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class IronboundCoreEntities {
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Ironbound.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, IronBound.MOD_ID);
     /*public static final RegistryObject<EntityType<MoonlightRayEntity>> MOONLIGHT_RAY_ENTITY;
 	
     static 
@@ -28,6 +28,6 @@ public class IronboundCoreEntities {
 	}
 	
 	public static <T extends Entity> RegistryObject<EntityType<T>> registerEntity(String name, EntityType.Builder<T> builder) {
-		return ENTITIES.register(name, () -> builder.build(new ResourceLocation(Ironbound.MOD_ID, name).toString()));
+		return ENTITIES.register(name, () -> builder.build(new ResourceLocation(IronBound.MOD_ID, name).toString()));
 	}
 }

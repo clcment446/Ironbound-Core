@@ -13,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.c446.ironbound_core.capability.insight.InsightAttacher;
 import com.c446.ironbound_core.capability.insight.InsightCapability;
 import org.jetbrains.annotations.NotNull;
-import com.c446.ironbound_core.Ironbound;
+import com.c446.ironbound_core.IronBound;
 import com.c446.ironbound_core.capability.temp_data_cap.DataAttacher;
 import com.c446.ironbound_core.capability.temp_data_cap.DataCap;
 import com.c446.ironbound_core.events.mod_events.MobStatusTriggeredEvent;
@@ -42,7 +42,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.effect.MobEffect;
@@ -67,7 +66,7 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber(modid = Ironbound.MOD_ID)
+@Mod.EventBusSubscriber(modid = IronBound.MOD_ID)
 public class CommonEventListener {
 
     @SubscribeEvent

@@ -1,6 +1,6 @@
 package com.c446.ironbound_core.capability.insight;
 
-import com.c446.ironbound_core.Ironbound;
+import com.c446.ironbound_core.IronBound;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class InsightAttacher {
     public static class InsightProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-        public static final ResourceLocation IDENTIFIER = new ResourceLocation(Ironbound.MOD_ID, "insight");
+        public static final ResourceLocation IDENTIFIER = new ResourceLocation(IronBound.MOD_ID, "insight");
         public static final Capability<InsightCapability> INSIGHT_CAPABILITY_IDENTIFIER = CapabilityManager.get(new CapabilityToken<InsightCapability>() {
         });
         private InsightCapability cap = null;
