@@ -1,8 +1,9 @@
 package com.c446.smp.events.hookers;
 
-import com.c446.smp.IssSmpAddon;
-import com.c446.smp.capability.StatusAttacher;
-import com.c446.smp.capability.StatusResistanceCap;
+import com.c446.smp.IronBound;
+import com.c446.smp.Util;
+import com.c446.smp.capability.statuses.StatusAttacher;
+import com.c446.smp.capability.statuses.StatusResistanceCap;
 import com.c446.smp.events.mod_events.MobStatusTriggered;
 import com.c446.smp.registry.ModRegistry;
 import com.c446.smp.spells.SpellMindFlay;
@@ -18,11 +19,13 @@ import io.redspace.ironsspellbooks.api.spells.SchoolType;
 import io.redspace.ironsspellbooks.capabilities.magic.PlayerMagicProvider;
 import io.redspace.ironsspellbooks.damage.DamageSources;
 import io.redspace.ironsspellbooks.damage.ISSDamageTypes;
+import io.redspace.ironsspellbooks.entity.mobs.dead_king_boss.DeadKingBoss;
 import io.redspace.ironsspellbooks.spells.ender.BlackHoleSpell;
 import io.redspace.ironsspellbooks.spells.evocation.GustSpell;
 import io.redspace.ironsspellbooks.spells.holy.HasteSpell;
 import io.redspace.ironsspellbooks.spells.lightning.ChargeSpell;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
@@ -33,6 +36,11 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobType;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.warden.Warden;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
@@ -45,16 +53,16 @@ import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.jetbrains.annotations.NotNull;
-import org.lwjgl.system.linux.Stat;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static com.c446.smp.capability.StatusAttacher.StatusProvider.STATUS_RESISTANCE_CAP;
+import static com.c446.smp.capability.insight.InsightAttacher.InsightProvider.INSIGHT_CAPABILITY_IDENTIFIER;
+import static com.c446.smp.capability.statuses.StatusAttacher.StatusProvider.STATUS_RESISTANCE_CAP;
 
-@Mod.EventBusSubscriber(modid = IssSmpAddon.MOD_ID)
+@Mod.EventBusSubscriber(modid = IronBound.MOD_ID)
 public class CommonEventListener {
 //    @SubscribeEvent
 //    public static void counterspellFired();
@@ -246,12 +254,46 @@ public class CommonEventListener {
 
 
     @SubscribeEvent
+    public static void playerDefeatBoss(net.minecraftforge.event.entity.living.LivingDeathEvent event){
+        if(event.getEntity() instanceof Monster && event.getEntity().getLastAttacker() instanceof Player player){
+            LivingEntity living = event.getEntity();
+            AttributeModifier modifierToAppend;
+            if (living instanceof EnderDragon){
+                modifierToAppend = Util.InsightUtil.INSIGHT_DRAGON;
+            }
+            if (living instanceof WitherBoss){
+                modifierToAppend = Util.InsightUtil.INSIGHT_WITHER;
+            }
+            if (living instanceof Warden){
+                modifierToAppend = Util.InsightUtil.INSIGHT_WARDEN;
+            }
+            if (living instanceof DeadKingBoss){
+                modifierToAppend = Util.InsightUtil.INSIGHT_DEAD_K;
+            }
+            player.getCapability(INSIGHT_CAPABILITY_IDENTIFIER).ifPresent(i->{
+
+            });
+
+
+
+
+        }
+
+    }
+
+
+    @SubscribeEvent
     public static void playerCloned(PlayerEvent.Clone event) {
         Player oldPlayer = event.getOriginal();
         Player newPlayer = event.getEntity();
 
         newPlayer.getCapability(STATUS_RESISTANCE_CAP).ifPresent(cap -> {
             cap.createResStuff(newPlayer);
+        });
+        final CompoundTag[] oldCapNBT = new CompoundTag[1];
+                oldPlayer.getCapability(INSIGHT_CAPABILITY_IDENTIFIER).ifPresent(a-> oldCapNBT[0] = a.saveNBTData(new CompoundTag()));
+        newPlayer.getCapability(INSIGHT_CAPABILITY_IDENTIFIER).ifPresent(n->{
+            n.loadNbt(oldCapNBT[0]);
         });
     }
 

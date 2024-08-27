@@ -1,7 +1,7 @@
 package com.c446.smp.spells;
 
-import com.c446.smp.IssSmpAddon;
-import com.c446.smp.capability.StatusAttacher;
+import com.c446.smp.IronBound;
+import com.c446.smp.capability.statuses.StatusAttacher;
 import com.c446.smp.registry.ModRegistry;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
@@ -25,7 +25,7 @@ import java.util.Optional;
 
 @AutoSpellConfig
 public class SpellMindFlay extends AbstractSpell {
-    private final ResourceLocation spellId = new ResourceLocation(IssSmpAddon.MOD_ID, "soul_cry");
+    private final ResourceLocation spellId = new ResourceLocation(IronBound.MOD_ID, "soul_cry");
 
     @Override
     public List<MutableComponent> getUniqueInfo(int spellLevel, LivingEntity caster) {

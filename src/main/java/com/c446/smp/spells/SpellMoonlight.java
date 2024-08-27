@@ -1,6 +1,6 @@
 package com.c446.smp.spells;
 
-import com.c446.smp.IssSmpAddon;
+import com.c446.smp.IronBound;
 import com.c446.smp.registry.ModRegistry;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
 import io.redspace.ironsspellbooks.api.magic.MagicData;
@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @AutoSpellConfig
 public class SpellMoonlight extends AbstractSpell {
-    private final ResourceLocation spellId = new ResourceLocation(IssSmpAddon.MOD_ID, "moonlight_wave");
+    private final ResourceLocation spellId = new ResourceLocation(IronBound.MOD_ID, "moonlight_wave");
     public SpellMoonlight() {
         this.manaCostPerLevel = 150;
         this.baseSpellPower = 1;

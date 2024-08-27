@@ -1,6 +1,6 @@
-package com.c446.smp.capability;
+package com.c446.smp.capability.statuses;
 
-import com.c446.smp.IssSmpAddon;
+import com.c446.smp.IronBound;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class StatusAttacher {
     public static class StatusProvider implements ICapabilityProvider, INBTSerializable<CompoundTag> {
-        public static final ResourceLocation IDENTIFIER = new ResourceLocation(IssSmpAddon.MOD_ID, "resistance");
+        public static final ResourceLocation IDENTIFIER = new ResourceLocation(IronBound.MOD_ID, "resistance");
         public static final Capability<StatusResistanceCap> STATUS_RESISTANCE_CAP = CapabilityManager.get(new CapabilityToken<StatusResistanceCap>() {
         });
         private StatusResistanceCap cap = null;
@@ -54,9 +54,5 @@ public class StatusAttacher {
             event.addCapability(StatusProvider.IDENTIFIER, provider);
 
         }
-
-
-
-
     }
 }

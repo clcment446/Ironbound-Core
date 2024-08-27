@@ -1,8 +1,7 @@
-package com.c446.smp.capability;
+package com.c446.smp.capability.statuses;
 
 import com.c446.smp.events.mod_events.MobStatusTriggered.Post;
 import com.c446.smp.events.mod_events.MobStatusTriggered.Pre;
-import com.c446.smp.events.mod_events.StatusBuildUpEvent;
 import com.c446.smp.registry.ModRegistry;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;

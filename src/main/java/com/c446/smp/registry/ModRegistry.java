@@ -1,10 +1,11 @@
 package com.c446.smp.registry;
 
-import com.c446.smp.IssSmpAddon;
+import com.c446.smp.IronBound;
+import com.c446.smp.ModConfig;
 import com.c446.smp.effects.PublicEffect;
+import com.c446.smp.items.GenericAttributeItem;
 import com.c446.smp.items.SimpleCuriosItem;
 import com.c446.smp.spells.SpellMindFlay;
-import io.redspace.ironsspellbooks.api.registry.AttributeRegistry;
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -15,7 +16,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.ForgeConfigSpec;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -34,15 +36,16 @@ import static com.c446.smp.registry.ModRegistry.AttributeRegistry.*;
 import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.*;
 import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADDITION;
 import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.MULTIPLY_BASE;
+import static net.minecraft.world.entity.ai.attributes.Attributes.*;
 
-@Mod.EventBusSubscriber(modid = IssSmpAddon.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = IronBound.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 
 public class ModRegistry {
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, IssSmpAddon.MOD_ID);
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, IssSmpAddon.MOD_ID);
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, IssSmpAddon.MOD_ID);
-    public static final DeferredRegister<AbstractSpell> SPELLS = DeferredRegister.create(io.redspace.ironsspellbooks.api.registry.SpellRegistry.SPELL_REGISTRY_KEY, IssSmpAddon.MOD_ID);
-    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, IssSmpAddon.MOD_ID);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, IronBound.MOD_ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, IronBound.MOD_ID);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, IronBound.MOD_ID);
+    public static final DeferredRegister<AbstractSpell> SPELLS = DeferredRegister.create(io.redspace.ironsspellbooks.api.registry.SpellRegistry.SPELL_REGISTRY_KEY, IronBound.MOD_ID);
+    public static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, IronBound.MOD_ID);
 
     public static void registerRegistries(IEventBus bus) {
         BLOCKS.register(bus);
@@ -209,7 +212,7 @@ public class ModRegistry {
                         AttributeModifier maxHealthMod = new AttributeModifier(uuid10, this::getDescriptionId, (double) ((-0.1 + pAmplifier / 25)), MULTIPLY_BASE);
                         this.getAttributeModifiers().put((Attribute) ELDRITCH_SPELL_POWER.get(), eldritchPowerMod);
                         this.getAttributeModifiers().put((Attribute) ENDER_SPELL_POWER.get(), enderPowerMod);
-                        this.getAttributeModifiers().put((Attribute) Attributes.MAX_HEALTH, maxHealthMod);
+                        this.getAttributeModifiers().put((Attribute) MAX_HEALTH, maxHealthMod);
                         super.addAttributeModifiers(pLivingEntity, pAttributeMap, pAmplifier);
                     }
                 };
@@ -246,7 +249,7 @@ public class ModRegistry {
         public static RegistryObject<Attribute> GOLD_FORTUNE;
 
         static {
-            ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, IssSmpAddon.MOD_ID);
+            ATTRIBUTES = DeferredRegister.create(ForgeRegistries.ATTRIBUTES, IronBound.MOD_ID);
 
             VITALITY_ATTRIBUTE = registerAttribute("constitution", (id) ->
                     {
@@ -259,7 +262,7 @@ public class ModRegistry {
                     }
                     , "6b41f245-8d8d-4ba6-9128-8b3aa7ceef98");
             INSIGHT_ATTRIBUTE = registerAttribute("insight", (id) -> {
-                        return (new RangedAttribute(id, 1, 0, 15)).setSyncable(true);
+                        return (new RangedAttribute(id, 1, 0, 20)).setSyncable(true);
                     }
                     , "17f85bfd-47e3-40f5-bc4b-931056de2390");
         }
@@ -313,22 +316,66 @@ public class ModRegistry {
         public static final RegistryObject<Item> FOCUS_CHARM_1;
         public static final RegistryObject<Item> FOCUS_CHARM_2;
         public static final RegistryObject<Item> FOCUS_CHARM_3;
-        public static final RegistryObject<Item> VITALITY_CHARM;
+        public static final RegistryObject<Item> VITALITY_CHARM_1;
+        public static final RegistryObject<Item> VITALITY_CHARM_2;
+        public static final RegistryObject<Item> VITALITY_CHARM_3;
+        public static final RegistryObject<Item> HOLY_SWORD;
 
         public static HashMap<Attribute, AttributeModifier> FOCUS_CHARM_MAP1 = new HashMap<>();
         public static HashMap<Attribute, AttributeModifier> FOCUS_CHARM_MAP2 = new HashMap<>();
         public static HashMap<Attribute, AttributeModifier> FOCUS_CHARM_MAP3 = new HashMap<>();
+        public static HashMap<Attribute, AttributeModifier> VITALITY_CHARM_MAP1 = new HashMap<>();
+        public static HashMap<Attribute, AttributeModifier> VITALITY_CHARM_MAP2 = new HashMap<>();
+        public static HashMap<Attribute, AttributeModifier> VITALITY_CHARM_MAP3 = new HashMap<>();
+        public static HashMap<Attribute, AttributeModifier> LIFE_CURIOS_MAP = new HashMap<>();
+
+        public static HashMap<Attribute, ForgeConfigSpec.DoubleValue> HOLY_SWORD_MAP = new HashMap<>();
+        public static HashMap<Attribute, Double> HOLY_SWORD_DEFAULT_MAP = new HashMap<>();
+
+
 
         static {
             FOCUS_CHARM_MAP1.put(FOCUS_ATTRIBUTE.get(), new AttributeModifier("focus_curio", 2, ADDITION));
+            FOCUS_CHARM_MAP1.put(MAX_MANA.get(), new AttributeModifier("focus_curio", 15, ADDITION));
             FOCUS_CHARM_MAP2.put(FOCUS_ATTRIBUTE.get(), new AttributeModifier("focus_curio", 4, ADDITION));
+            FOCUS_CHARM_MAP2.put(MAX_MANA.get(), new AttributeModifier("focus_curio", 30, ADDITION));
             FOCUS_CHARM_MAP3.put(FOCUS_ATTRIBUTE.get(), new AttributeModifier("focus_curio", 6, ADDITION));
-            FOCUS_CHARM_MAP3.put(MAX_MANA.get(), new AttributeModifier("focus_curio", 20, ADDITION));
+            FOCUS_CHARM_MAP3.put(MAX_MANA.get(), new AttributeModifier("focus_curio", 45, ADDITION));
 
-            MinecraftForge.EVENT_BUS
-            FOCUS_CHARM_1 = ITEMS.register("focus_charm_1", ()-> new SimpleCuriosItem(new Item.Properties().rarity(Rarity.RARE), FOCUS_CHARM_MAP1));
-            FOCUS_CHARM_2 = ITEMS.register("focus_charm_2", ()-> new SimpleCuriosItem(new Item.Properties().rarity(Rarity.RARE), FOCUS_CHARM_MAP2));
+            VITALITY_CHARM_MAP1.put(VITALITY_ATTRIBUTE.get(), new AttributeModifier("vitality_curios", 2, ADDITION));
+            VITALITY_CHARM_MAP1.put(MAX_HEALTH, new AttributeModifier("vitality_curios", 2, ADDITION));
+            VITALITY_CHARM_MAP2.put(VITALITY_ATTRIBUTE.get(), new AttributeModifier("vitality_curios", 4, ADDITION));
+            VITALITY_CHARM_MAP2.put(MAX_HEALTH, new AttributeModifier("vitality_curios", 4, ADDITION));
+            VITALITY_CHARM_MAP3.put(VITALITY_ATTRIBUTE.get(), new AttributeModifier("vitality_curios", 6, ADDITION));
+            VITALITY_CHARM_MAP3.put(MAX_HEALTH, new AttributeModifier("vitality_curios", 6, ADDITION));
+
+            LIFE_CURIOS_MAP.put(VITALITY_ATTRIBUTE.get(), new AttributeModifier("life_curio", 10, ADDITION));
+            LIFE_CURIOS_MAP.put(MAX_HEALTH, new AttributeModifier("life_curio", 10, ADDITION));
+            FOCUS_CHARM_MAP3.put(FOCUS_ATTRIBUTE.get(), new AttributeModifier("life_curio", 10, ADDITION));
+            FOCUS_CHARM_MAP3.put(MAX_MANA.get(), new AttributeModifier("life_curio", 60, ADDITION));
+
+            HOLY_SWORD_MAP.put(FOCUS_ATTRIBUTE.get(), ModConfig.HOLY_SWORD_FOCUS_BOOST);
+            HOLY_SWORD_MAP.put(ATTACK_DAMAGE, ModConfig.HOLY_SWORD_DAMAGE);
+            HOLY_SWORD_MAP.put(ATTACK_SPEED, ModConfig.HOLY_SWORD_ATTACK_SPED);
+            HOLY_SWORD_MAP.put(HOLY_SPELL_POWER.get(), ModConfig.HOLY_SWORD_HOLY_BOOST);
+            HOLY_SWORD_MAP.put(ForgeMod.ENTITY_REACH.get(), ModConfig.HOLY_SWORD_BONUS_REACH);
+
+            HOLY_SWORD_DEFAULT_MAP.put(FOCUS_ATTRIBUTE.get(), 1.5);
+            HOLY_SWORD_DEFAULT_MAP.put(ForgeMod.ENTITY_REACH.get(), 1.5);
+            HOLY_SWORD_DEFAULT_MAP.put(ATTACK_DAMAGE, 24.0);
+            HOLY_SWORD_DEFAULT_MAP.put(ATTACK_SPEED, -1.5);
+            HOLY_SWORD_DEFAULT_MAP.put(HOLY_SPELL_POWER.get(), 0.7);
+
+            HOLY_SWORD = ITEMS.register("divine_claymore", ()->new GenericAttributeItem(new Item.Properties().rarity(Rarity.EPIC).fireResistant(), HOLY_SWORD_MAP, HOLY_SWORD_DEFAULT_MAP, UUID.fromString("ca7ffde6-b640-4774-add4-ca4f840c0ce7")));
+
+            FOCUS_CHARM_1 = ITEMS.register("focus_charm_1", ()-> new SimpleCuriosItem(new Item.Properties().rarity(Rarity.COMMON), FOCUS_CHARM_MAP1));
+            FOCUS_CHARM_2 = ITEMS.register("focus_charm_2", ()-> new SimpleCuriosItem(new Item.Properties().rarity(Rarity.UNCOMMON), FOCUS_CHARM_MAP2));
             FOCUS_CHARM_3 = ITEMS.register("focus_charm_3", ()-> new SimpleCuriosItem(new Item.Properties().rarity(Rarity.RARE), FOCUS_CHARM_MAP3));
+
+            VITALITY_CHARM_1 = ITEMS.register("vitality_charm_1", ()-> new SimpleCuriosItem(new Item.Properties().rarity(Rarity.COMMON), VITALITY_CHARM_MAP1));
+            VITALITY_CHARM_2 = ITEMS.register("vitality_charm_2", ()-> new SimpleCuriosItem(new Item.Properties().rarity(Rarity.UNCOMMON), VITALITY_CHARM_MAP2));
+            VITALITY_CHARM_3 = ITEMS.register("vitality_charm_3", ()-> new SimpleCuriosItem(new Item.Properties().rarity(Rarity.RARE), VITALITY_CHARM_MAP3));
+
         }
 
     }

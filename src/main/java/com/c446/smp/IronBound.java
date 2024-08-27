@@ -7,21 +7,25 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.slf4j.Logger;
 
-@Mod(IssSmpAddon.MOD_ID)
-public class IssSmpAddon {
-    public static final String MOD_ID = "iss_smp_addon";
+@Mod(IronBound.MOD_ID)
+public class IronBound {
+    public static final String MOD_ID = "ironbound_core";
 
     private static final Logger LOGGER = LogUtils.getLogger();
 
-    public IssSmpAddon() {
-        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+    public IronBound() {
 
+        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, com.c446.smp.ModConfig.SERVER_CONFIG);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, com.c446.smp.ModConfig.COMMON_CONFIG);
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::commonSetup);
         ModRegistry.registerRegistries(modEventBus);
         MinecraftForge.EVENT_BUS.register(this);
