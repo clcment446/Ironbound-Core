@@ -141,8 +141,7 @@ public class CommonEventListener {
 
     @SubscribeEvent
     public static void gustHitEntities(SpellDamageEvent event) {
-        if (!(event.getSpellDamageSource().spell() instanceof GustSpell)) {
-        } else {
+        if (event.getSpellDamageSource().spell() instanceof GustSpell) {
             LivingEntity target = event.getEntity();
             ServerLevel serverLevel = event.getEntity().level().getServer().getLevel(event.getEntity().level().dimension());
             assert serverLevel != null;
@@ -222,12 +221,8 @@ public class CommonEventListener {
 
     @SubscribeEvent
     public static void addWetEffect(LivingEvent.LivingTickEvent event) {
-        if (event.getEntity().tickCount % 20 != 0) {
-            return;
-        }
-
-        if (event.getEntity().isInWater() || event.getEntity().level() instanceof ServerLevel level && level.isRaining()) {
-            event.getEntity().addEffect(new MobEffectInstance(IronboundCorePotions.WET.get(), 40, 0, false, true));
+        if (event.getEntity().tickCount % 20 == 0 && event.getEntity().isInWaterOrRain()) {
+            event.getEntity().addEffect(new MobEffectInstance(IronboundCorePotions.WET.get(), 100, 0, false, true));
         }
     }
 
