@@ -4,7 +4,6 @@ import com.c446.ironbound_core.Ironbound;
 import com.c446.ironbound_core.spells.SpellMindFlay;
 import com.c446.ironbound_core.spells.SpellRewind;
 import com.c446.ironbound_core.spells.SpellTimeFreeze;
-
 import io.redspace.ironsspellbooks.api.spells.AbstractSpell;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;

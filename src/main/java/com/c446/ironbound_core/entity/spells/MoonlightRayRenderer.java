@@ -3,21 +3,14 @@ package com.c446.ironbound_core.entity.spells;
 import com.c446.ironbound_core.Ironbound;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import io.redspace.ironsspellbooks.entity.spells.blood_slash.BloodSlashRenderer;
-import net.minecraft.client.animation.KeyframeAnimations;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
-import software.bernie.geckolib.core.keyframe.KeyframeStack;
-
-import java.util.function.Consumer;
 
 public class MoonlightRayRenderer extends EntityRenderer<MoonlightRayEntity> {
     public MoonlightRayRenderer(EntityRendererProvider.Context context) {

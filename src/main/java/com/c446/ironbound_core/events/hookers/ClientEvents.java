@@ -1,19 +1,18 @@
 package com.c446.ironbound_core.events.hookers;
 
-import static com.c446.ironbound_core.Ironbound.MOD_ID;
-import static com.c446.ironbound_core.registry.IronboundCoreItems.HOLY_SWORD;
-
-import java.util.Objects;
-
 import com.c446.ironbound_core.Ironbound;
 import com.c446.ironbound_core.items.GenericTrickWeapon;
-
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
+import java.util.Objects;
+
+import static com.c446.ironbound_core.Ironbound.MOD_ID;
+import static com.c446.ironbound_core.registry.IronboundCoreItems.HOLY_SWORD;
 
 @Mod.EventBusSubscriber(modid = Ironbound.MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientEvents {

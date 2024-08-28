@@ -1,12 +1,5 @@
 package com.c446.ironbound_core.registry;
 
-import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.HOLY_SPELL_POWER;
-import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.MAX_MANA;
-import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADDITION;
-import static net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_DAMAGE;
-import static net.minecraft.world.entity.ai.attributes.Attributes.ATTACK_SPEED;
-import static net.minecraft.world.entity.ai.attributes.Attributes.MAX_HEALTH;
-
 import com.c446.ironbound_core.Ironbound;
 import com.c446.ironbound_core.config.IronboundCoreConfig;
 import com.c446.ironbound_core.items.GenericAttributeItem;
@@ -24,6 +17,11 @@ import net.minecraftforge.registries.RegistryObject;
 import java.util.HashMap;
 import java.util.UUID;
 import java.util.function.Supplier;
+
+import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.HOLY_SPELL_POWER;
+import static io.redspace.ironsspellbooks.api.registry.AttributeRegistry.MAX_MANA;
+import static net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADDITION;
+import static net.minecraft.world.entity.ai.attributes.Attributes.*;
 
 public class IronboundCoreItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Ironbound.MOD_ID);
