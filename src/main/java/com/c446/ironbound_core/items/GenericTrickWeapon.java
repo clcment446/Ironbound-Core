@@ -20,11 +20,11 @@ import java.util.UUID;
 public class GenericTrickWeapon extends GenericAttributeItem {
     private final ResourceLocation[] textures;
 
-    public GenericTrickWeapon(Properties pProperties, @NotNull ResourceLocation[] textures, HashMap<Attribute, ForgeConfigSpec.DoubleValue> attributeMap, HashMap<Attribute, Double> defaultMap, UUID attributeUUIDs) {
-        super(pProperties, attributeMap, defaultMap, attributeUUIDs);
+    public GenericTrickWeapon(Properties pProperties, @NotNull ResourceLocation[] textures, HashMap<Attribute, ForgeConfigSpec.DoubleValue> trickStateOnConfigMap, HashMap<Attribute, Double> trickStateOnDefaultMap, HashMap<Attribute, ForgeConfigSpec.DoubleValue> trickStateOffConfigMap, HashMap<Attribute, Double> trickStateOffDefaultMap, UUID attributeUUIDs) {
+        super(pProperties, trickStateOnConfigMap, trickStateOnDefaultMap, attributeUUIDs);
         this.textures = textures;
     }
-
+    
     public static void changeState(boolean state, ItemStack stack) {
         if (!(stack.getItem() instanceof GenericTrickWeapon)) {
             return;
@@ -43,8 +43,7 @@ public class GenericTrickWeapon extends GenericAttributeItem {
             if (stack.getTag() == null) {
                 stack.setTag(new CompoundTag());
                 stack.getTag().putBoolean("trick_weapon_activated", false);
-            }
-            else if (!(stack.getTag().contains("trick_weapon_activated"))){
+            } else if (!(stack.getTag().contains("trick_weapon_activated"))) {
                 stack.getTag().putBoolean("trick_weapon_activated", false);
             }
             return stack.getTag().getBoolean("trick_weapon_activated");
