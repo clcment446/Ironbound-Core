@@ -15,11 +15,9 @@ public class IronboundCoreEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Ironbound.MOD_ID);
     
     public static final RegistryObject<EntityType<MoonlightRayEntity>> MOONLIGHT_RAY_ENTITY;
-    public static final RegistryObject<EntityType<BloodSlashProjectile>> BLOOD_SLASH_PROJECTILE;
     
     static {
         MOONLIGHT_RAY_ENTITY = registerEntity("moonlight_ray", EntityType.Builder.<MoonlightRayEntity>of(MoonlightRayEntity::new, MobCategory.MISC).sized(2.0F, 0.5F).clientTrackingRange(64));
-        BLOOD_SLASH_PROJECTILE = registerEntity("blood_slash", EntityType.Builder.<BloodSlashProjectile>of(BloodSlashProjectile::new, MobCategory.MISC).sized(2.0F, 0.5F).clientTrackingRange(64));
     }
     
 	public static <T extends Entity> EntityType.Builder<T> createBuilder(EntityType.EntityFactory<T> factory, MobCategory category) {
