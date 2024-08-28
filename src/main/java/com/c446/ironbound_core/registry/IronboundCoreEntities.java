@@ -2,7 +2,6 @@ package com.c446.ironbound_core.registry;
 
 import com.c446.ironbound_core.Ironbound;
 import com.c446.ironbound_core.entity.spells.MoonlightRayEntity;
-import io.redspace.ironsspellbooks.entity.spells.blood_slash.BloodSlashProjectile;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
