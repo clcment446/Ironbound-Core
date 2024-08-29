@@ -34,8 +34,8 @@ public class DataCap implements IStatusResistanceCap {
     private int hollowCurrent;
     private int fervorMax;
     private int fervorCurrent;
-    private CompoundTag storedData;
-    private LivingEntity temp;
+    public CompoundTag storedData;
+    public LivingEntity temp;
 
     public void createResistances(LivingEntity entity) {
         this.madnessMax = ((int) (20 * entity.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get())));
@@ -87,6 +87,7 @@ public class DataCap implements IStatusResistanceCap {
     }
 
     public void setMadnessCurrent(int madnessCurrent, Player entity) {
+        System.out.println("madness " + this.madnessCurrent + " -> " + madnessCurrent);
         this.madnessCurrent = madnessCurrent;
     }
 
@@ -103,6 +104,7 @@ public class DataCap implements IStatusResistanceCap {
     }
 
     public void setFrostCurrent(int frostCurrent, Player entity) {
+        System.out.println("frost " + this.frostCurrent + " -> " + frostCurrent);
         this.frostCurrent = frostCurrent;
     }
 
@@ -119,6 +121,7 @@ public class DataCap implements IStatusResistanceCap {
     }
 
     public void setBleedCurrent(int bleedCurrent) {
+        System.out.println("bleed " + this.bleedCurrent + " -> " + bleedCurrent);
         this.bleedCurrent = bleedCurrent;
     }
 
@@ -135,9 +138,9 @@ public class DataCap implements IStatusResistanceCap {
     }
 
     public void setSoulShatteredMax(int soulShatteredMax) {
+        System.out.println("shattered soul " + this.soulShatteredCurrent + " -> " + soulShatteredMax);
         this.soulShatteredMax = soulShatteredMax;
     }
-
 
     public int getHollowMax() {
         return hollowMax;
@@ -152,6 +155,7 @@ public class DataCap implements IStatusResistanceCap {
     }
 
     public void setHollowCurrent(int hollowCurrent, Player entity) {
+        System.out.println("hollow " + this.hollowCurrent + " -> " + hollowCurrent);
         this.hollowCurrent = hollowCurrent;
     }
 
@@ -168,6 +172,7 @@ public class DataCap implements IStatusResistanceCap {
     }
 
     public void setOverChargedCurrent(int overChargedCurrent, Player entity) {
+        System.out.println("overcharged " + this.overChargedCurrent + " -> " + overChargedCurrent);
         this.overChargedCurrent = overChargedCurrent;
     }
 
@@ -184,6 +189,7 @@ public class DataCap implements IStatusResistanceCap {
     }
 
     public void setFervorCurrent(int fervorCurrent, Player entity) {
+        System.out.println("fervor " + this.fervorCurrent + " -> " + fervorCurrent);
         this.fervorCurrent = fervorCurrent;
     }
 

@@ -14,13 +14,16 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 @AutoSpellConfig
 public class SpellRewind extends AbstractSpell {
@@ -53,6 +56,7 @@ public class SpellRewind extends AbstractSpell {
         return 2;
     }
 
+
     @Override
     public void onCast(Level level, int spellLevel, LivingEntity entity1, CastSource castSource, MagicData playerMagicData) {
         System.out.println("REWIND CASTED");
@@ -62,7 +66,8 @@ public class SpellRewind extends AbstractSpell {
             playerMagicData.getPlayerRecasts().addRecast(new RecastInstance(this.getSpellId(), spellLevel, 2, this.getRecastDuration(spellLevel), castSource, (ICastDataSerializable) null), playerMagicData);
             entity1.getCapability(DataAttacher.DataProvider.DATA_CAP_CAPABILITY).ifPresent(c -> {
                 System.out.println("PLAYER TEMP DATA ACCESSED");
-                entity1.serializeNBT();
+                c.storedData = entity1.serializeNBT();
+                c.temp = entity1;
                 //System.out.println(entity1 + "STORED SUCCESSFULLY");
                 System.out.println("PUSHING REWIND START");
             });
@@ -71,7 +76,9 @@ public class SpellRewind extends AbstractSpell {
             entity1.getCapability(DataAttacher.DataProvider.DATA_CAP_CAPABILITY).ifPresent(c -> {
                 System.out.println("CAP ACCESSED");
 
-                LivingEntity oldEntity = (LivingEntity) c.getEntity(level);
+                //@NotNull LivingEntity oldEntity = (LivingEntity) EntityType.loadEntityRecursive(c.storedData, level, Function.identity());
+
+                LivingEntity oldEntity = c.temp;
                 // System.out.println("OLD PLAYER FOUND : " + oldEntity.toString());
                 if (entity1 instanceof Player player && oldEntity instanceof Player old) {
                     if (oldEntity.level() instanceof ServerLevel level1 && entity1.level() != level1) {
