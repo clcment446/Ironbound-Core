@@ -271,10 +271,12 @@ public class CommonEventListener {
     public static void playerCloned(PlayerEvent.Clone event) {
         Player oldPlayer = event.getOriginal();
         Player newPlayer = event.getEntity();
-
-        newPlayer.getCapability(DATA_CAP_CAPABILITY).ifPresent(cap -> {
-            cap.createResistances(newPlayer);
+        oldPlayer.getCapability(DATA_CAP_CAPABILITY).ifPresent(c->{
+            newPlayer.getCapability(DATA_CAP_CAPABILITY).ifPresent(cap -> {
+                cap.createResistances(newPlayer);
+            });
         });
+
         final CompoundTag[] oldCapNBT = new CompoundTag[1];
         oldPlayer.getCapability(INSIGHT_CAPABILITY_IDENTIFIER).ifPresent(a -> oldCapNBT[0] = a.save(new CompoundTag()));
         newPlayer.getCapability(INSIGHT_CAPABILITY_IDENTIFIER).ifPresent(n -> {

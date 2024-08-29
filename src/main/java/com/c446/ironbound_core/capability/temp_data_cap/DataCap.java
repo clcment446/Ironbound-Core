@@ -4,12 +4,18 @@ import com.c446.ironbound_core.capability.statuses.IStatusResistanceCap;
 import com.c446.ironbound_core.events.mod_events.MobStatusTriggeredEvent;
 import com.c446.ironbound_core.registry.IronboundCoreAttributes;
 import com.c446.ironbound_core.util.StatusTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.function.Function;
 
 public class DataCap implements IStatusResistanceCap {
     public static final UUID FOCUS_ATTRIBUTE_UUID = UUID.fromString("3d3349b1-02db-4f41-9a98-482f686047be");
@@ -28,7 +34,8 @@ public class DataCap implements IStatusResistanceCap {
     private int hollowCurrent;
     private int fervorMax;
     private int fervorCurrent;
-    private Player rewindStoredPlayer = null;
+    private CompoundTag storedData;
+    private LivingEntity temp;
 
     public void createResistances(LivingEntity entity) {
         this.madnessMax = ((int) (20 * entity.getAttributeValue(IronboundCoreAttributes.FOCUS_ATTRIBUTE.get())));
@@ -181,11 +188,22 @@ public class DataCap implements IStatusResistanceCap {
     }
 
 
-    public Player getRewindStoredPlayer() {
-        return rewindStoredPlayer;
+    public void setNbtFromEntity(@NotNull LivingEntity living) {
+        this.storedData = living.serializeNBT();
+        System.out.println("ENTITY ACCEPTED INTO CAP");
     }
 
-    public void setRewindStoredPlayer(Player player) {
-        this.rewindStoredPlayer = player;
+    public CompoundTag getNbt() {
+        System.out.println("ENTITY GIVEN");
+        return storedData;
+    }
+
+    public Entity getEntity(Level level) {
+
+        Entity entity = EntityType.loadEntityRecursive(this.getNbt(), level, Function.identity());
+        if (entity instanceof Player){
+            return entity;
+        }
+        return null;
     }
 }

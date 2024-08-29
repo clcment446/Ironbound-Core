@@ -4,7 +4,7 @@
   "base": {
     "parent": "irons_spellbooks:item/template_large_sword",
     "textures": {
-      "layer0": "ironbound_core:item/divine_claymore"
+      "layer0": "ironbound_core:item/dark_claymore_on"
     }
   },
   "perspectives": {
@@ -14,5 +14,19 @@
         "layer0": "ironbound_core:item/divine_claymore_gui"
       }
     }
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "holy_sword_trick_weapon_status": 0
+      },
+      "model": "item/bow_pulling_0"
+    },
+    {
+      "predicate": {
+        "holy_sword_trick_weapon_status": 1
+      },
+      "holy_sword_trick_weapon_status": "item/bow_pulling_1"
+    }
+  ]
 }

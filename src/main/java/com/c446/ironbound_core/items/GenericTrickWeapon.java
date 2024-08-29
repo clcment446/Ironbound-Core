@@ -40,27 +40,40 @@ public class GenericTrickWeapon extends Item {
         if (!(stack.getItem() instanceof GenericTrickWeapon)) {
             return;
         }
-        if (stack.hasTag() && stack.getTag() != null && stack.getTag().contains("trick_weapon_activated")) {
+
+        if (stack.getTag() != null && stack.hasTag() && stack.getTag().contains("trick_weapon_activated")) {
             stack.getTag().putBoolean("trick_weapon_activated", newState);
+            System.out.println("Setting trick state to: " + (newState ? "activated" : "deactivated"));
         }
     }
 
     public static void invertState(ItemStack stack) {
-        changeState(!(Objects.requireNonNull(getState(stack)).equals(true)), stack);
+        changeState(!getState(stack), stack);
     }
 
-    public static Object getState(ItemStack stack) {
-        if ((stack.getItem() instanceof GenericTrickWeapon trickWeapon)) {
-            if (stack.getTag() == null) {
-                stack.setTag(new CompoundTag());
-                stack.getTag().putBoolean("trick_weapon_activated", false);
-            } else if (!(stack.getTag().contains("trick_weapon_activated"))) {
-                stack.getTag().putBoolean("trick_weapon_activated", false);
+    public static boolean getState(ItemStack stack) {
+        if (stack.getItem() instanceof GenericTrickWeapon) {
+            System.out.println("TRICK WEAPON LOCATED !!!");
+
+            CompoundTag tag = stack.getTag();
+            if (tag == null) {
+                tag = new CompoundTag();
+                stack.setTag(tag);
             }
-            return stack.getTag().getBoolean("trick_weapon_activated");
+
+            if (!tag.contains("trick_weapon_activated")) {
+                tag.putBoolean("trick_weapon_activated", false);
+            }
+
+            boolean activated = tag.getBoolean("trick_weapon_activated");
+            System.out.println("Trick weapon's state is " + (activated ? "activated" : "deactivated"));
+            return activated;
         }
-        return null;
+
+        System.out.println("Tried to access generic trick weapon method from non-generic trick weapon item... Wtf?");
+        return false;
     }
+
 
     @Override
     public InteractionResult useOn(UseOnContext pContext) {

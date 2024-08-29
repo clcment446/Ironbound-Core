@@ -1,5 +1,6 @@
 package com.c446.ironbound_core.spells;
 
+import com.c446.ironbound_core.Ironbound;
 import com.c446.ironbound_core.capability.temp_data_cap.DataAttacher;
 import com.c446.ironbound_core.registry.IronboundCorePotions;
 import io.redspace.ironsspellbooks.api.config.DefaultConfig;
@@ -12,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -20,16 +22,22 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
+@AutoSpellConfig
 public class SpellRewind extends AbstractSpell {
-    @Override
-    public ResourceLocation getSpellResource() {
-        return SchoolRegistry.ELDRITCH_RESOURCE;
-    }
 
     @Override
     public DefaultConfig getDefaultConfig() {
-        return new DefaultConfig().setMaxLevel(3).setCooldownSeconds(120).setMinRarity(SpellRarity.LEGENDARY).build();
+        return new DefaultConfig()
+                .setMaxLevel(3)
+                .setCooldownSeconds(120)
+                .setMinRarity(SpellRarity.LEGENDARY)
+                .setMinRarity(SpellRarity.LEGENDARY)
+                .setAllowCrafting(false)
+                .setSchoolResource(SchoolRegistry.ELDRITCH_RESOURCE)
+                .build();
     }
+
+    private final ResourceLocation spellId = new ResourceLocation(Ironbound.MOD_ID, "rewind");
 
     @Override
     public CastType getCastType() {
@@ -46,44 +54,76 @@ public class SpellRewind extends AbstractSpell {
     }
 
     @Override
-    public void onCast(Level level, int spellLevel, LivingEntity entity, CastSource castSource, MagicData playerMagicData) {
-        if (entity instanceof Player player && !player.hasEffect(IronboundCorePotions.TIME_TWISTED.get())) {
-            if (!playerMagicData.getPlayerRecasts().hasRecastForSpell(this.getSpellId())) {
-                playerMagicData.getPlayerRecasts().addRecast(new RecastInstance(this.getSpellId(), spellLevel, this.getRecastCount(spellLevel, entity), this.getCastTime(spellLevel), castSource, null), playerMagicData);
-                player.getCapability(DataAttacher.DataProvider.DATA_CAP_CAPABILITY).ifPresent(c -> {
-                    c.setRewindStoredPlayer(player);
-                    c.rewind_begin = player.tickCount;
-                });
-            } else if (playerMagicData.getPlayerRecasts().hasRecastForSpell(this.getSpellId()) && playerMagicData.getPlayerRecasts().getRecastInstance(this.getSpellId()).getRemainingRecasts() == 1) {
+    public void onCast(Level level, int spellLevel, LivingEntity entity1, CastSource castSource, MagicData playerMagicData) {
+        System.out.println("REWIND CASTED");
+        if (!entity1.hasEffect(IronboundCorePotions.TIME_TWISTED.get()) && !playerMagicData.getPlayerRecasts().hasRecastForSpell(this.getSpellId())) {
+            System.out.println("REWIND ACCEPTED");
+            System.out.println("PLAYER HAS NO RECASTS");
+            playerMagicData.getPlayerRecasts().addRecast(new RecastInstance(this.getSpellId(), spellLevel, 2, this.getRecastDuration(spellLevel), castSource, (ICastDataSerializable) null), playerMagicData);
+            entity1.getCapability(DataAttacher.DataProvider.DATA_CAP_CAPABILITY).ifPresent(c -> {
+                System.out.println("PLAYER TEMP DATA ACCESSED");
+                entity1.serializeNBT();
+                //System.out.println(entity1 + "STORED SUCCESSFULLY");
+                System.out.println("PUSHING REWIND START");
+            });
+        } else if (playerMagicData.getPlayerRecasts().hasRecastForSpell(this.getSpellId()) && playerMagicData.getPlayerRecasts().getRecastInstance(this.getSpellId()).getRemainingRecasts() == 1) {
+            System.out.println("PLAYER HAS RECAST");
+            entity1.getCapability(DataAttacher.DataProvider.DATA_CAP_CAPABILITY).ifPresent(c -> {
+                System.out.println("CAP ACCESSED");
 
-                player.getCapability(DataAttacher.DataProvider.DATA_CAP_CAPABILITY).ifPresent(c -> {
-                    Player oldPlayer = c.getRewindStoredPlayer();
-                    if (oldPlayer.level() instanceof ServerLevel level1) {
-                        player.changeDimension(level1);
+                LivingEntity oldEntity = (LivingEntity) c.getEntity(level);
+                // System.out.println("OLD PLAYER FOUND : " + oldEntity.toString());
+                if (entity1 instanceof Player player && oldEntity instanceof Player old) {
+                    if (oldEntity.level() instanceof ServerLevel level1 && entity1.level() != level1) {
+                        entity1.changeDimension(level1);
                     }
-                    player.setPos(oldPlayer.position());
-                    player.setHealth(oldPlayer.getHealth());
-                    player.setAbsorptionAmount(oldPlayer.getAbsorptionAmount());
-                    player.getFoodData().setSaturation(oldPlayer.getFoodData().getSaturationLevel());
-                    player.getFoodData().setFoodLevel(oldPlayer.getFoodData().getFoodLevel());
-                    player.getFoodData().setExhaustion(oldPlayer.getFoodData().getExhaustionLevel());
-                    player.setAbsorptionAmount(oldPlayer.getAbsorptionAmount());
-                    player.setDeltaMovement(oldPlayer.getDeltaMovement());
+                    System.out.println("DOING OLD PLAYER STUFF");
+                    player.setPos(oldEntity.getPosition(0));
+                    player.setHealth(old.getHealth());
+                    player.setAbsorptionAmount(old.getAbsorptionAmount());
+                    player.getFoodData().setSaturation(old.getFoodData().getSaturationLevel());
+                    player.getFoodData().setFoodLevel(old.getFoodData().getFoodLevel());
+                    player.getFoodData().setExhaustion(old.getFoodData().getExhaustionLevel());
+                    player.setAbsorptionAmount(old.getAbsorptionAmount());
+                    player.setDeltaMovement(old.getDeltaMovement());
                     List<MobEffectInstance> oldEffects = new ArrayList<>(player.getActiveEffects());
                     player.removeAllEffects();
                     for (MobEffectInstance instance : oldEffects) {
                         player.addEffect(instance);
                     }
-                    player.addEffect(new MobEffectInstance(IronboundCorePotions.TIME_TWISTED.get(), Math.abs(player.tickCount - c.rewind_begin), Math.min(5, ((int) this.getSpellPower(spellLevel, entity)))));
-                });
-            }
+                    player.addEffect(new MobEffectInstance(IronboundCorePotions.TIME_TWISTED.get(), Math.abs(entity1.tickCount - c.rewind_begin), Math.min(5, ((int) this.getSpellPower(spellLevel, entity1)))));
+                } else {
+                    System.out.println("DOING OLD PLAYER STUFF");
+                    entity1.setPos(oldEntity.position());
+                    entity1.setHealth(oldEntity.getHealth());
+                    entity1.setAbsorptionAmount(oldEntity.getAbsorptionAmount());
+                    entity1.setAbsorptionAmount(oldEntity.getAbsorptionAmount());
+                    entity1.setDeltaMovement(oldEntity.getDeltaMovement());
+                    List<MobEffectInstance> oldEffects = new ArrayList<>(entity1.getActiveEffects());
+                    entity1.removeAllEffects();
+                    for (MobEffectInstance instance : oldEffects) {
+                        entity1.addEffect(instance);
+                    }
+                    entity1.addEffect(new MobEffectInstance(IronboundCorePotions.TIME_TWISTED.get(), Math.abs(entity1.tickCount - c.rewind_begin), Math.min(5, ((int) this.getSpellPower(spellLevel, entity1)))));
 
+                }
+            });
         }
-        super.onCast(level, spellLevel, entity, castSource, playerMagicData);
+
+        super.onCast(level, spellLevel, entity1, castSource, playerMagicData);
+    }
+
+    private int getRecastDuration(int spellLevel) {
+        return 180 + 90*(spellLevel + 2);
     }
 
     @Override
     public void onRecastFinished(ServerPlayer serverPlayer, RecastInstance recastInstance, RecastResult
             recastResult, ICastDataSerializable castDataSerializable) {
+    }
+
+    @Override
+    public ResourceLocation getSpellResource() {
+        return this.spellId;
     }
 }

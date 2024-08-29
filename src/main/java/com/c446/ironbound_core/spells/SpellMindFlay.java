@@ -25,7 +25,7 @@ import java.util.Optional;
 
 @AutoSpellConfig
 public class SpellMindFlay extends AbstractSpell {
-    private final ResourceLocation spellId = new ResourceLocation(Ironbound.MOD_ID, "soul_cry");
+    private final ResourceLocation spellId = new ResourceLocation(Ironbound.MOD_ID, "mind_flay");
     private final DefaultConfig defaultConfig = new DefaultConfig()
             .setMinRarity(SpellRarity.EPIC)
             .setSchoolResource(SchoolRegistry.ELDRITCH_RESOURCE)

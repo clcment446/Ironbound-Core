@@ -16,6 +16,14 @@ public class IronboundCoreConfig {
     public static final ForgeConfigSpec.DoubleValue HOLY_SWORD_BONUS_REACH;
     public static final ForgeConfigSpec.DoubleValue HOLY_SWORD_HOLY_BOOST;
     public static final ForgeConfigSpec.DoubleValue HOLY_SWORD_FOCUS_BOOST;
+
+    public static final ForgeConfigSpec.DoubleValue DARK_CLAYMORE_REACH_ON;
+    public static final ForgeConfigSpec.DoubleValue DARK_CLAYMORE_REACH_OFF;
+    public static final ForgeConfigSpec.DoubleValue DARK_CLAYMORE_DAMAGE_ON;
+    public static final ForgeConfigSpec.DoubleValue DARK_CLAYMORE_DAMAGE_OFF;
+    public static final ForgeConfigSpec.DoubleValue DARK_CLAYMORE_ATK_SPEED_ON;
+    public static final ForgeConfigSpec.DoubleValue DARK_CLAYMORE_ATK_SPEED_OFF;
+
     public static final ForgeConfigSpec.Builder SERVER_BUILDER;
     public static final ForgeConfigSpec.Builder COMMON_BUILDER;
     public static ForgeConfigSpec COMMON_CONFIG;
@@ -41,6 +49,13 @@ public class IronboundCoreConfig {
         HOLY_SWORD_BONUS_REACH = SERVER_BUILDER.defineInRange("holy_sword_reach", 2.0, 0, 100);
         HOLY_SWORD_HOLY_BOOST = SERVER_BUILDER.defineInRange("holy_sword_holy_boost", 0.7, -10, 10);
         HOLY_SWORD_FOCUS_BOOST = SERVER_BUILDER.defineInRange("holy_sword_focus_boost", 1.5, 20, 20);
+
+        DARK_CLAYMORE_ATK_SPEED_ON = SERVER_BUILDER.defineInRange("dark_claymore_attack_speed", -2.7, -100, 100);
+        DARK_CLAYMORE_ATK_SPEED_OFF = SERVER_BUILDER.defineInRange("dark_claymore_attack_speed", -1.6, -100, 100);
+        DARK_CLAYMORE_DAMAGE_ON = SERVER_BUILDER.defineInRange("dark_claymore_attack_damage", 30.5, -1000, 1000);
+        DARK_CLAYMORE_DAMAGE_OFF = SERVER_BUILDER.defineInRange("dark_claymore_attack_damage",  19D, -1000, 1000);
+        DARK_CLAYMORE_REACH_ON = SERVER_BUILDER.defineInRange("dark_claymore_reach", 2D, -10000,10000);
+        DARK_CLAYMORE_REACH_OFF = SERVER_BUILDER.defineInRange("dark_claymore_reach", 0.5D, -10000,10000);
 
         SERVER_CONFIG = SERVER_BUILDER.build();
         COMMON_CONFIG = COMMON_BUILDER.build();
