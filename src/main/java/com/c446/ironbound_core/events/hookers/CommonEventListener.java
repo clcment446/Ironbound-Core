@@ -27,6 +27,7 @@ import io.redspace.ironsspellbooks.spells.ender.BlackHoleSpell;
 import io.redspace.ironsspellbooks.spells.evocation.GustSpell;
 import io.redspace.ironsspellbooks.spells.holy.HasteSpell;
 import io.redspace.ironsspellbooks.spells.lightning.ChargeSpell;
+import net.minecraft.advancements.critereon.ItemDurabilityTrigger;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;

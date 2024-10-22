@@ -182,7 +182,7 @@ public class IronboundCorePotions {
     }
 
     public static float getDamageBoost(int pAmpLevel) {
-        return (0.5F + pAmpLevel / 2);
+        return (0.25F + pAmpLevel / 4);
     }
 
     public static float getDamageReduction(int pAmpLevel) {
